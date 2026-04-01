@@ -3,6 +3,9 @@
   min-height: 100vh;
   padding-bottom: 60px;
   background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1428 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .home-bg {
@@ -17,6 +20,7 @@
 .hero {
   text-align: center;
   padding: 80px 20px 40px;
+  width: 100%;
 }
 
 .logo-glow {
@@ -59,9 +63,10 @@
 
 /* Mode Cards */
 .modes-wrapper {
+  width: 100%;
   display: flex;
   justify-content: center;
-  padding: 0 24px;
+  padding: 40px 24px;
 }
 
 .modes {
@@ -70,7 +75,6 @@
   gap: 20px;
   max-width: 1200px;
   width: 100%;
-  margin: 40px 0;
 }
 
 .mode-card {
@@ -147,6 +151,7 @@
 
 /* AI Characters */
 .chars {
+  width: 100%;
   max-width: 1200px;
   margin: 60px auto 40px;
   padding: 0 24px;
@@ -216,6 +221,7 @@
 
 /* Docs */
 .home-docs {
+  width: 100%;
   max-width: 1200px;
   margin: 60px auto 40px;
   padding: 0 24px;
@@ -266,6 +272,7 @@
 
 /* Sections */
 .home-section {
+  width: 100%;
   max-width: 1200px;
   margin: 60px auto 40px;
   padding: 0 24px;
@@ -335,6 +342,7 @@
   letter-spacing: 1px;
   border-top: 1px solid rgba(255, 215, 0, 0.1);
   margin-top: 60px;
+  width: 100%;
 }
 
 .home-footer p {
@@ -362,9 +370,12 @@
     padding: 60px 16px 30px;
   }
 
+  .modes-wrapper {
+    padding: 40px 16px;
+  }
+
   .modes {
     grid-template-columns: repeat(2, 1fr);
-    padding: 0 16px;
   }
 
   .char-grid {
