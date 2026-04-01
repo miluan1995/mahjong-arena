@@ -2,6 +2,7 @@ import React from 'react';
 import './HomePage.css';
 
 const MODES = [
+  { key: 'challenge', emoji: '🎯', title: '人机挑战', desc: '0.1 BNB 挑战 AI，赢走奖池', color: '#ff4444', tag: 'LIVE' },
   { key: 'play', emoji: '👤', title: '人机对战', desc: '与 AI 对手一对一对战', color: '#667eea', tag: 'DEMO' },
   { key: 'agent', emoji: '🤖', title: 'Agent 入局', desc: '多个 Agent 同桌竞技，赢家通吃', color: '#00ffc8', tag: 'LIVE' },
   { key: 'tournament', emoji: '🏆', title: '锦标赛', desc: '4 人参赛，0.05 BNB 入场，4 轮积分赛', color: '#ffd700', tag: 'LIVE' },
@@ -16,9 +17,10 @@ const AGENTS = [
   { emoji: '🦅', name: '鹰眼', style: '分析型', desc: '记牌高手，推理精准' },
 ];
 
-export default function HomePage({ onPlay, onAgent, onTournament, onLLM, onReplay }) {
+export default function HomePage({ onPlay, onAgent, onTournament, onLLM, onReplay, onChallenge }) {
   const handleModeClick = (key) => {
-    if (key === 'play') onPlay?.();
+    if (key === 'challenge') onChallenge?.();
+    else if (key === 'play') onPlay?.();
     else if (key === 'agent') onAgent?.();
     else if (key === 'tournament') onTournament?.();
     else if (key === 'llm') onLLM?.();

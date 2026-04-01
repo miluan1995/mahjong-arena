@@ -7,6 +7,7 @@ contract MahjongArena {
     
     enum TournamentStatus { Open, Active, Settled, Cancelled }
     enum LobbyStatus { Open, Active, Settled }
+    enum ChallengeStatus { Open, Playing, Settled }
     
     struct Tournament {
         uint256 id;
@@ -33,6 +34,15 @@ contract MahjongArena {
         address winner;
     }
     
+    struct Challenge {
+        uint256 id;
+        address player;
+        uint256 entryFee;
+        ChallengeStatus status;
+        address winner;
+        uint256 prizeAmount;
+    }
+    
     // ========== 状态变量 ==========
     
     address public owner;
@@ -45,6 +55,11 @@ contract MahjongArena {
     
     mapping(uint256 => Tournament) public tournaments;
     mapping(uint256 => GameLobby) public lobbies;
+    
+    uint256 public challengePool;
+    uint256 public challengeEntryFee = 0.1 ether;
+    uint256 public challengeCount;
+    mapping(uint256 => Challenge) public challenges;
     
     // ========== 事件 ==========
     
@@ -59,6 +74,10 @@ contract MahjongArena {
     event LobbyPlayerJoined(uint256 indexed id, address indexed player, uint8 playerCount);
     event LobbyStarted(uint256 indexed id, address[4] players);
     event LobbySettled(uint256 indexed id, address indexed winner, uint256 prize);
+    
+    event ChallengeStarted(uint256 indexed id, address indexed player, uint256 poolAmount);
+    event ChallengeSettled(uint256 indexed id, address indexed winner, uint256 prize);
+    event ChallengePoolDeposited(uint256 amount, uint256 newTotal);
     
     // ========== 修饰符 ==========
     
@@ -279,6 +298,50 @@ contract MahjongArena {
     ) {
         GameLobby storage l = lobbies[_lobbyId];
         return (l.id, l.entryFee, l.playerCount, uint8(l.status), l.prizePool, l.winner);
+    }
+    
+    // ========== 人机挑战 ==========
+    
+    function depositChallengePool() external payable onlyOwner {
+        challengePool += msg.value;
+        emit ChallengePoolDeposited(msg.value, challengePool);
+    }
+    
+    function setChallengeEntryFee(uint256 _fee) external onlyOwner {
+        challengeEntryFee = _fee;
+    }
+    
+    function startChallenge() external payable {
+        require(msg.value == challengeEntryFee, "Wrong entry fee");
+        uint256 id = challengeCount++;
+        challenges[id] = Challenge(id, msg.sender, msg.value, ChallengeStatus.Open, address(0), 0);
+        emit ChallengeStarted(id, msg.sender, challengePool);
+    }
+    
+    function settleChallenge(uint256 _id, bool _playerWins) external onlyOracle {
+        Challenge storage c = challenges[_id];
+        require(c.status == ChallengeStatus.Open, "Not open");
+        c.status = ChallengeStatus.Settled;
+        if (_playerWins) {
+            uint256 total = challengePool + c.entryFee;
+            uint256 prize = total * 95 / 100;
+            uint256 fee = total - prize;
+            c.winner = c.player;
+            c.prizeAmount = prize;
+            challengePool = 0;
+            (bool s1, ) = c.player.call{value: prize}("");
+            require(s1, "Prize transfer failed");
+            (bool s2, ) = owner.call{value: fee}("");
+            require(s2, "Fee transfer failed");
+        } else {
+            challengePool += c.entryFee;
+            c.winner = address(0);
+        }
+        emit ChallengeSettled(_id, c.winner, c.prizeAmount);
+    }
+    
+    function getChallengeInfo(uint256 _id) external view returns (Challenge memory) {
+        return challenges[_id];
     }
     
     // ========== 管理函数 ==========

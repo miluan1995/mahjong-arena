@@ -7,6 +7,7 @@ import ReplayPage from './components/ReplayPage.jsx';
 import LLMArenaPage from './components/LLMArenaPage.jsx';
 import AgentLobby from './components/AgentLobby.jsx';
 import TournamentLobby from './components/TournamentLobby.jsx';
+import ChallengePage from './components/ChallengePage.jsx';
 
 export default function App() {
   const [page, setPage] = useState('home');
@@ -14,7 +15,7 @@ export default function App() {
 
   const goArena = (m) => {
     setMode(m);
-    const p = { agent:'agent', tournament:'tournament', replay:'replay', llm:'llm', agentlobby:'agentlobby', tournamentlobby:'tournamentlobby' }[m] || 'arena';
+    const p = { agent:'agent', tournament:'tournament', replay:'replay', llm:'llm', agentlobby:'agentlobby', tournamentlobby:'tournamentlobby', challenge:'challenge' }[m] || 'arena';
     setPage(p);
   };
   const goHome = () => { setMode(null); setPage('home'); };
@@ -23,6 +24,7 @@ export default function App() {
   if (page === 'tournament') return <TournamentPage onBack={goHome} />;
   if (page === 'replay') return <ReplayPage onBack={goHome} />;
   if (page === 'llm') return <LLMArenaPage onBack={goHome} />;
+  if (page === 'challenge') return <ChallengePage onBack={goHome} />;
   if (page === 'agentlobby') return <AgentLobby onBack={goHome} />;
   if (page === 'tournamentlobby') return <TournamentLobby onBack={goHome} />;
   if (page === 'arena') return <ArenaPage mode={mode} onBack={goHome} />;
@@ -34,6 +36,7 @@ export default function App() {
       onTournament={() => goArena('tournamentlobby')}
       onReplay={() => goArena('replay')}
       onLLM={() => goArena('llm')}
+      onChallenge={() => goArena('challenge')}
     />
   );
 }

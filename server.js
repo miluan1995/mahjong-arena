@@ -14,9 +14,13 @@ const ABI = [
   'event TournamentStarted(uint256 indexed id)',
   'event RoundCompleted(uint256 indexed id, uint256 round, bytes32 gameHash)',
   'event TournamentSettled(uint256 indexed id, address indexed winner, uint256 prize)',
+  'event ChallengeStarted(uint256 indexed id, address indexed player, uint256 poolAmount)',
+  'event ChallengeSettled(uint256 indexed id, address indexed winner, uint256 prize)',
   'function settleLobby(uint256 _lobbyId, address _winner)',
   'function submitRoundResult(uint256 _id, uint256 _round, bytes32 _gameHash, uint256[4] _scores)',
   'function settleTournament(uint256 _id)',
+  'function settleChallenge(uint256 _id, bool _playerWins)',
+  'function challengePool() view returns (uint256)',
   'function getLobbyInfo(uint256) view returns (uint256 id, uint256 entryFee, uint8 playerCount, uint8 status, uint256 prizePool, address winner)',
   'function getLobbyPlayers(uint256) view returns (address[4])',
   'function getPlayers(uint256) view returns (address[4])',
@@ -43,6 +47,7 @@ const readContract = new ethers.Contract(CONTRACT, ABI, provider);
 const writeContract = signer ? new ethers.Contract(CONTRACT, ABI, signer) : null;
 
 const games = new Map();
+const challenges = new Map();
 const clients = new Map();
 
 // ===== 初始化牌局 =====
@@ -105,6 +110,130 @@ async function playTurn(lobbyId) {
   broadcast(lobbyId, { type: 'turn', playerIdx: idx, tile });
 
   setTimeout(() => playTurn(lobbyId), 300);
+}
+
+// ===== 强化 AI 出牌（人机挑战用）=====
+function enhancedAIDiscard(hand) {
+  // 统计每张牌的搭子关联度
+  const scores = hand.map((tile, i) => {
+    let s = 0;
+    for (let j = 0; j < hand.length; j++) {
+      if (i === j) continue;
+      const o = hand[j];
+      if (tile.suit === o.suit) {
+        if (tile.rank === o.rank) s += 3; // 对子
+        else if (Math.abs(tile.rank - o.rank) === 1) s += 2; // 相邻
+        else if (Math.abs(tile.rank - o.rank) === 2) s += 1; // 间隔
+      }
+    }
+    return s;
+  });
+  // 打关联度最低的牌（孤张优先）
+  let minIdx = 0;
+  for (let i = 1; i < scores.length; i++) {
+    if (scores[i] < scores[minIdx]) minIdx = i;
+  }
+  return minIdx;
+}
+
+// ===== 人机挑战牌局 =====
+function initChallenge(challengeId, player) {
+  const tiles = [];
+  for (const suit of ['w', 't', 's']) {
+    for (let rank = 1; rank <= 9; rank++) {
+      for (let i = 0; i < 4; i++) tiles.push({ suit, rank });
+    }
+  }
+  tiles.sort(() => Math.random() - 0.5);
+  const players = [player, 'AI_黑瞎子', 'AI_铁柱', 'AI_算盘'];
+  const hands = players.map(() => tiles.splice(0, 13));
+  const game = {
+    challengeId, player, players, hands, wall: tiles,
+    discards: [[], [], [], []], melds: [[], [], [], []],
+    turn: 0, status: 'playing',
+  };
+  challenges.set(challengeId, game);
+  return game;
+}
+
+async function playChallengeLoop(challengeId) {
+  const game = challenges.get(challengeId);
+  if (!game || game.status !== 'playing') return;
+
+  const idx = game.turn % 4;
+  const hand = game.hands[idx];
+  const isPlayer = idx === 0;
+  const name = isPlayer ? '玩家' : game.players[idx].replace('AI_', '');
+
+  if (game.wall.length === 0) {
+    // 流局 — AI 赢（奖池保留）
+    broadcastChallenge(challengeId, { type: 'challenge_update', message: '🀄 牌墙摸完，流局！AI 获胜' });
+    await settleChallengeOnChain(challengeId, false);
+    return;
+  }
+
+  hand.push(game.wall.pop());
+  broadcastChallenge(challengeId, {
+    type: 'challenge_update',
+    message: `${name} 摸牌`,
+    tiles: game.hands.map(h => h.length),
+  });
+
+  if (MahjongLogic.canHu(hand)) {
+    game.status = 'settled';
+    const playerWins = isPlayer;
+    broadcastChallenge(challengeId, {
+      type: 'challenge_update',
+      message: `🎉 ${name} 胡牌！`,
+      tiles: game.hands.map(h => h.length),
+    });
+    await settleChallengeOnChain(challengeId, playerWins);
+    return;
+  }
+
+  // 出牌
+  let discardIdx;
+  if (isPlayer) {
+    // 玩家也用 AI 代打（全自动模式）
+    discardIdx = enhancedAIDiscard(hand);
+  } else {
+    // AI 用强化策略
+    discardIdx = enhancedAIDiscard(hand);
+  }
+
+  const tile = hand.splice(discardIdx, 1)[0];
+  game.discards[idx].push(tile);
+  game.turn++;
+
+  broadcastChallenge(challengeId, {
+    type: 'challenge_update',
+    message: `${name} 打出 ${tile.suit}${tile.rank}`,
+    tiles: game.hands.map(h => h.length),
+  });
+
+  setTimeout(() => playChallengeLoop(challengeId), 400);
+}
+
+async function settleChallengeOnChain(challengeId, playerWins) {
+  if (!writeContract) { console.error('No oracle signer'); return; }
+  try {
+    const pool = await readContract.challengePool();
+    const tx = await writeContract.settleChallenge(challengeId, playerWins);
+    const r = await tx.wait();
+    const prize = playerWins ? ethers.formatEther(pool) : '0';
+    console.log(`🎯 Challenge #${challengeId} settled. PlayerWins=${playerWins} TX: ${r.hash}`);
+    broadcastChallenge(challengeId, { type: 'challenge_result', playerWins, prize, tx: r.hash });
+  } catch (e) {
+    console.error(`❌ settleChallenge #${challengeId} failed:`, e.message);
+    broadcastChallenge(challengeId, { type: 'challenge_result', playerWins: false, prize: '0', error: e.message });
+  }
+  challenges.delete(challengeId);
+}
+
+function broadcastChallenge(challengeId, msg) {
+  clients.forEach((c, ws) => {
+    if (c.challengeId === String(challengeId) && ws.readyState === 1) ws.send(JSON.stringify(msg));
+  });
 }
 
 // ===== 链上结算 =====
@@ -204,8 +333,17 @@ const wss = new WebSocketServer({ noServer: true });
 wss.on('connection', (ws, req) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const lobbyId = parseInt(url.searchParams.get('lobbyId'));
-  clients.set(ws, { lobbyId });
-  ws.send(JSON.stringify({ type: 'connected', lobbyId }));
+  const challengeId = url.searchParams.get('challengeId');
+  clients.set(ws, { lobbyId, challengeId });
+  ws.send(JSON.stringify({ type: 'connected', lobbyId, challengeId }));
+  ws.on('message', (raw) => {
+    try {
+      const d = JSON.parse(raw);
+      if (d.type === 'challenge_join' && d.challengeId) {
+        clients.set(ws, { ...clients.get(ws), challengeId: String(d.challengeId) });
+      }
+    } catch {}
+  });
   ws.on('close', () => clients.delete(ws));
 });
 
@@ -223,6 +361,13 @@ readContract.on('TournamentStarted', async (id) => {
   console.log(`🏆 TournamentStarted #${tid}`);
   const players = await readContract.getPlayers(tid);
   runTournament(tid, [...players]);
+});
+
+readContract.on('ChallengeStarted', (id, player, poolAmount) => {
+  const cid = Number(id);
+  console.log(`🎯 ChallengeStarted #${cid}: ${player}, pool=${ethers.formatEther(poolAmount)} BNB`);
+  initChallenge(cid, player);
+  setTimeout(() => playChallengeLoop(cid), 1000);
 });
 
 // ===== HTTP =====
