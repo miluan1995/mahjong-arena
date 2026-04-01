@@ -29,14 +29,13 @@ export class MahjongLogic {
   static checkStandardHu(hand) {
     if (hand.length !== 14) return false;
     
-    // 尝试每个牌作为对子
-    for (let i = 0; i < hand.length; i++) {
-      const pair = hand[i];
-      const remaining = hand.filter((_, idx) => idx !== i);
-      
-      // 检查剩余13张是否能组成4组
-      if (remaining.length === 13 && this.canFormGroups(remaining, 4)) {
-        return true;
+    const sorted = this.sortTiles(hand);
+    for (let i = 0; i < sorted.length; i++) {
+      for (let j = i + 1; j < sorted.length; j++) {
+        if (this.tilesEqual(sorted[i], sorted[j])) {
+          const remaining = sorted.filter((_, idx) => idx !== i && idx !== j);
+          if (this.canFormGroups(remaining, 4)) return true;
+        }
       }
     }
     return false;
