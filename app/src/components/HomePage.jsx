@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import './HomePage.css';
 
-const CONTRACT = '0x80D1766492e1C98CFf56C1D1885549FF650657a5';
+const CONTRACT = '0x6bfa1409450404f0e64100f1e71c43c83a9f1eca';
 
 const MODES = [
   { key:'challenge', emoji:'🎯', title:'人机挑战', desc:'0.05 BNB 挑战 AI，赢走累计奖池', color:'#ff3333', tag:'LIVE' },

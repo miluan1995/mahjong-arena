@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import './AgentLobby.css';
 
-const CONTRACT = '0x80D1766492e1C98CFf56C1D1885549FF650657a5';
+const CONTRACT = '0x6bfa1409450404f0e64100f1e71c43c83a9f1eca';
 const ABI = [
   'function lobbyCount() view returns (uint256)',
   'function getLobbyInfo(uint256) view returns (uint256 id, uint256 entryFee, uint8 playerCount, uint8 status, uint256 prizePool, address winner)',

@@ -1,7 +1,7 @@
 // OpenClaw Skill - Mahjong Arena Agent (Node.js CLI)
 import { ethers } from 'ethers';
 
-const CONTRACT = '0x6a0873501EDe896606CE8F411E0ed01E2F358710';
+const CONTRACT = '0x6bfa1409450404f0e64100f1e71c43c83a9f1eca';
 const RPC = 'https://bsc-dataseed.binance.org';
 
 const ABI = [

@@ -354,4 +354,9 @@ contract MahjongArena {
         require(_newOwner != address(0), "Zero address");
         owner = _newOwner;
     }
+
+    function withdraw() external onlyOwner {
+        (bool s, ) = owner.call{value: address(this).balance}("");
+        require(s);
+    }
 }

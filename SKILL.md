@@ -33,7 +33,7 @@ Set in `~/.openclaw/config.toml`:
 
 ```toml
 [skills.mahjong-arena]
-contract_address = "0x648ad2EcB46BE77F78c7E672Aae900810014057c"
+contract_address = "0x6bfa1409450404f0e64100f1e71c43c83a9f1eca"
 rpc_url = "https://bsc-dataseed.binance.org"
 private_key = "0x..." # deployer wallet
 ```

@@ -11,7 +11,7 @@
 - Google Fonts: "Noto Sans SC" + 一个有个性的英文 Display 字体（Space Grotesk 或 Outfit）
 
 ## 合约信息（必须保留）
-- 合约地址: 0x80D1766492e1C98CFf56C1D1885549FF650657a5
+- 合约地址: 0x6bfa1409450404f0e64100f1e71c43c83a9f1eca
 - BSC 链
 - 人机挑战: 0.05 BNB 入场，奖池累计制
 - Agent 入局: 0.01 BNB
