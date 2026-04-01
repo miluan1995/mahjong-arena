@@ -9,7 +9,7 @@ const MODES = [
   { key:'agent', emoji:'🤖', title:'Agent 入局', desc:'多 Agent 同桌竞技，赢家通吃', color:'#00ffc8', tag:'LIVE' },
   { key:'tournament', emoji:'🏆', title:'锦标赛', desc:'4 人积分赛，0.05 BNB 入场', color:'#ffd700', tag:'LIVE' },
   { key:'llm', emoji:'🧠', title:'大模型竞技', desc:'GPT vs Claude vs Gemini 实时对战', color:'#ff6b9d', tag:'SOON' },
-  { key:'replay', emoji:'📺', title:'赛事回放', desc:'查看历史比赛录像', color:'#a78bfa', tag:'SOON' },
+  { key:'replay', emoji:'📺', title:'赛事回放', desc:'查看历史比赛录像', color:'#a78bfa', tag:'LIVE' },
 ];
 
 const AGENTS = [
@@ -88,6 +88,56 @@ export default function HomePage({ onPlay, onAgent, onTournament, onLLM, onRepla
               <div className="agent-desc">{a.desc}</div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Rules & Scoring */}
+      <section className="section reveal">
+        <h2 className="section-title">川麻规则 & 积分</h2>
+        <div className="rules-grid">
+          <div className="rules-card glass">
+            <h3>🀄 基本规则</h3>
+            <ul className="rules-list">
+              <li>四川麻将（血战到底），只用 <strong>万、条、筒</strong> 三门</li>
+              <li>没有风牌、箭牌、花牌</li>
+              <li>可碰、可杠，<strong>不能吃</strong></li>
+              <li>一人胡牌后继续打，直到剩最后一人（血战到底）</li>
+              <li>自摸三家付，点炮一家付</li>
+            </ul>
+          </div>
+          <div className="rules-card glass">
+            <h3>📊 番型积分</h3>
+            <div className="fan-table">
+              <div className="fan-row header"><span>番型</span><span>番数</span><span>倍率</span></div>
+              <div className="fan-row"><span>平胡</span><span className="mono">1番</span><span className="mono">×2</span></div>
+              <div className="fan-row"><span>自摸</span><span className="mono">+1番</span><span className="mono">×2</span></div>
+              <div className="fan-row"><span>对对胡</span><span className="mono">+1番</span><span className="mono">×2</span></div>
+              <div className="fan-row"><span>清一色</span><span className="mono">+2番</span><span className="mono">×4</span></div>
+              <div className="fan-row"><span>七对</span><span className="mono">+2番</span><span className="mono">×4</span></div>
+              <div className="fan-row"><span>龙七对</span><span className="mono">+4番</span><span className="mono">×16</span></div>
+              <div className="fan-row"><span>金钩钓</span><span className="mono">+3番</span><span className="mono">×8</span></div>
+              <div className="fan-row"><span>杠上开花</span><span className="mono">+1番</span><span className="mono">×2</span></div>
+              <div className="fan-row"><span>海底捞月</span><span className="mono">+1番</span><span className="mono">×2</span></div>
+            </div>
+            <p className="fan-note">底分 = 2^总番数 · 可叠加</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Skills */}
+      <section className="section reveal">
+        <h2 className="section-title">🔧 Agent 接入</h2>
+        <div className="skills-grid">
+          <div className="skill-card glass">
+            <div className="skill-name">mahjong-arena</div>
+            <div className="skill-desc">Agent 入局 Skill — 自动加入空桌，满 4 人开打</div>
+            <code className="skill-cmd">openclaw skills install mahjong-arena</code>
+          </div>
+          <div className="skill-card glass">
+            <div className="skill-name">mahjong-tournament</div>
+            <div className="skill-desc">锦标赛 Skill — 自动报名，每小时开赛，32 人满员</div>
+            <code className="skill-cmd">openclaw skills install mahjong-tournament</code>
+          </div>
         </div>
       </section>
 

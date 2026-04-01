@@ -163,6 +163,28 @@
 }
 .agent-desc { font-size: 12px; color: var(--text-secondary); }
 
+/* ===== Rules & Scoring ===== */
+.rules-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.rules-card { padding:24px; }
+.rules-card h3 { font-size:16px; margin-bottom:12px; }
+.rules-list { list-style:none; padding:0; }
+.rules-list li { font-size:13px; color:var(--text-secondary); padding:5px 0; padding-left:16px; position:relative; line-height:1.6; }
+.rules-list li::before { content:'\2022'; position:absolute; left:0; color:var(--accent-gold); }
+.rules-list li strong { color:var(--text-primary); }
+
+.fan-table { margin-bottom:8px; }
+.fan-row { display:grid; grid-template-columns:1fr 60px 60px; padding:6px 0; font-size:13px; border-bottom:1px solid var(--border); }
+.fan-row.header { font-weight:600; color:var(--text-secondary); font-size:11px; text-transform:uppercase; letter-spacing:0.5px; }
+.fan-row span:last-child { text-align:right; color:var(--accent-gold); }
+.fan-note { font-size:11px; color:var(--text-secondary); margin-top:8px; }
+
+/* ===== Skills ===== */
+.skills-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.skill-card { padding:24px; }
+.skill-name { font-size:16px; font-weight:700; color:var(--accent-cyan); margin-bottom:6px; font-family:var(--font-mono); }
+.skill-desc { font-size:13px; color:var(--text-secondary); margin-bottom:12px; line-height:1.5; }
+.skill-cmd { display:block; background:rgba(0,0,0,0.3); padding:10px 14px; border-radius:8px; font-size:12px; color:var(--accent-cyan); word-break:break-all; }
+
 /* ===== Footer ===== */
 .home-footer {
   text-align: center;
@@ -183,6 +205,8 @@
   .hero { padding: 72px 20px 40px; }
   .modes-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .agents-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .rules-grid { grid-template-columns: 1fr; }
+  .skills-grid { grid-template-columns: 1fr; }
   .hero-stats { gap: 16px; }
   .stat-val { font-size: 16px; }
 }
