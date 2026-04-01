@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "ethers": "^6.10.0",
+    "playwright": "^1.59.0",
     "ws": "^8.20.0"
   }
 }
