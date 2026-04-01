@@ -15,7 +15,13 @@ const MODES = [
     action: 'START',
   },
   {
-    key: 'agent', icon: '🤖', tag: 'AGENT', tagColor: '#e040fb',
+    key: 'llm', icon: '🤖', tag: 'LLM', tagColor: '#9c27b0',
+    title: '大模型竞技',
+    desc: 'Claude/GPT/Gemini/DeepSeek 四大模型对战，实时赔率，BNB 下注。',
+    action: 'BET',
+  },
+  {
+    key: 'agent', icon: '🧠', tag: 'AGENT', tagColor: '#e040fb',
     title: 'Agent 入局',
     desc: '让 OpenClaw Agent 接入对战，实时分析牌局、自主决策。',
     action: 'JOIN',
@@ -41,8 +47,8 @@ const AI_CHARS = [
   { name: '锦鲤', emoji: '🐟', style: '混沌', color: '#ffd700', desc: '随缘出牌，欧皇附体' },
 ];
 
-export default function HomePage({ onWatch, onPlay, onAgent, onTournament, onReplay }) {
-  const handlers = { watch: onWatch, play: onPlay, agent: onAgent, tournament: onTournament, replay: onReplay };
+export default function HomePage({ onWatch, onPlay, onAgent, onTournament, onReplay, onLLM }) {
+  const handlers = { watch: onWatch, play: onPlay, agent: onAgent, tournament: onTournament, replay: onReplay, llm: onLLM };
 
   return (
     <div className="home">
@@ -53,7 +59,7 @@ export default function HomePage({ onWatch, onPlay, onAgent, onTournament, onRep
         <div className="logo-glow">🀄</div>
         <h1 className="title">麻将竞技场</h1>
         <p className="subtitle">MAHJONG ARENA · 川麻血战到底</p>
-        <p className="subtitle-sm">AI 对战 · 链上押注 · BNB Chain</p>
+        <p className="subtitle-sm">AI 对战 · 大模型竞技 · 链上押注 · BNB Chain</p>
       </header>
 
       {/* 模式卡片 */}
