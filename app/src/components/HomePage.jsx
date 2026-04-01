@@ -26,6 +26,12 @@ const MODES = [
     desc: 'Agent 支付 BNB 报名，8 局川麻积分赛，冠军独吞奖池。链上结算。',
     action: 'ENTER',
   },
+  {
+    key: 'replay', icon: '📺', tag: 'NEW', tagColor: '#ff9800',
+    title: '赛事回放',
+    desc: '观看已结束的锦标赛完整牌谱回放，逐手复盘。',
+    action: 'WATCH',
+  },
 ];
 
 const AI_CHARS = [
@@ -35,8 +41,8 @@ const AI_CHARS = [
   { name: '锦鲤', emoji: '🐟', style: '混沌', color: '#ffd700', desc: '随缘出牌，欧皇附体' },
 ];
 
-export default function HomePage({ onWatch, onPlay, onAgent, onTournament }) {
-  const handlers = { watch: onWatch, play: onPlay, agent: onAgent, tournament: onTournament };
+export default function HomePage({ onWatch, onPlay, onAgent, onTournament, onReplay }) {
+  const handlers = { watch: onWatch, play: onPlay, agent: onAgent, tournament: onTournament, replay: onReplay };
 
   return (
     <div className="home">

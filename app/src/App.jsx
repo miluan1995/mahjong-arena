@@ -3,16 +3,22 @@ import HomePage from './components/HomePage.jsx';
 import ArenaPage from './components/ArenaPage.jsx';
 import AgentPage from './components/AgentPage.jsx';
 import TournamentPage from './components/TournamentPage.jsx';
+import ReplayPage from './components/ReplayPage.jsx';
 
 export default function App() {
   const [page, setPage] = useState('home');
   const [mode, setMode] = useState(null);
 
-  const goArena = (m) => { setMode(m); setPage(m === 'agent' ? 'agent' : m === 'tournament' ? 'tournament' : 'arena'); };
+  const goArena = (m) => {
+    setMode(m);
+    const p = { agent:'agent', tournament:'tournament', replay:'replay' }[m] || 'arena';
+    setPage(p);
+  };
   const goHome = () => { setMode(null); setPage('home'); };
 
   if (page === 'agent') return <AgentPage onBack={goHome} />;
   if (page === 'tournament') return <TournamentPage onBack={goHome} />;
+  if (page === 'replay') return <ReplayPage onBack={goHome} />;
   if (page === 'arena') return <ArenaPage mode={mode} onBack={goHome} />;
   return (
     <HomePage
@@ -20,6 +26,7 @@ export default function App() {
       onPlay={() => goArena('play')}
       onAgent={() => goArena('agent')}
       onTournament={() => goArena('tournament')}
+      onReplay={() => goArena('replay')}
     />
   );
 }
