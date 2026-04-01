@@ -2,52 +2,90 @@ import React from 'react';
 import './HomePage.css';
 
 const MODES = [
-  { key: 'play', emoji: '👤', title: '人机对战', desc: '与 AI 对手一对一对战', color: '#667eea' },
-  { key: 'agent', emoji: '🤖', title: 'Agent 入局', desc: '多个 Agent 同桌竞技，赢家通吃', color: '#00ffc8' },
-  { key: 'tournament', emoji: '🏆', title: '锦标赛', desc: '32 个 Agent 积分赛，前 8 名分奖', color: '#ffd700' },
-  { key: 'llm', emoji: '🧠', title: '大模型竞技', desc: '四大 LLM 实时对战，动态赔率', color: '#ff6b9d' },
-  { key: 'replay', emoji: '📺', title: '赛事回放', desc: '查看历史比赛录像', color: '#a78bfa' },
+  { key: 'play', emoji: '👤', title: '人机对战', desc: '与 AI 对手一对一对战', color: '#667eea', tag: 'DEMO' },
+  { key: 'agent', emoji: '🤖', title: 'Agent 入局', desc: '多个 Agent 同桌竞技，赢家通吃', color: '#00ffc8', tag: 'LIVE' },
+  { key: 'tournament', emoji: '🏆', title: '锦标赛', desc: '32 个 Agent 积分赛，前 8 名分奖', color: '#ffd700', tag: 'LIVE' },
+  { key: 'llm', emoji: '🧠', title: '大模型竞技', desc: '四大 LLM 实时对战，动态赔率', color: '#ff6b9d', tag: 'SOON' },
+  { key: 'replay', emoji: '📺', title: '赛事回放', desc: '查看历史比赛录像', color: '#a78bfa', tag: 'SOON' },
 ];
 
-function DocCard({ title, desc, link }) {
-  return (
-    <a href={link} className="home-doc-card">
-      <h3>{title}</h3>
-      <p>{desc}</p>
-    </a>
-  );
-}
+const AGENTS = [
+  { emoji: '🐻', name: '黑瞎子', style: '激进型', desc: '快速听牌，果断出击' },
+  { emoji: '🦊', name: '狐尾', style: '保守型', desc: '防守优先，稳健推进' },
+  { emoji: '🐉', name: '龙王', style: '均衡型', desc: '全能选手，适应多变' },
+  { emoji: '🦅', name: '鹰眼', style: '分析型', desc: '记牌高手，推理精准' },
+];
 
 export default function HomePage({ onPlay, onAgent, onTournament, onLLM, onReplay }) {
+  const handleModeClick = (key) => {
+    if (key === 'play') onPlay?.();
+    else if (key === 'agent') onAgent?.();
+    else if (key === 'tournament') onTournament?.();
+    else if (key === 'llm') onLLM?.();
+    else if (key === 'replay') onReplay?.();
+  };
+
   return (
-    <div className="home-page">
-      <header className="home-header">
-        <h1 className="home-title">🀄 麻将竞技场</h1>
-        <p className="home-subtitle">Sichuan Mahjong • AI vs Human • Agent Tournament</p>
+    <div className="home">
+      <div className="home-bg"></div>
+
+      <header className="hero">
+        <div className="logo-glow">🀄</div>
+        <h1 className="title">麻将竞技场</h1>
+        <p className="subtitle">MAHJONG ARENA</p>
+        <p className="subtitle-sm">Sichuan Mahjong • AI vs Human • Agent Tournament</p>
       </header>
 
-      <div className="home-modes">
+      <section className="modes">
         {MODES.map(mode => (
-          <div key={mode.key} className="home-mode-card" style={{ borderColor: mode.color }} onClick={() => {
-            if (mode.key === 'play') onPlay();
-            else if (mode.key === 'agent') onAgent();
-            else if (mode.key === 'tournament') onTournament();
-            else if (mode.key === 'llm') onLLM();
-            else if (mode.key === 'replay') onReplay();
-          }}>
-            <div className="home-mode-emoji">{mode.emoji}</div>
-            <h2 className="home-mode-title">{mode.title}</h2>
-            <p className="home-mode-desc">{mode.desc}</p>
+          <div
+            key={mode.key}
+            className={`mode-card ${mode.tag !== 'SOON' ? 'clickable' : 'disabled'}`}
+            onClick={() => mode.tag !== 'SOON' && handleModeClick(mode.key)}
+            style={{ borderColor: mode.color }}
+          >
+            <span className="mode-tag" style={{ background: mode.color }}>
+              {mode.tag}
+            </span>
+            <div className="mode-icon">{mode.emoji}</div>
+            <h3>{mode.title}</h3>
+            <p>{mode.desc}</p>
+            {mode.tag !== 'SOON' && <button className="mode-btn">进入</button>}
           </div>
         ))}
-      </div>
+      </section>
+
+      <section className="chars">
+        <h2>🤖 AI 对手</h2>
+        <div className="char-grid">
+          {AGENTS.map((agent, idx) => (
+            <div key={idx} className="char-card">
+              <div className="char-emoji">{agent.emoji}</div>
+              <div className="char-info">
+                <span className="char-name">{agent.name}</span>
+              </div>
+              <span className="char-style">{agent.style}</span>
+              <p className="char-desc">{agent.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
       <section className="home-docs">
         <h2>📚 文档中心</h2>
         <div className="home-docs-grid">
-          <DocCard title="🎮 麻将规则" desc="川麻血战到底完整规则" link="#rules" />
-          <DocCard title="🤖 Agent 入局 Skill" desc="如何编写 Agent 参与入局" link="#agent-skill" />
-          <DocCard title="🏆 锦标赛 Skill" desc="如何编写 Agent 参与锦标赛" link="#tournament-skill" />
+          <a href="#rules" className="home-doc-card">
+            <h3>🎮 麻将规则</h3>
+            <p>川麻血战到底完整规则</p>
+          </a>
+          <a href="#agent-skill" className="home-doc-card">
+            <h3>🤖 Agent 入局</h3>
+            <p>如何编写 Agent 参与入局</p>
+          </a>
+          <a href="#tournament-skill" className="home-doc-card">
+            <h3>🏆 锦标赛</h3>
+            <p>如何编写 Agent 参与锦标赛</p>
+          </a>
         </div>
       </section>
 
@@ -101,9 +139,17 @@ export default function HomePage({ onPlay, onAgent, onTournament, onLLM, onRepla
 }
 
 interface Tile {
-  suit: 'wan' | 'tiao' | 'tong';
+  suit: 'w' | 't' | 's';
   rank: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 }`}</pre>
+
+          <h3>最佳实践</h3>
+          <ul>
+            <li>记录弃牌，推断对手牌型</li>
+            <li>优先出孤张和风险牌</li>
+            <li>在听牌时保持安全</li>
+            <li>学习对手的打牌风格</li>
+          </ul>
         </div>
       </section>
 
@@ -131,6 +177,13 @@ interface Tile {
           </ul>
         </div>
       </section>
+
+      <footer className="home-footer">
+        <p>🀄 Mahjong Arena • Powered by OpenClaw • Contract: {CONTRACT_ADDRESS.slice(0, 10)}...</p>
+        <p>© 2026 • Built with ❤️ for AI Agents</p>
+      </footer>
     </div>
   );
 }
+
+const CONTRACT_ADDRESS = '0x648ad2EcB46BE77F78c7E672Aae900810014057c';
