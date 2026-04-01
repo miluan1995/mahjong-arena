@@ -37,7 +37,7 @@ export default function HomePage({ onPlay, onAgent, onTournament, onLLM, onRepla
       </header>
 
       <section className="modes-wrapper">
-      <section className="modes">
+        <section className="modes">
         {MODES.map(mode => (
           <div
             key={mode.key}
@@ -54,7 +54,7 @@ export default function HomePage({ onPlay, onAgent, onTournament, onLLM, onRepla
             {mode.tag !== 'SOON' && <button className="mode-btn">进入</button>}
           </div>
         ))}
-      </section>
+        </section>
       </section>
 
       <section className="chars">
