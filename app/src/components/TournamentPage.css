@@ -1,0 +1,192 @@
+/* ========== 锦标赛页面 ========== */
+
+.tournament-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #0a1a0a 100%);
+  color: #e0e0e0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* 顶部栏 */
+.t-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: rgba(0,0,0,0.4);
+  border-bottom: 1px solid rgba(255,215,0,0.2);
+}
+
+.t-header h1 {
+  font-size: 24px;
+  background: linear-gradient(90deg, #ffd700, #ff8c00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+}
+
+.t-back {
+  background: none;
+  border: 1px solid #555;
+  color: #aaa;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.t-back:hover { border-color: #ffd700; color: #ffd700; }
+
+.t-connect {
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  border: none;
+  color: #000;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 14px;
+}
+.t-connect:hover { transform: scale(1.05); }
+
+.t-wallet {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 14px;
+}
+.chain-ok {
+  background: #00c853;
+  color: #000;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 12px;
+}
+.chain-wrong {
+  background: #ff5252;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 12px;
+}
+.addr { color: #aaa; font-family: monospace; }
+
+/* 锦标赛列表 */
+.t-list {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* 锦标赛卡片 */
+.t-card {
+  background: rgba(20, 20, 40, 0.8);
+  border: 1px solid rgba(255,215,0,0.15);
+  border-radius: 16px;
+  padding: 20px;
+  transition: border-color 0.3s;
+}
+.t-card:hover { border-color: rgba(255,215,0,0.4); }
+.t-card.active { border-color: #ff4444; box-shadow: 0 0 20px rgba(255,68,68,0.2); }
+.t-card.settled { border-color: #00c853; }
+
+.t-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.t-id {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffd700;
+}
+.t-status { font-size: 14px; }
+
+/* 信息行 */
+.t-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.t-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #999;
+}
+.t-val { color: #e0e0e0; font-weight: 600; }
+.t-val.prize { color: #ffd700; font-size: 18px; }
+
+/* 参赛者 */
+.t-players {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.t-player {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+}
+.t-player.empty { opacity: 0.4; }
+.t-player-icon { font-size: 20px; }
+.t-player-addr { flex: 1; font-family: monospace; color: #bbb; }
+.t-player-score { color: #ffd700; font-weight: 700; }
+
+/* 按钮 */
+.t-join-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  border: none;
+  border-radius: 10px;
+  color: #000;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.t-join-btn:hover { transform: scale(1.02); }
+.t-join-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.t-watch-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #ff4444, #cc0000);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.t-winner {
+  text-align: center;
+  padding: 12px;
+  background: rgba(0,200,83,0.1);
+  border: 1px solid rgba(0,200,83,0.3);
+  border-radius: 10px;
+  color: #00c853;
+  font-weight: 700;
+}
+
+/* 底部 */
+.t-footer {
+  text-align: center;
+  padding: 24px;
+  color: #666;
+  font-size: 12px;
+}
+.t-footer a { color: #ffd700; text-decoration: none; }

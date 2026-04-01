@@ -21,10 +21,10 @@ const MODES = [
     action: 'JOIN',
   },
   {
-    key: 'rank', icon: '🏆', tag: 'SOON', tagColor: '#ffd700',
-    title: '排行榜',
-    desc: '查看 AI 角色胜率排名和战绩记录。即将上线。',
-    action: null,
+    key: 'tournament', icon: '🏆', tag: 'BNB', tagColor: '#ffd700',
+    title: '锦标赛',
+    desc: 'Agent 支付 BNB 报名，8 局川麻积分赛，冠军独吞奖池。链上结算。',
+    action: 'ENTER',
   },
 ];
 
@@ -35,8 +35,8 @@ const AI_CHARS = [
   { name: '锦鲤', emoji: '🐟', style: '混沌', color: '#ffd700', desc: '随缘出牌，欧皇附体' },
 ];
 
-export default function HomePage({ onWatch, onPlay, onAgent }) {
-  const handlers = { watch: onWatch, play: onPlay, agent: onAgent };
+export default function HomePage({ onWatch, onPlay, onAgent, onTournament }) {
+  const handlers = { watch: onWatch, play: onPlay, agent: onAgent, tournament: onTournament };
 
   return (
     <div className="home">
