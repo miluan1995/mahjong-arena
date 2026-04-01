@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './TournamentLobby.css';
 
-const CONTRACT = '0x6a0873501EDe896606CE8F411E0ed01E2F358710';
+const CONTRACT = '0x80D1766492e1C98CFf56C1D1885549FF650657a5';
 const ABI = [
   'function joinTournament(uint256 _id) payable',
   'function tournaments(uint256) view returns (uint256 id, uint256 entryFee, uint256 totalRounds, uint256 completedRounds, uint256 prizePool, uint256 platformFee, uint8 status, address winner)',

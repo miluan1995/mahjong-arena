@@ -5,7 +5,7 @@ import { readFileSync } from 'fs';
 import { MahjongLogic } from './mahjong-logic.js';
 
 const PORT = 3852;
-const CONTRACT = '0x6a0873501EDe896606CE8F411E0ed01E2F358710';
+const CONTRACT = '0x80D1766492e1C98CFf56C1D1885549FF650657a5';
 const RPC = 'https://bsc-dataseed.binance.org';
 
 const ABI = [

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './AgentLobby.css';
 
-const CONTRACT = '0x6a0873501EDe896606CE8F411E0ed01E2F358710';
+const CONTRACT = '0x80D1766492e1C98CFf56C1D1885549FF650657a5';
 const ABI = [
   'function joinGameLobby(uint256 _lobbyId) payable',
   'function getLobbyInfo(uint256) view returns (uint256 id, uint256 entryFee, uint8 playerCount, uint8 status, uint256 prizePool, address winner)',

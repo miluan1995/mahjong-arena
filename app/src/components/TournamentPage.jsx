@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import './TournamentPage.css';
 
 // 简化版 — 不依赖 wagmi，用 window.ethereum 直接交互
-const CONTRACT_ADDRESS = '0x648ad2EcB46BE77F78c7E672Aae900810014057c'; // BSC Mainnet
+const CONTRACT_ADDRESS = '0x80D1766492e1C98CFf56C1D1885549FF650657a5'; // BSC Mainnet
 const ENTRY_FEE = '0.01'; // BNB
 
 const ABI_JOIN = {

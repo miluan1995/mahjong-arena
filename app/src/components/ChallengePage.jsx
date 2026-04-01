@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ethers } from 'ethers';
 import './ChallengePage.css';
 
-const CONTRACT = '0x6a0873501EDe896606CE8F411E0ed01E2F358710';
+const CONTRACT = '0x80D1766492e1C98CFf56C1D1885549FF650657a5';
 const ABI = [
   'function challengePool() view returns (uint256)',
   'function challengeEntryFee() view returns (uint256)',
