@@ -1,21 +1,19 @@
-/* Tournament-specific additions (inherits from AgentLobby.css) */
-.tournament-card .lobby-card-header { border-color: rgba(255,215,0,0.1); }
+/* Tournament grid */
+.tourney-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:16px; }
 
-.tourney-progress {
-  height: 4px;
-  background: rgba(255,255,255,0.05);
-  border-radius: 2px;
-  overflow: hidden;
-  margin-top: 12px;
-}
-.tourney-progress-bar {
-  height: 100%;
-  background: linear-gradient(90deg, var(--accent-gold), #ff8c00);
-  border-radius: 2px;
-  transition: width 0.5s ease-out;
-}
+.tourney-card { padding:0; overflow:hidden; transition:all 0.3s; }
+.tourney-card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,0.3); }
+.tourney-card.active { border-color:rgba(255,215,0,0.2); box-shadow:0 0 16px rgba(255,215,0,0.08); }
 
-.tourney-join {
-  background: linear-gradient(135deg, var(--accent-gold), #ff8c00) !important;
-  color: #000 !important;
-}
+.tourney-header { display:flex; justify-content:space-between; align-items:center; padding:14px 16px; border-bottom:1px solid var(--border); }
+.tourney-id { font-size:14px; font-weight:600; }
+.tourney-status { font-size:12px; font-weight:600; }
+
+.tourney-body { padding:16px; }
+.tourney-row { display:flex; justify-content:space-between; font-size:13px; padding:4px 0; color:var(--text-secondary); }
+.tourney-row span:last-child { color:var(--text-primary); }
+
+.tourney-progress { height:4px; background:rgba(255,255,255,0.05); border-radius:2px; overflow:hidden; margin-top:14px; }
+.tourney-bar { height:100%; background:linear-gradient(90deg, var(--accent-gold), #ff8c00); border-radius:2px; transition:width 0.5s ease-out; }
+
+@media (max-width:768px) { .tourney-grid { grid-template-columns:1fr; } }

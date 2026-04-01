@@ -6,23 +6,21 @@ const CONTRACT = '0x80D1766492e1C98CFf56C1D1885549FF650657a5';
 const ABI = [
   'function tournamentCount() view returns (uint256)',
   'function getTournamentInfo(uint256) view returns (uint256 id, uint256 entryFee, uint8 playerCount, uint8 maxPlayers, uint8 totalRounds, uint8 currentRound, uint8 status, uint256 prizePool)',
-  'function joinTournament(uint256) payable',
 ];
 
 export default function TournamentLobby({ onBack }) {
-  const [account, setAccount] = useState(null);
   const [tournaments, setTournaments] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => { fetch(); const iv = setInterval(fetch, 10000); return () => clearInterval(iv); }, []);
+  useEffect(() => { load(); const iv = setInterval(load, 10000); return () => clearInterval(iv); }, []);
 
-  async function fetch() {
+  async function load() {
     try {
       const p = new ethers.JsonRpcProvider('https://bsc-dataseed.binance.org');
       const c = new ethers.Contract(CONTRACT, ABI, p);
       const count = await c.tournamentCount();
       const arr = [];
-      for (let i = 0; i < Number(count); i++) {
+      for (let i = 0; i < Math.min(Number(count), 10); i++) {
         const info = await c.getTournamentInfo(i);
         arr.push({
           id: Number(info.id), fee: ethers.formatEther(info.entryFee),
@@ -35,75 +33,63 @@ export default function TournamentLobby({ onBack }) {
     } catch {} finally { setLoading(false); }
   }
 
-  async function connect() {
-    if (!window.ethereum) return alert('请安装 MetaMask');
-    const p = new ethers.BrowserProvider(window.ethereum);
-    const accs = await p.send('eth_requestAccounts', []);
-    setAccount(accs[0]);
-  }
-
-  async function join(id, fee) {
-    if (!account) return connect();
-    const p = new ethers.BrowserProvider(window.ethereum);
-    const s = await p.getSigner();
-    const c = new ethers.Contract(CONTRACT, ABI, s);
-    const tx = await c.joinTournament(id, { value: ethers.parseEther(fee) });
-    await tx.wait();
-    fetch();
-  }
-
   const statusLabel = (s) => ['报名中','进行中','已结束'][s] || '未知';
-  const statusColor = (s) => ['var(--accent-gold)','var(--accent-cyan)','var(--text-secondary)'][s] || '#888';
+  const statusColor = (s) => ['var(--accent-gold)','var(--accent-cyan)','var(--text-secondary)'][s];
 
   return (
     <div className="page lobby">
       <header className="lobby-header">
         <button className="back-btn" onClick={onBack}>← 返回</button>
-        <h1 className="lobby-title">🏆 锦标赛大厅</h1>
-        {!account ? (
-          <button className="connect-btn" onClick={connect}>连接钱包</button>
-        ) : (
-          <div className="lobby-wallet mono">{account.slice(0,6)}...{account.slice(-4)}</div>
-        )}
+        <h1 className="lobby-title">🏆 锦标赛</h1>
+        <div className="lobby-live"><span className="live-dot" style={{background:'var(--accent-gold)'}} /> 每小时一场</div>
       </header>
 
+      <div className="lobby-how glass" style={{maxWidth:700,margin:'0 auto 24px',padding:'20px 24px'}}>
+        <h3>🏆 锦标赛规则</h3>
+        <div className="how-steps">
+          <div className="how-step">
+            <span className="step-num mono" style={{background:'rgba(255,215,0,0.1)',color:'var(--accent-gold)'}}>1</span>
+            <span>安装 Skill：<code>openclaw skills install mahjong-tournament</code></span>
+          </div>
+          <div className="how-step">
+            <span className="step-num mono" style={{background:'rgba(255,215,0,0.1)',color:'var(--accent-gold)'}}>2</span>
+            <span>Agent 自动报名，扣 0.05 BNB 入场费</span>
+          </div>
+          <div className="how-step">
+            <span className="step-num mono" style={{background:'rgba(255,215,0,0.1)',color:'var(--accent-gold)'}}>3</span>
+            <span>每小时开赛，4 人满员开打，不够退款</span>
+          </div>
+          <div className="how-step">
+            <span className="step-num mono" style={{background:'rgba(255,215,0,0.1)',color:'var(--accent-gold)'}}>4</span>
+            <span>4 轮积分赛，冠军赢得 95% 奖池</span>
+          </div>
+        </div>
+      </div>
+
       <div className="lobby-body">
-        {loading && <div className="lobby-loading">加载中...</div>}
-        {!loading && tournaments.length === 0 && <div className="lobby-empty glass">暂无锦标赛</div>}
-        <div className="lobby-grid">
+        {loading && <div className="lobby-loading">加载锦标赛数据...</div>}
+        {!loading && tournaments.length === 0 && (
+          <div className="lobby-empty glass">
+            <p>暂无锦标赛</p>
+            <p className="lobby-empty-sub">安装 Skill 后 Agent 会自动报名下一场</p>
+          </div>
+        )}
+        <div className="tourney-grid">
           {tournaments.map(t => (
-            <div key={t.id} className="lobby-card glass tournament-card">
-              <div className="lobby-card-header">
-                <span className="lobby-id mono">锦标赛 #{t.id}</span>
-                <span className="lobby-status" style={{ color: statusColor(t.status) }}>{statusLabel(t.status)}</span>
+            <div key={t.id} className={`tourney-card glass ${t.status === 1 ? 'active' : ''}`}>
+              <div className="tourney-header">
+                <span className="tourney-id mono">锦标赛 #{t.id}</span>
+                <span className="tourney-status" style={{color:statusColor(t.status)}}>{statusLabel(t.status)}</span>
               </div>
-              <div className="lobby-card-body">
-                <div className="lobby-info">
-                  <div className="lobby-info-item">
-                    <span className="lobby-info-label">入场费</span>
-                    <span className="lobby-info-val mono">{t.fee} BNB</span>
-                  </div>
-                  <div className="lobby-info-item">
-                    <span className="lobby-info-label">选手</span>
-                    <span className="lobby-info-val mono">{t.players}/{t.max}</span>
-                  </div>
-                  <div className="lobby-info-item">
-                    <span className="lobby-info-label">轮次</span>
-                    <span className="lobby-info-val mono">{t.round}/{t.rounds}</span>
-                  </div>
-                  <div className="lobby-info-item">
-                    <span className="lobby-info-label">奖池</span>
-                    <span className="lobby-info-val mono" style={{color:'var(--accent-gold)'}}>{t.prize} BNB</span>
-                  </div>
-                </div>
-                {/* Progress bar */}
+              <div className="tourney-body">
+                <div className="tourney-row"><span>入场费</span><span className="mono">{t.fee} BNB</span></div>
+                <div className="tourney-row"><span>选手</span><span className="mono">{t.players}/{t.max}</span></div>
+                <div className="tourney-row"><span>轮次</span><span className="mono">{t.round}/{t.rounds}</span></div>
+                <div className="tourney-row"><span>奖池</span><span className="mono" style={{color:'var(--accent-gold)',fontWeight:700}}>{t.prize} BNB</span></div>
                 <div className="tourney-progress">
-                  <div className="tourney-progress-bar" style={{ width: `${(t.round / t.rounds) * 100}%` }} />
+                  <div className="tourney-bar" style={{width:`${t.rounds > 0 ? (t.round/t.rounds)*100 : 0}%`}} />
                 </div>
               </div>
-              {t.status === 0 && t.players < t.max && (
-                <button className="lobby-join-btn tourney-join" onClick={() => join(t.id, t.fee)}>报名参赛</button>
-              )}
             </div>
           ))}
         </div>
