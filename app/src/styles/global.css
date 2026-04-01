@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700;900&display=swap');
+
+:root {
+  --bg-primary: #0a0a1a;
+  --bg-secondary: #12122a;
+  --bg-card: #1a1a3e;
+  --bg-card-hover: #222255;
+  --accent: #ffd700;
+  --accent-dim: #b8960a;
+  --green: #00e676;
+  --red: #ff5252;
+  --blue: #448aff;
+  --text: #e8e8f0;
+  --text-dim: #8888aa;
+  --border: rgba(255,255,255,0.08);
+  --glow: 0 0 20px rgba(255,215,0,0.3);
+  --radius: 12px;
+  --font: 'Noto Sans SC', -apple-system, 'PingFang SC', sans-serif;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: var(--bg-primary);
+  color: var(--text);
+  font-family: var(--font);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+a { color: var(--accent); text-decoration:none; }
+button { font-family: var(--font); cursor:pointer; }
+
+/* 背景网格 */
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    linear-gradient(rgba(255,215,0,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,215,0,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* 滚动条 */
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--text-dim); border-radius:3px; }
+
+/* 动画 */
+@keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
+@keyframes slideUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:none} }
+@keyframes glow { 0%,100%{box-shadow:0 0 5px var(--accent)} 50%{box-shadow:0 0 25px var(--accent)} }
+
+.fade-in { animation: fadeIn 0.5s ease-out both; }
+.slide-up { animation: slideUp 0.6s ease-out both; }

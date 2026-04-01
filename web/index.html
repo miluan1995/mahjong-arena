@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>麻将竞技场 - Mahjong Arena</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1a472a;overflow:hidden;font-family:'PingFang SC','Microsoft YaHei',sans-serif}
+canvas{display:block}
+#ctrl{position:fixed;bottom:8px;right:8px;z-index:10;display:flex;gap:6px}
+#ctrl button{padding:6px 14px;border:none;border-radius:6px;font-size:13px;cursor:pointer;
+  background:rgba(255,255,255,0.15);color:#fff;backdrop-filter:blur(4px)}
+#ctrl button:hover{background:rgba(255,255,255,0.3)}
+#ctrl button.active{background:#e67e22}
+#log{position:fixed;top:8px;right:8px;width:220px;max-height:300px;overflow-y:auto;z-index:10;
+  background:rgba(0,0,0,0.5);border-radius:8px;padding:8px;font-size:11px;color:#ddd;
+  pointer-events:none}
+#log div{margin-bottom:3px;line-height:1.3}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="ctrl">
+  <button onclick="newGame()">🔄 新局</button>
+  <button onclick="toggleAuto()" id="autoBtn">▶ 自动</button>
+  <button onclick="doStep()">⏭ 下一步</button>
+  <button onclick="changeSpeed(-1)">🐢</button>
+  <button onclick="changeSpeed(1)">🐇</button>
+</div>
+<div id="log"></div>
+<script type="module">
+import{createGame,step}from'./game.js';
+import{initCanvas,render}from'./render.js';
+import{preloadTiles}from'./tile-loader.js';
+
+let g,auto=false,timer=null,speed=800;
+const logEl=document.getElementById('log');
+const EMOJIS=['🐻','🔨','🧮','🐟'];
+
+function addLog(text){
+  const d=document.createElement('div');d.textContent=text;
+  logEl.prepend(d);
+  if(logEl.children.length>50)logEl.removeChild(logEl.lastChild);
+}
+
+window.newGame=function(){
+  stopAuto();
+  g=createGame();
+  logEl.innerHTML='';
+  addLog('🀄 新局开始！');
+  render(g);
+};
+
+window.doStep=function(){
+  if(!g||g.phase==='finished')return;
+  const evts=step(g);
+  if(evts){
+    for(const e of evts){
+      const em=EMOJIS[e.seat]||'';
+      if(e.type==='draw'&&!e.extra)addLog(`${em} 摸牌`);
+      if(e.type==='discard')addLog(`${em} 打 ${e.tile.suit} ${e.tile.rank} "${e.text||''}"`);
+      if(e.type==='hu')addLog(`${em} ${e.selfDraw?'自摸':'点炮'}胡！${e.text||''}`);
+      if(e.type==='peng')addLog(`${em} 碰！${e.text||''}`);
+      if(e.type==='gang')addLog(`${em} 杠！${e.text||''}`);
+      if(e.type==='draw_end')addLog('牌墙摸完，流局');
+    }
+  }
+  render(g);
+  if(g.phase==='finished'){stopAuto();addLog('🏁 对局结束');}
+};
+
+function startAuto(){
+  auto=true;document.getElementById('autoBtn').textContent='⏸ 暂停';
+  document.getElementById('autoBtn').classList.add('active');
+  timer=setInterval(()=>window.doStep(),speed);
+}
+function stopAuto(){
+  auto=false;document.getElementById('autoBtn').textContent='▶ 自动';
+  document.getElementById('autoBtn').classList.remove('active');
+  if(timer){clearInterval(timer);timer=null;}
+}
+window.toggleAuto=function(){auto?stopAuto():startAuto();};
+
+window.changeSpeed=function(dir){
+  speed=Math.max(100,Math.min(2000,speed-dir*200));
+  if(timer){clearInterval(timer);timer=setInterval(()=>window.doStep(),speed);}
+  addLog(`速度: ${speed}ms/步`);
+};
+
+initCanvas();
+window.addEventListener('resize',()=>{if(g)render(g);});
+
+// 预加载牌面素材
+const loadingEl=document.createElement('div');
+loadingEl.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);color:#ffd700;font-size:20px;z-index:100';
+loadingEl.textContent='加载牌面素材...';
+document.body.appendChild(loadingEl);
+
+preloadTiles((loaded,total)=>{
+  loadingEl.textContent=`加载牌面素材... ${loaded}/${total}`;
+}).then(()=>{
+  document.body.removeChild(loadingEl);
+  window.newGame();
+});
+</script>
+</body>
+</html>
