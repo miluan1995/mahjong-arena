@@ -1,104 +1,49 @@
 /**
- * LLM API 代理服务器 — 四个最低版本免费 API
- * Claude Haiku / GPT-4o-mini / Gemini 2.0 Flash / DeepSeek Chat
+ * LLM API 代理服务器 — Mock 模式
+ * 四个模型随机返回决策，无需 API key
  */
 import express from 'express';
 import cors from 'cors';
-import 'dotenv/config';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 四个最低版本免费 API — 完全公平
 const MODELS = {
-  claude: {
-    url: 'https://api.anthropic.com/v1/messages',
-    model: 'claude-3-5-haiku-20241022', // 最便宜
-    apiKey: process.env.CLAUDE_API_KEY,
-    type: 'anthropic',
-  },
-  gpt: {
-    url: 'https://api.openai.com/v1/chat/completions',
-    model: 'gpt-4o-mini', // 最便宜
-    apiKey: process.env.GPT_API_KEY,
-    type: 'openai',
-  },
-  gemini: {
-    url: 'https://generativelanguage.googleapis.com/v1beta/openai/',
-    model: 'gemini-2.0-flash', // 免费额度
-    apiKey: process.env.GEMINI_API_KEY,
-    type: 'openai',
-  },
-  deepseek: {
-    url: 'https://api.deepseek.com/chat/completions',
-    model: 'deepseek-chat', // 最便宜
-    apiKey: process.env.DEEPSEEK_API_KEY,
-    type: 'openai',
-  },
+  claude: { name: 'Claude Haiku', emoji: '🐻' },
+  gpt: { name: 'GPT-4o-mini', emoji: '🤖' },
+  gemini: { name: 'Gemini 2.0 Flash', emoji: '🧠' },
+  deepseek: { name: 'DeepSeek Chat', emoji: '🔮' },
 };
 
-async function callAnthropic(config, prompt) {
-  const start = Date.now();
-  const resp = await fetch(config.url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': config.apiKey,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model: config.model,
-      max_tokens: 100,
-      messages: [{ role: 'user', content: prompt }],
-    }),
-  });
-  const data = await resp.json();
-  const text = data.content?.[0]?.text || '';
-  return { text, latencyMs: Date.now() - start };
-}
-
-async function callOpenAI(config, prompt) {
-  const start = Date.now();
-  const resp = await fetch(config.url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${config.apiKey}`,
-    },
-    body: JSON.stringify({
-      model: config.model,
-      max_tokens: 100,
-      temperature: 0.3,
-      messages: [
-        { role: 'system', content: '你是麻将AI。只回复JSON格式的决策。' },
-        { role: 'user', content: prompt },
-      ],
-    }),
-  });
-  const data = await resp.json();
-  const text = data.choices?.[0]?.message?.content || '';
-  return { text, latencyMs: Date.now() - start };
+// Mock 决策
+function mockDecision(hand, phase) {
+  if (phase === 'discard') {
+    const idx = Math.floor(Math.random() * hand.length);
+    const tile = hand[idx];
+    const suits = { wan: '万', tiao: '条', tong: '筒' };
+    const ranks = ['', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
+    return JSON.stringify({
+      action: 'discard',
+      tile: `${ranks[tile.rank]}${suits[tile.suit]}`,
+    });
+  }
+  if (phase === 'respond') {
+    const actions = ['pass', 'peng', 'gang', 'hu'];
+    return JSON.stringify({ action: actions[Math.floor(Math.random() * actions.length)] });
+  }
+  return JSON.stringify({ action: 'pass' });
 }
 
 app.post('/api/llm-move', async (req, res) => {
   const { player, prompt, phase } = req.body;
-  const config = MODELS[player];
+  if (!MODELS[player]) return res.status(400).json({ error: 'Unknown player' });
 
-  if (!config) return res.status(400).json({ error: 'Unknown player' });
-  if (!config.apiKey) return res.status(500).json({ error: `No API key for ${player}` });
+  // 模拟延迟 200-800ms
+  await new Promise(r => setTimeout(r, 200 + Math.random() * 600));
 
-  try {
-    const result = config.type === 'anthropic'
-      ? await callAnthropic(config, prompt)
-      : await callOpenAI(config, prompt);
-
-    console.log(`[${player}] ${phase} → ${result.text.slice(0, 80)} (${result.latencyMs}ms)`);
-    res.json(result);
-  } catch (e) {
-    console.error(`[${player}] Error:`, e.message);
-    res.status(500).json({ error: e.message });
-  }
+  const text = mockDecision([], phase);
+  res.json({ text, latencyMs: Math.floor(Math.random() * 600) + 200 });
 });
 
 const bets = { claude: 0, gpt: 0, gemini: 0, deepseek: 0 };
@@ -130,17 +75,13 @@ app.post('/api/reset-bets', (req, res) => {
 });
 
 app.get('/api/health', (req, res) => {
-  const keys = {};
-  for (const [k, v] of Object.entries(MODELS)) {
-    keys[k] = !!v.apiKey;
-  }
-  res.json({ status: 'ok', models: keys });
+  res.json({ status: 'ok', mode: 'mock', models: Object.keys(MODELS) });
 });
 
 const PORT = process.env.PORT || 3899;
 app.listen(PORT, () => {
-  console.log(`🀄 Mahjong LLM API running on :${PORT}`);
+  console.log(`🀄 Mahjong LLM API (MOCK) running on :${PORT}`);
   for (const [k, v] of Object.entries(MODELS)) {
-    console.log(`  ${k}: ${v.model} [${v.apiKey ? '✅' : '❌ no key'}]`);
+    console.log(`  ${v.emoji} ${k}: ${v.name}`);
   }
 });

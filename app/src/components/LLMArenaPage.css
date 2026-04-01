@@ -1,118 +1,276 @@
-/* ========== LLM 竞技场 ========== */
-
 .llm-arena {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #0a1a0a 100%);
+  background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #0a1a2e 100%);
   color: #e0e0e0;
-  font-family: 'Segoe UI', system-ui, sans-serif;
-  padding-bottom: 40px;
+  padding: 16px;
+  font-family: 'Inter', -apple-system, sans-serif;
 }
 
 .llm-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 24px; background: rgba(0,0,0,0.5);
-  border-bottom: 2px solid rgba(255,215,0,0.3);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
 }
-.llm-header h1 { font-size: 22px; color: #ffd700; margin: 0; flex: 1; text-align: center; }
-.llm-back { background: none; border: 1px solid #555; color: #aaa; padding: 8px 16px; border-radius: 6px; cursor: pointer; }
-.llm-back:hover { border-color: #ffd700; color: #ffd700; }
-.llm-wallet { display: flex; gap: 12px; }
-.llm-addr { color: #00c853; font-weight: 700; font-size: 13px; }
-.llm-connect { background: #00c853; color: #000; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 700; }
-.llm-connect:hover { background: #00e676; }
+
+.llm-header h1 {
+  font-size: 1.3rem;
+  margin: 0;
+  background: linear-gradient(90deg, #f59e0b, #ef4444, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.llm-back {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: #aaa;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.llm-round-badge {
+  background: rgba(139,92,246,0.3);
+  border: 1px solid rgba(139,92,246,0.5);
+  padding: 4px 14px;
+  border-radius: 16px;
+  font-size: 0.85rem;
+  color: #c4b5fd;
+  font-weight: 600;
+}
+
+.llm-wallet { margin-left: auto; }
+.llm-connect {
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  border: none;
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.llm-addr {
+  background: rgba(16,163,127,0.2);
+  border: 1px solid rgba(16,163,127,0.4);
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: #6ee7b7;
+}
 
 /* 选手卡片 */
 .llm-players {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px; padding: 20px; max-width: 1200px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+  margin-bottom: 16px;
 }
 
 .llm-player-card {
-  background: rgba(255,255,255,0.03); border: 2px solid;
-  border-radius: 12px; padding: 16px; transition: all 0.3s;
+  background: rgba(255,255,255,0.05);
+  border: 2px solid #333;
+  border-radius: 14px;
+  padding: 14px;
+  transition: all 0.3s ease;
 }
-.llm-player-card:hover { background: rgba(255,255,255,0.08); transform: translateY(-4px); }
+
+.llm-player-card.llm-active {
+  box-shadow: 0 0 20px rgba(139,92,246,0.4);
+  transform: scale(1.02);
+}
 
 .llm-pc-header {
-  display: flex; gap: 12px; margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
 }
-.llm-emoji { font-size: 40px; }
-.llm-pc-info h3 { margin: 0; font-size: 18px; color: #fff; }
-.llm-pc-desc { margin: 4px 0 0; font-size: 12px; color: #888; }
+
+.llm-emoji { font-size: 1.8rem; }
+
+.llm-pc-info h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #fff;
+}
+
+.llm-pc-desc {
+  margin: 2px 0 0;
+  font-size: 0.75rem;
+  color: #888;
+}
 
 .llm-pc-stats {
-  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px;
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
 }
+
 .llm-stat {
-  background: rgba(255,255,255,0.05); padding: 8px; border-radius: 6px; text-align: center;
+  flex: 1;
+  text-align: center;
+  background: rgba(0,0,0,0.3);
+  border-radius: 8px;
+  padding: 6px 4px;
 }
-.llm-label { display: block; font-size: 11px; color: #888; margin-bottom: 2px; }
-.llm-value { display: block; font-size: 16px; font-weight: 700; color: #ffd700; }
+
+.llm-label {
+  display: block;
+  font-size: 0.65rem;
+  color: #888;
+  margin-bottom: 2px;
+}
+
+.llm-value {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+}
 
 .llm-pc-bet {
-  display: flex; gap: 6px;
+  display: flex;
+  gap: 6px;
 }
+
 .llm-bet-input {
-  flex: 1; background: rgba(255,255,255,0.08); border: 1px solid #555;
-  color: #e0e0e0; padding: 8px; border-radius: 6px; font-size: 13px;
+  flex: 1;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 6px 10px;
+  color: #fff;
+  font-size: 0.85rem;
+  outline: none;
 }
-.llm-bet-input:focus { outline: none; border-color: #ffd700; }
+
+.llm-bet-input:focus { border-color: #8b5cf6; }
+
 .llm-bet-btn {
-  background: #ffd700; color: #000; border: none; padding: 8px 16px;
-  border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 13px;
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  border: none;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: opacity 0.2s;
 }
-.llm-bet-btn:hover { background: #ffed4e; }
 
-/* 奖池 + 开始 */
+.llm-bet-btn:hover { opacity: 0.85; }
+
+/* 奖池 */
 .llm-pool {
-  display: flex; align-items: center; justify-content: center; gap: 24px;
-  padding: 20px; background: rgba(255,215,0,0.05); margin: 20px;
-  border-radius: 12px; border: 1px solid rgba(255,215,0,0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  background: rgba(245,158,11,0.1);
+  border: 1px solid rgba(245,158,11,0.3);
+  border-radius: 12px;
+  padding: 10px 24px;
+  margin-bottom: 16px;
 }
-.llm-pool-info { text-align: center; }
-.llm-pool-label { display: block; font-size: 12px; color: #888; margin-bottom: 4px; }
-.llm-pool-value { display: block; font-size: 28px; font-weight: 700; color: #ffd700; }
-.llm-start-btn {
-  background: linear-gradient(135deg, #ffd700, #ffed4e);
-  color: #000; border: none; padding: 12px 32px; border-radius: 8px;
-  font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.3s;
-}
-.llm-start-btn:hover:not(:disabled) { transform: scale(1.05); }
-.llm-start-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* 积分曲线 */
-.llm-chart {
-  max-width: 900px; margin: 20px auto; padding: 20px;
-  background: rgba(255,255,255,0.03); border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.1);
+.llm-pool-label {
+  font-size: 0.9rem;
+  color: #f59e0b;
 }
-.llm-chart h3 { margin-top: 0; color: #ffd700; }
-.llm-svg { width: 100%; height: 300px; }
-.llm-legend {
-  display: flex; justify-content: center; gap: 20px; margin-top: 12px;
-  font-size: 13px; flex-wrap: wrap;
+
+.llm-pool-value {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fbbf24;
 }
 
 /* 思考气泡 */
 .llm-thinking {
-  position: fixed; bottom: 20px; right: 20px;
-  background: rgba(0,0,0,0.9); color: #ffd700;
-  padding: 12px 16px; border-radius: 8px; border: 1px solid #ffd700;
-  max-width: 300px; font-size: 12px; animation: slideIn 0.3s ease-out;
+  background: rgba(139,92,246,0.15);
+  border: 1px solid rgba(139,92,246,0.3);
+  border-radius: 10px;
+  padding: 8px 16px;
+  margin-bottom: 12px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #c4b5fd;
+  animation: pulse 1.5s infinite;
 }
-@keyframes slideIn { from { transform: translateX(400px); } to { transform: translateX(0); } }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* 积分曲线 */
+.llm-chart {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 16px;
+}
+
+.llm-chart h3 {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+  color: #ccc;
+}
+
+.llm-svg { width: 100%; height: auto; }
+
+.llm-legend {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 8px;
+  font-size: 0.8rem;
+}
 
 /* 对战日志 */
 .llm-log {
-  max-width: 900px; margin: 20px auto; padding: 20px;
-  background: rgba(255,255,255,0.03); border-radius: 12px;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 14px;
+  max-height: 300px;
+  overflow-y: auto;
 }
-.llm-log h3 { margin-top: 0; color: #ffd700; }
+
+.llm-log h3 {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+  color: #ccc;
+  position: sticky;
+  top: 0;
+  background: rgba(0,0,0,0.8);
+  padding: 4px 0;
+}
+
 .llm-log-item {
-  display: flex; align-items: center; gap: 12px;
-  padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.05);
-  font-size: 13px;
+  font-size: 0.8rem;
+  padding: 2px 0;
+  color: #aaa;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
 }
-.llm-log-round { color: #888; font-family: monospace; width: 50px; }
-.llm-log-winner { color: #ffd700; font-weight: 700; }
-.llm-log-scores { color: #999; flex: 1; }
+
+.llm-log-item.llm-log-round {
+  color: #f59e0b;
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+.llm-log-item.llm-log-win {
+  color: #34d399;
+  font-weight: 600;
+}
+
+/* 滚动条 */
+.llm-log::-webkit-scrollbar { width: 6px; }
+.llm-log::-webkit-scrollbar-track { background: transparent; }
+.llm-log::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
