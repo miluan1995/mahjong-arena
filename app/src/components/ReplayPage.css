@@ -1,4 +1,4 @@
-.replay-body { max-width:900px; margin:0 auto; padding:0 24px 40px; }
+.replay-body { max-width:1000px; margin:0 auto; padding:0 24px 40px; }
 
 /* List */
 .replay-list { display:flex; flex-direction:column; gap:12px; }
@@ -14,14 +14,30 @@
 .replay-wintype { font-size:13px; color:var(--accent-cyan); }
 .replay-prize { font-size:13px; color:var(--accent-gold); }
 
-/* Detail */
+/* Detail info */
 .replay-info { padding:16px; margin-bottom:16px; }
-.replay-info-row { display:flex; justify-content:space-between; margin-bottom:12px; font-size:14px; }
-.replay-seats { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:12px; }
-.replay-seat { text-align:center; padding:10px 8px; border-radius:var(--radius-sm); background:rgba(255,255,255,0.02); border:1px solid var(--border); font-size:13px; }
-.replay-seat.winner { border-color:var(--accent-gold); background:rgba(255,215,0,0.05); }
-.seat-crown { margin-left:4px; }
+.replay-info-row { display:flex; justify-content:space-between; margin-bottom:8px; font-size:14px; }
 .replay-result-bar { text-align:center; font-size:14px; font-weight:600; color:var(--accent-gold); padding:8px; background:rgba(255,215,0,0.03); border-radius:var(--radius-sm); }
+
+/* Hands */
+.replay-hands { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px; }
+.replay-hand { padding:12px 14px; transition:all 0.3s; }
+.replay-hand.active-hand { border-color:var(--accent-gold); box-shadow:0 0 12px rgba(255,215,0,0.1); }
+.replay-hand.winner-hand .hand-name { color:var(--accent-gold); }
+.hand-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+.hand-name { font-size:13px; font-weight:600; }
+.hand-count { font-size:11px; color:var(--text-secondary); }
+.hand-tiles { display:flex; flex-wrap:wrap; gap:2px; }
+.hand-tile {
+  font-size:22px; width:30px; height:34px;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(255,255,255,0.04); border-radius:4px;
+  transition:all 0.2s;
+}
+.hand-tile.highlight-tile {
+  background:rgba(255,51,51,0.2); border:1px solid var(--accent-red);
+  transform:translateY(-3px);
+}
 
 /* Log */
 .replay-log { padding:0; overflow:hidden; }
@@ -30,27 +46,32 @@
   padding:12px 16px; border-bottom:1px solid var(--border);
   font-size:14px; font-weight:600;
 }
-.replay-controls { display:flex; align-items:center; gap:8px; }
+.replay-controls { display:flex; align-items:center; gap:6px; }
 .replay-ctrl-btn {
   background:rgba(255,255,255,0.06); border:1px solid var(--border); color:var(--text-primary);
-  padding:6px 14px; border-radius:6px; font-size:12px; transition:all 0.2s;
+  padding:6px 12px; border-radius:6px; font-size:12px; transition:all 0.2s; min-width:32px; text-align:center;
 }
-.replay-ctrl-btn:hover { border-color:var(--accent-gold); background:rgba(255,215,0,0.05); }
-.replay-step { font-size:12px; color:var(--text-secondary); }
+.replay-ctrl-btn:hover { border-color:var(--accent-gold); }
+.replay-ctrl-btn.primary { background:rgba(255,215,0,0.1); border-color:rgba(255,215,0,0.3); color:var(--accent-gold); }
+.replay-step { font-size:12px; color:var(--text-secondary); margin-left:4px; }
 
-.replay-log-body { padding:8px 0; max-height:400px; overflow-y:auto; }
+.replay-log-body { padding:4px 0; max-height:300px; overflow-y:auto; }
 .replay-log-row {
   display:flex; align-items:center; gap:12px;
-  padding:6px 16px; font-size:13px; transition:background 0.2s;
+  padding:6px 16px; font-size:13px; transition:all 0.2s; cursor:pointer;
 }
-.replay-log-row.current { background:rgba(255,215,0,0.04); }
+.replay-log-row:hover { background:rgba(255,255,255,0.02); }
+.replay-log-row.current { background:rgba(255,215,0,0.06); border-left:2px solid var(--accent-gold); }
+.replay-log-row.future { opacity:0.35; }
 .log-idx { width:24px; color:var(--text-secondary); font-size:11px; }
-.log-player { width:100px; font-weight:600; }
-.log-action { width:48px; }
+.log-player { width:90px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.log-action { width:40px; }
 .log-action.hu { color:var(--accent-red); font-weight:700; }
 .log-action.peng { color:var(--accent-cyan); font-weight:600; }
-.log-tile { color:var(--accent-gold); font-weight:600; }
+.log-action.gang { color:var(--accent-purple); font-weight:600; }
+.log-tile { color:var(--accent-gold); }
 
 @media (max-width:768px) {
-  .replay-seats { grid-template-columns:repeat(2,1fr); }
+  .replay-hands { grid-template-columns:1fr; }
+  .hand-tile { font-size:18px; width:26px; height:30px; }
 }

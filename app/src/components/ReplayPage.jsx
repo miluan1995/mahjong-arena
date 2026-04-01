@@ -1,45 +1,54 @@
 import React, { useState } from 'react';
 import './ReplayPage.css';
 
-// Mock replay data — 实际会从链上/服务器拉取
+const TILE_MAP = {
+  '一万':'🀇','二万':'🀈','三万':'🀉','四万':'🀊','五万':'🀋','六万':'🀌','七万':'🀍','八万':'🀎','九万':'🀏',
+  '一条':'🀐','二条':'🀑','三条':'🀒','四条':'🀓','五条':'🀔','六条':'🀕','七条':'🀖','八条':'🀗','九条':'🀘',
+  '一筒':'🀙','二筒':'🀚','三筒':'🀛','四筒':'🀜','五筒':'🀝','六筒':'🀞','七筒':'🀟','八筒':'🀠','九筒':'🀡',
+};
+const T = (name) => TILE_MAP[name] || name;
+
 const MOCK_REPLAYS = [
   {
-    id: 1, mode: '人机挑战', time: '2026-04-02 02:30', players: ['👤 玩家','🐻 黑瞎子','🦊 狐尾','🦅 鹰眼'],
-    winner: '🐻 黑瞎子', winType: '自摸·清一色', fan: 3, prize: '0.05 BNB',
-    rounds: [
-      { seat:0, action:'出牌', tile:'三万' },
-      { seat:1, action:'摸牌', tile:'' },
-      { seat:1, action:'出牌', tile:'七条' },
-      { seat:2, action:'碰', tile:'七条' },
-      { seat:2, action:'出牌', tile:'一筒' },
-      { seat:3, action:'摸牌', tile:'' },
-      { seat:3, action:'出牌', tile:'九万' },
-      { seat:0, action:'摸牌', tile:'' },
-      { seat:0, action:'出牌', tile:'二筒' },
-      { seat:1, action:'摸牌', tile:'' },
-      { seat:1, action:'自摸', tile:'五条' },
-    ],
-  },
-  {
-    id: 2, mode: 'Agent 入局', time: '2026-04-02 02:15', players: ['🐻 黑瞎子','🦊 狐尾','🐉 龙王','🦅 鹰眼'],
-    winner: '🦅 鹰眼', winType: '点炮·对对胡', fan: 2, prize: '0.04 BNB',
-    rounds: [
-      { seat:0, action:'出牌', tile:'一万' },
-      { seat:1, action:'摸牌', tile:'' },
-      { seat:1, action:'出牌', tile:'三筒' },
-      { seat:2, action:'摸牌', tile:'' },
-      { seat:2, action:'出牌', tile:'八条' },
-      { seat:3, action:'胡', tile:'八条' },
-    ],
-  },
-  {
-    id: 3, mode: '锦标赛 #0 R2', time: '2026-04-02 01:00', players: ['Agent-A','Agent-B','Agent-C','Agent-D'],
-    winner: 'Agent-C', winType: '自摸·七对', fan: 3, prize: '积分 +3',
-    rounds: [
-      { seat:0, action:'出牌', tile:'五万' },
-      { seat:1, action:'出牌', tile:'二条' },
-      { seat:2, action:'摸牌', tile:'' },
-      { seat:2, action:'自摸', tile:'九筒' },
+    id:1, mode:'人机挑战', time:'2026-04-02 02:30',
+    players:['👤 玩家','🐻 黑瞎子','🦊 狐尾','🦅 鹰眼'],
+    winner:'🐻 黑瞎子', winType:'自摸·清一色', fan:3, prize:'0.05 BNB',
+    rounds:[
+      { seat:0, action:'出牌', tile:'三万',
+        hands:[['一万','二万','三万','五条','六条','七条','二筒','三筒','四筒','七筒','八筒','九筒','一万'],
+               ['一条','二条','三条','四条','五条','六条','七条','八条','九条','一条','二条','三条','四条'],
+               ['一万','三万','五万','七万','九万','二条','四条','六条','八条','一筒','三筒','五筒','七筒'],
+               ['二万','四万','六万','八万','一条','三条','五条','七条','九条','二筒','四筒','六筒','八筒']]},
+      { seat:1, action:'摸牌', tile:'五条',
+        hands:[['一万','二万','五条','六条','七条','二筒','三筒','四筒','七筒','八筒','九筒','一万'],
+               ['一条','二条','三条','四条','五条','六条','七条','八条','九条','一条','二条','三条','四条','五条'],
+               ['一万','三万','五万','七万','九万','二条','四条','六条','八条','一筒','三筒','五筒','七筒'],
+               ['二万','四万','六万','八万','一条','三条','五条','七条','九条','二筒','四筒','六筒','八筒']]},
+      { seat:1, action:'出牌', tile:'四条',
+        hands:[['一万','二万','五条','六条','七条','二筒','三筒','四筒','七筒','八筒','九筒','一万'],
+               ['一条','二条','三条','五条','六条','七条','八条','九条','一条','二条','三条','五条'],
+               ['一万','三万','五万','七万','九万','二条','四条','六条','八条','一筒','三筒','五筒','七筒'],
+               ['二万','四万','六万','八万','一条','三条','五条','七条','九条','二筒','四筒','六筒','八筒']]},
+      { seat:2, action:'碰', tile:'四条',
+        hands:[['一万','二万','五条','六条','七条','二筒','三筒','四筒','七筒','八筒','九筒','一万'],
+               ['一条','二条','三条','五条','六条','七条','八条','九条','一条','二条','三条','五条'],
+               ['一万','三万','五万','七万','九万','二条','六条','八条','一筒','三筒','五筒','七筒'],
+               ['二万','四万','六万','八万','一条','三条','五条','七条','九条','二筒','四筒','六筒','八筒']]},
+      { seat:2, action:'出牌', tile:'一筒',
+        hands:[['一万','二万','五条','六条','七条','二筒','三筒','四筒','七筒','八筒','九筒','一万'],
+               ['一条','二条','三条','五条','六条','七条','八条','九条','一条','二条','三条','五条'],
+               ['一万','三万','五万','七万','九万','二条','六条','八条','三筒','五筒','七筒'],
+               ['二万','四万','六万','八万','一条','三条','五条','七条','九条','二筒','四筒','六筒','八筒']]},
+      { seat:1, action:'摸牌', tile:'二条',
+        hands:[['一万','二万','五条','六条','七条','二筒','三筒','四筒','七筒','八筒','九筒','一万'],
+               ['一条','二条','三条','五条','六条','七条','八条','九条','一条','二条','三条','五条','二条'],
+               ['一万','三万','五万','七万','九万','二条','六条','八条','三筒','五筒','七筒'],
+               ['二万','四万','六万','八万','一条','三条','五条','七条','九条','二筒','四筒','六筒','八筒']]},
+      { seat:1, action:'自摸', tile:'二条',
+        hands:[['一万','二万','五条','六条','七条','二筒','三筒','四筒','七筒','八筒','九筒','一万'],
+               ['一条','二条','三条','五条','六条','七条','八条','九条','一条','二条','三条','二条'],
+               ['一万','三万','五万','七万','九万','二条','六条','八条','三筒','五筒','七筒'],
+               ['二万','四万','六万','八万','一条','三条','五条','七条','九条','二筒','四筒','六筒','八筒']]},
     ],
   },
 ];
@@ -49,12 +58,7 @@ export default function ReplayPage({ onBack }) {
   const [playIdx, setPlayIdx] = useState(0);
 
   const replay = selected !== null ? MOCK_REPLAYS[selected] : null;
-
-  function playStep() {
-    if (!replay) return;
-    if (playIdx < replay.rounds.length - 1) setPlayIdx(playIdx + 1);
-  }
-  function resetPlay() { setPlayIdx(0); }
+  const curRound = replay ? replay.rounds[playIdx] : null;
 
   return (
     <div className="page replay">
@@ -88,42 +92,56 @@ export default function ReplayPage({ onBack }) {
         </div>
       ) : (
         <div className="replay-body">
-          {/* Match info */}
           <div className="replay-info glass">
             <div className="replay-info-row">
               <span>{replay.mode}</span>
               <span className="mono">{replay.time}</span>
-            </div>
-            <div className="replay-seats">
-              {replay.players.map((p, i) => (
-                <div key={i} className={`replay-seat ${p === replay.winner ? 'winner' : ''}`}>
-                  <span>{p}</span>
-                  {p === replay.winner && <span className="seat-crown">👑</span>}
-                </div>
-              ))}
             </div>
             <div className="replay-result-bar">
               🏆 {replay.winner} · {replay.winType} · {replay.fan}番 · {replay.prize}
             </div>
           </div>
 
-          {/* Play-by-play */}
+          {/* 四家手牌 */}
+          {curRound && curRound.hands && (
+            <div className="replay-hands">
+              {replay.players.map((p, i) => (
+                <div key={i} className={`replay-hand glass ${i === curRound.seat ? 'active-hand' : ''} ${p === replay.winner ? 'winner-hand' : ''}`}>
+                  <div className="hand-header">
+                    <span className="hand-name">{p}</span>
+                    <span className="hand-count mono">{curRound.hands[i]?.length || 0}张</span>
+                  </div>
+                  <div className="hand-tiles">
+                    {(curRound.hands[i] || []).map((t, j) => (
+                      <span key={j} className={`hand-tile ${curRound.action !== '摸牌' && i === curRound.seat && t === curRound.tile ? 'highlight-tile' : ''}`}>
+                        {T(t)}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* 出牌记录 + 控制 */}
           <div className="replay-log glass">
             <div className="replay-log-header">
               <span>出牌记录</span>
               <div className="replay-controls">
-                <button className="replay-ctrl-btn" onClick={resetPlay}>⏮</button>
-                <button className="replay-ctrl-btn" onClick={playStep}>▶ 下一步</button>
+                <button className="replay-ctrl-btn" onClick={() => setPlayIdx(0)}>⏮</button>
+                <button className="replay-ctrl-btn" onClick={() => setPlayIdx(Math.max(0, playIdx - 1))}>◀</button>
+                <button className="replay-ctrl-btn primary" onClick={() => setPlayIdx(Math.min(replay.rounds.length - 1, playIdx + 1))}>▶</button>
+                <button className="replay-ctrl-btn" onClick={() => setPlayIdx(replay.rounds.length - 1)}>⏭</button>
                 <span className="mono replay-step">{playIdx + 1}/{replay.rounds.length}</span>
               </div>
             </div>
             <div className="replay-log-body">
-              {replay.rounds.slice(0, playIdx + 1).map((r, i) => (
-                <div key={i} className={`replay-log-row ${i === playIdx ? 'current' : ''}`}>
+              {replay.rounds.map((r, i) => (
+                <div key={i} className={`replay-log-row ${i === playIdx ? 'current' : ''} ${i > playIdx ? 'future' : ''}`}>
                   <span className="log-idx mono">{i + 1}</span>
                   <span className="log-player">{replay.players[r.seat]}</span>
-                  <span className={`log-action ${r.action === '自摸' || r.action === '胡' ? 'hu' : r.action === '碰' ? 'peng' : ''}`}>{r.action}</span>
-                  {r.tile && <span className="log-tile">{r.tile}</span>}
+                  <span className={`log-action ${r.action === '自摸' || r.action === '胡' ? 'hu' : r.action === '碰' ? 'peng' : r.action === '杠' ? 'gang' : ''}`}>{r.action}</span>
+                  {r.tile && <span className="log-tile">{T(r.tile)} {r.tile}</span>}
                 </div>
               ))}
             </div>
