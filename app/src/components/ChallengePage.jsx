@@ -9,8 +9,7 @@ const CONTRACT = '0x6bfa1409450404f0e64100f1e71c43c83a9f1eca';
 const ABI = [
   'function challengePool() view returns (uint256)',
   'function challengeEntryFee() view returns (uint256)',
-  'function startChallenge() payable',
-  'event ChallengeStarted(uint256 indexed id, address indexed player, uint256 poolAmount)',
+  'function startChallenge() external payable',
 ];
 
 export default function ChallengePage({ onBack }) {
@@ -20,9 +19,10 @@ export default function ChallengePage({ onBack }) {
   const logRef = useRef(null);
 
   const [account, setAccount] = useState(null);
+  const [balance, setBalance] = useState(null);
   const [pool, setPool] = useState('0');
   const [fee, setFee] = useState('0.05');
-  const [phase, setPhase] = useState('idle'); // idle|paying|playing|result
+  const [phase, setPhase] = useState('idle');
   const [logs, setLogs] = useState([]);
   const [result, setResult] = useState(null);
   const [tilesReady, setTilesReady] = useState(false);
@@ -35,17 +35,23 @@ export default function ChallengePage({ onBack }) {
     setLogs(p => [...p, { t: new Date().toLocaleTimeString('en',{hour12:false}), msg }]);
   }, []);
 
-  const rerender = useCallback(() => {
-    if (canvasRef.current && gameRef.current) {
-      renderGame(canvasRef.current, gameRef.current, { selectedTileId: selectedTile });
-    }
-  }, [selectedTile]);
-
-  // Load pool + preload tiles
   useEffect(() => { loadPool(); const iv = setInterval(loadPool, 15000); return () => clearInterval(iv); }, []);
   useEffect(() => { preloadTiles().then(() => setTilesReady(true)); }, []);
   useEffect(() => { if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight; }, [logs]);
-  useEffect(() => { rerender(); }, [selectedTile, rerender]);
+
+  // Canvas resize
+  useEffect(() => {
+    const resize = () => {
+      if (canvasRef.current && gameRef.current) {
+        const w = canvasRef.current.parentElement.clientWidth;
+        canvasRef.current.width = w;
+        canvasRef.current.height = w * 0.75;
+        renderGame(canvasRef.current, gameRef.current, { selectedTileId: selectedTile });
+      }
+    };
+    window.addEventListener('resize', resize);
+    return () => window.removeEventListener('resize', resize);
+  }, [selectedTile]);
 
   async function loadPool() {
     try {
@@ -54,7 +60,7 @@ export default function ChallengePage({ onBack }) {
       const [pv, fv] = await Promise.all([c.challengePool(), c.challengeEntryFee()]);
       setPool(ethers.formatEther(pv));
       setFee(ethers.formatEther(fv));
-    } catch {}
+    } catch(e) { console.error('loadPool', e); }
   }
 
   async function ensureBSC() {
@@ -64,23 +70,35 @@ export default function ChallengePage({ onBack }) {
         await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x38' }] });
       } catch (e) {
         if (e.code === 4902) {
-          await window.ethereum.request({ method: 'wallet_addEthereumChain', params: [{ chainId: '0x38', chainName: 'BNB Smart Chain', nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 }, rpcUrls: ['https://bsc-dataseed.binance.org'], blockExplorerUrls: ['https://bscscan.com'] }] });
-        } else throw e;
+          await window.ethereum.request({
+            method: 'wallet_addEthereumChain',
+            params: [{ chainId: '0x38', chainName: 'BNB Smart Chain', nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 }, rpcUrls: ['https://bsc-dataseed.binance.org'], blockExplorerUrls: ['https://bscscan.com'] }]
+          });
+        } else {
+          alert('请切换到 BSC 网络');
+          throw e;
+        }
       }
     }
   }
 
   async function connect() {
-    if (!window.ethereum) return alert('请安装 MetaMask');
-    await ensureBSC();
-    const p = new ethers.BrowserProvider(window.ethereum);
-    const accs = await p.send('eth_requestAccounts', []);
-    setAccount(accs[0]);
-    log('钱包已连接 ' + accs[0].slice(0,6) + '...' + accs[0].slice(-4));
+    if (!window.ethereum) { alert('请安装 MetaMask 或 OKX Wallet'); return; }
+    try {
+      await ensureBSC();
+      const p = new ethers.BrowserProvider(window.ethereum);
+      const accs = await p.send('eth_requestAccounts', []);
+      setAccount(accs[0]);
+      const bal = await p.getBalance(accs[0]);
+      setBalance(ethers.formatEther(bal));
+      log('✅ 钱包已连接 ' + accs[0].slice(0,6) + '...' + accs[0].slice(-4));
+    } catch(e) {
+      alert('连接钱包失败: ' + (e.message || e));
+    }
   }
 
   async function payAndStart() {
-    if (!account) return;
+    if (!account) { alert('请先连接钱包'); return; }
     setPhase('paying');
     log('发起链上交易...');
     try {
@@ -88,40 +106,51 @@ export default function ChallengePage({ onBack }) {
       const p = new ethers.BrowserProvider(window.ethereum);
       const s = await p.getSigner();
       const c = new ethers.Contract(CONTRACT, ABI, s);
-      const feeWei = await c.challengeEntryFee();
+      const feeWei = ethers.parseEther(fee);
+      log('等待钱包确认... 请在钱包中点击确认');
       const tx = await c.startChallenge({ value: feeWei });
-      log('交易已发送 ' + tx.hash.slice(0,10) + '...');
+      log('交易已发送 ' + tx.hash.slice(0,10) + '... 等待确认');
       await tx.wait();
-      log('✅ 交易确认！开始对局');
+      log('✅ 交易确认！扣款 ' + fee + ' BNB，开始对局');
       startRealGame();
     } catch (err) {
-      log('❌ 交易失败: ' + (err.reason || err.message));
+      const msg = err.reason || err.message || '未知错误';
+      log('❌ ' + msg);
+      if (msg.includes('user rejected') || msg.includes('denied')) {
+        alert('你取消了交易');
+      } else {
+        alert('交易失败: ' + msg);
+      }
       setPhase('idle');
     }
   }
 
   function startRealGame() {
-    const g = createGame(0); // seat 0 = human
+    const g = createGame(0);
     gameRef.current = g;
     setPhase('playing');
     setSelectedTile(null);
     setWaiting(null);
     log('🀄 洗牌发牌完毕，对局开始！');
+    // Set canvas size and render
     setTimeout(() => {
-      rerender();
+      if (canvasRef.current) {
+        const w = canvasRef.current.parentElement.clientWidth;
+        canvasRef.current.width = w;
+        canvasRef.current.height = w * 0.75;
+        renderGame(canvasRef.current, g, {});
+      }
       if (g && !g.waitingFor && g.phase === 'playing') autoAdvanceAI(g);
-    }, 200);
+    }, 100);
   }
 
-  // AI auto-advance
   const autoAdvanceAI = useCallback((g) => {
     if (!g || g.phase !== 'playing') return;
     if (g.waitingFor === 0) {
-      // Human's turn
       if (g.waitType === 'discard') setWaiting('discard');
       else if (g.waitType === 'afterdraw') setWaiting('afterdraw');
       else if (g.waitType === 'respond') setWaiting('respond');
-      rerender();
+      if (canvasRef.current) renderGame(canvasRef.current, g, { selectedTileId: selectedTile });
       return;
     }
     timerRef.current = setTimeout(() => {
@@ -130,22 +159,18 @@ export default function ChallengePage({ onBack }) {
         if (ev.type === 'discard') log(`${ev.playerName} 打出 ${ev.tileName}`);
         else if (ev.type === 'peng') log(`${ev.playerName} 碰！`);
         else if (ev.type === 'gang') log(`${ev.playerName} 杠！`);
-        else if (ev.type === 'hu') {
-          log(`🎉 ${ev.playerName} 胡牌！`);
-          handleGameEnd(g);
-          return;
-        } else if (ev.type === 'draw') log(`${ev.playerName} 摸牌`);
+        else if (ev.type === 'hu') { log(`🎉 ${ev.playerName} 胡牌！`); handleGameEnd(g); return; }
+        else if (ev.type === 'draw') log(`${ev.playerName} 摸牌`);
       }
       forceUpdate(n => n + 1);
-      rerender();
+      if (canvasRef.current) renderGame(canvasRef.current, g, {});
       if (g.phase === 'playing') autoAdvanceAI(g);
     }, speed);
-  }, [speed, log, rerender]);
+  }, [speed, log, selectedTile]);
 
   function handleGameEnd(g) {
     setPhase('result');
     clearTimeout(timerRef.current);
-    // Check if human (seat 0) won
     const humanWon = g.winners && g.winners.includes(0);
     if (humanWon) {
       const prize = (parseFloat(pool) + parseFloat(fee)).toFixed(4);
@@ -155,17 +180,18 @@ export default function ChallengePage({ onBack }) {
       log('AI 获胜，入场费归入奖池');
       setResult({ win: false });
     }
-    rerender();
+    if (canvasRef.current && g) renderGame(canvasRef.current, g, {});
   }
 
-  // Human interactions
   function handleCanvasClick(e) {
     if (phase !== 'playing' || !waiting) return;
     const g = gameRef.current;
     if (!g || !canvasRef.current) return;
     const rect = canvasRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const scaleX = canvasRef.current.width / rect.width;
+    const scaleY = canvasRef.current.height / rect.height;
+    const x = (e.clientX - rect.left) * scaleX;
+    const y = (e.clientY - rect.top) * scaleY;
     const hitboxes = getBottomTileHitboxes(canvasRef.current, g);
     if (!hitboxes) return;
 
@@ -173,17 +199,17 @@ export default function ChallengePage({ onBack }) {
       for (const hb of hitboxes) {
         if (x >= hb.x && x <= hb.x + hb.w && y >= hb.y && y <= hb.y + hb.h) {
           if (selectedTile === hb.tileId) {
-            // Double click = confirm discard
             if (waiting === 'discard') humanDiscard(g, hb.tileId);
             else humanAfterDraw(g, 'discard', hb.tileId);
             setSelectedTile(null);
             setWaiting(null);
             log('你打出 ' + hb.tileName);
             forceUpdate(n => n + 1);
-            rerender();
+            if (canvasRef.current) renderGame(canvasRef.current, g, {});
             if (g.phase === 'playing') autoAdvanceAI(g);
           } else {
             setSelectedTile(hb.tileId);
+            if (canvasRef.current) renderGame(canvasRef.current, g, { selectedTileId: hb.tileId });
           }
           return;
         }
@@ -199,14 +225,14 @@ export default function ChallengePage({ onBack }) {
       if (action !== 'pass') log('你选择了 ' + action);
       setWaiting(null);
       forceUpdate(n => n + 1);
-      rerender();
+      if (canvasRef.current) renderGame(canvasRef.current, g, {});
       if (g.phase === 'playing') autoAdvanceAI(g);
     } else if (waiting === 'afterdraw') {
       if (action === 'hu') { humanAfterDraw(g, 'hu'); handleGameEnd(g); return; }
       if (action === 'gang') { humanAfterDraw(g, 'gang'); log('你暗杠！'); }
       setWaiting(null);
       forceUpdate(n => n + 1);
-      rerender();
+      if (canvasRef.current) renderGame(canvasRef.current, g, {});
       if (g.phase === 'playing') autoAdvanceAI(g);
     }
   }
@@ -216,6 +242,12 @@ export default function ChallengePage({ onBack }) {
     setPhase('idle'); setResult(null); setLogs([]); setSelectedTile(null); setWaiting(null);
     gameRef.current = null;
     loadPool();
+  }
+
+  // Demo mode — skip payment, go straight to game
+  function startDemo() {
+    log('🎮 演示模式 — 免费体验');
+    startRealGame();
   }
 
   return (
@@ -231,7 +263,6 @@ export default function ChallengePage({ onBack }) {
       </header>
 
       <div className="ch-body">
-        {/* Game area */}
         <div className="ch-game">
           {phase === 'idle' && (
             <div className="ch-idle-panel">
@@ -240,32 +271,30 @@ export default function ChallengePage({ onBack }) {
               <p className="ch-idle-desc">支付 <span className="mono">{fee} BNB</span> 入场，击败 3 个 AI 赢走奖池</p>
               <p className="ch-idle-pool">当前奖池 <span className="mono ch-pool-highlight">{parseFloat(pool).toFixed(4)} BNB</span></p>
               {!account ? (
-                <button className="connect-btn" onClick={connect}>连接钱包</button>
+                <button className="connect-btn" onClick={connect}>🔗 连接钱包</button>
               ) : (
-                <button className="ch-start-btn" onClick={payAndStart}>
-                  ⚔️ 支付 {fee} BNB 开始挑战
-                </button>
+                <div className="ch-connected">
+                  <div className="ch-wallet-info">
+                    <span className="mono">{account.slice(0,6)}...{account.slice(-4)}</span>
+                    {balance && <span className="ch-bal mono">{parseFloat(balance).toFixed(4)} BNB</span>}
+                  </div>
+                  <button className="ch-start-btn" onClick={payAndStart}>⚔️ 支付 {fee} BNB 开始挑战</button>
+                </div>
               )}
-              {account && <div className="ch-wallet mono">{account.slice(0,6)}...{account.slice(-4)}</div>}
             </div>
           )}
 
           {phase === 'paying' && (
             <div className="ch-idle-panel">
               <div className="ch-paying-spinner" />
-              <p>等待交易确认...</p>
+              <p>请在钱包中确认交易...</p>
+              <p className="ch-paying-hint">如果没有弹出钱包，请手动打开钱包 APP</p>
             </div>
           )}
 
           {(phase === 'playing' || phase === 'result') && (
             <div className="ch-canvas-wrap">
-              <canvas
-                ref={canvasRef}
-                className="ch-canvas"
-                width={800} height={600}
-                onClick={handleCanvasClick}
-              />
-              {/* Action buttons */}
+              <canvas ref={canvasRef} className="ch-canvas" onClick={handleCanvasClick} />
               {waiting === 'respond' && (
                 <div className="ch-actions">
                   <button className="ch-act-btn pass" onClick={() => handleAction('pass')}>过</button>
@@ -281,14 +310,11 @@ export default function ChallengePage({ onBack }) {
                   <button className="ch-act-btn hu" onClick={() => handleAction('hu')}>自摸</button>
                 </div>
               )}
-              {waiting === 'discard' && (
-                <div className="ch-hint">点击选牌，再点确认出牌</div>
-              )}
+              {waiting === 'discard' && <div className="ch-hint">点击选牌，再点确认出牌</div>}
             </div>
           )}
         </div>
 
-        {/* Log panel */}
         <div className="ch-log" ref={logRef}>
           <div className="ch-log-header">GAME LOG</div>
           {logs.length === 0 && <p className="ch-log-empty">等待对局开始...</p>}
@@ -298,7 +324,6 @@ export default function ChallengePage({ onBack }) {
         </div>
       </div>
 
-      {/* Result overlay */}
       {phase === 'result' && result && (
         <div className="ch-result-overlay" onClick={resetGame}>
           <div className={`ch-result-card glass ${result.win ? 'win' : 'lose'}`}>
