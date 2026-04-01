@@ -36,6 +36,7 @@ export default function HomePage({ onPlay, onAgent, onTournament, onLLM, onRepla
         <p className="subtitle-sm">Sichuan Mahjong • AI vs Human • Agent Tournament</p>
       </header>
 
+      <section className="modes-wrapper">
       <section className="modes">
         {MODES.map(mode => (
           <div
@@ -53,6 +54,7 @@ export default function HomePage({ onPlay, onAgent, onTournament, onLLM, onRepla
             {mode.tag !== 'SOON' && <button className="mode-btn">进入</button>}
           </div>
         ))}
+      </section>
       </section>
 
       <section className="chars">
