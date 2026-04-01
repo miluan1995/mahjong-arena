@@ -70,12 +70,11 @@
 
 /* Mode Cards */
 .modes-wrapper {
-  width: 100%;
-  max-width: 100%;
   display: flex;
   justify-content: center;
-  padding: 40px 0;
+  padding: 40px 24px;
   box-sizing: border-box;
+  width: 100%;
 }
 
 .modes {
@@ -83,8 +82,7 @@
   grid-template-columns: repeat(5, 1fr);
   gap: 20px;
   max-width: 1200px;
-  width: calc(100% - 48px);
-  padding: 0 24px;
+  width: 100%;
   box-sizing: border-box;
 }
 
@@ -185,7 +183,8 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
   max-width: 1200px;
-  width: calc(100% - 48px);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .char-card {
@@ -261,7 +260,8 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   max-width: 1200px;
-  width: calc(100% - 48px);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .home-doc-card {
@@ -311,7 +311,8 @@
   margin-bottom: 24px;
   color: #fff;
   max-width: 1200px;
-  width: calc(100% - 48px);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .home-content {
@@ -321,7 +322,8 @@
   padding: 32px;
   backdrop-filter: blur(10px);
   max-width: 1200px;
-  width: calc(100% - 48px);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .home-content h3 {

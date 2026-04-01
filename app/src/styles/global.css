@@ -34,7 +34,7 @@ button { font-family: var(--font); cursor:pointer; }
 /* 背景网格 */
 body::before {
   content:'';
-  position:absolute;
+  position:fixed;
   top:0;
   left:0;
   right:0;
