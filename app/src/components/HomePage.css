@@ -60,9 +60,9 @@
 /* Mode Cards */
 .modes {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(5, 1fr);
   gap: 20px;
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 40px auto;
   padding: 0 24px;
 }
@@ -108,14 +108,14 @@
 }
 
 .mode-card h3 {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   margin-bottom: 8px;
   color: #fff;
 }
 
 .mode-card p {
-  font-size: 13px;
+  font-size: 12px;
   color: #aaa;
   line-height: 1.5;
   margin-bottom: 16px;
@@ -141,7 +141,7 @@
 
 /* AI Characters */
 .chars {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 60px auto 40px;
   padding: 0 24px;
 }
@@ -156,7 +156,7 @@
 
 .char-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 16px;
 }
 
@@ -210,7 +210,7 @@
 
 /* Docs */
 .home-docs {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 60px auto 40px;
   padding: 0 24px;
 }
@@ -225,7 +225,7 @@
 
 .home-docs-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 
@@ -260,7 +260,7 @@
 
 /* Sections */
 .home-section {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 60px auto 40px;
   padding: 0 24px;
 }
@@ -336,7 +336,17 @@
 }
 
 /* Mobile */
-@media (max-width: 600px) {
+@media (max-width: 1200px) {
+  .modes {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .char-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
   .title {
     font-size: 32px;
     letter-spacing: 4px;
@@ -347,12 +357,12 @@
   }
 
   .modes {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     padding: 0 16px;
   }
 
   .char-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
   }
 
   .home-docs-grid {
