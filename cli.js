@@ -1,100 +1,96 @@
 #!/usr/bin/env node
 import { ethers } from 'ethers';
 
-const CONTRACT_ADDRESS = '0x648ad2EcB46BE77F78c7E672Aae900810014057c';
-const RPC_URL = 'https://bsc-dataseed.binance.org';
+const CONTRACT = '0x6a0873501EDe896606CE8F411E0ed01E2F358710';
+const RPC = 'https://bsc-dataseed.binance.org';
 
-const CONTRACT_ABI = [
-  'function joinGameLobby(uint256 lobbyId) payable',
-  'function joinTournament(uint256 tournamentId) payable',
-  'function lobbyCounter() view returns (uint256)',
-  'function tournamentCounter() view returns (uint256)',
+const ABI = [
+  'function joinGameLobby(uint256 _lobbyId) payable',
+  'function joinTournament(uint256 _id) payable',
+  'function getLobbyInfo(uint256) view returns (uint256 id, uint256 entryFee, uint8 playerCount, uint8 status, uint256 prizePool, address winner)',
+  'function getLobbyPlayers(uint256) view returns (address[4])',
+  'function getPlayers(uint256) view returns (address[4])',
+  'function getAllScores(uint256) view returns (address[4], uint256[4])',
+  'function lobbyCount() view returns (uint256)',
+  'function tournamentCount() view returns (uint256)',
+  'function tournaments(uint256) view returns (uint256 id, uint256 entryFee, uint256 totalRounds, uint256 completedRounds, uint256 prizePool, uint256 platformFee, uint8 status, address winner)',
 ];
 
-const provider = new ethers.JsonRpcProvider(RPC_URL);
-const privateKey = process.env.PRIVATE_KEY || '0x480f0bbb25a7b410c63e2412e1fffaea3991d237fbb53f09c93b2424c84adf79';
-const signer = new ethers.Wallet(privateKey, provider);
-const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
-
-async function joinLobby(lobbyId, amount = '0.01') {
-  try {
-    const tx = await contract.joinGameLobby(lobbyId, { value: ethers.parseEther(amount) });
-    const receipt = await tx.wait();
-    console.log(JSON.stringify({
-      tx: receipt.hash,
-      lobbyId,
-      status: 'joined',
-      blockNumber: receipt.blockNumber,
-    }));
-  } catch (e) {
-    console.error(JSON.stringify({ error: e.message }));
-    process.exit(1);
-  }
-}
-
-async function joinTournament(tournamentId, amount = '0.1') {
-  try {
-    const tx = await contract.joinTournament(tournamentId, { value: ethers.parseEther(amount) });
-    const receipt = await tx.wait();
-    console.log(JSON.stringify({
-      tx: receipt.hash,
-      tournamentId,
-      status: 'joined',
-      blockNumber: receipt.blockNumber,
-    }));
-  } catch (e) {
-    console.error(JSON.stringify({ error: e.message }));
-    process.exit(1);
-  }
-}
-
-async function listLobbies() {
-  try {
-    const count = await contract.lobbyCounter();
-    console.log(JSON.stringify({
-      lobbies: Array.from({ length: Number(count) }, (_, i) => ({
-        id: i,
-        status: 'active',
-      })),
-    }));
-  } catch (e) {
-    console.error(JSON.stringify({ error: e.message }));
-    process.exit(1);
-  }
-}
-
-async function listTournaments() {
-  try {
-    const count = await contract.tournamentCounter();
-    console.log(JSON.stringify({
-      tournaments: Array.from({ length: Number(count) }, (_, i) => ({
-        id: i,
-        status: 'active',
-      })),
-    }));
-  } catch (e) {
-    console.error(JSON.stringify({ error: e.message }));
-    process.exit(1);
-  }
-}
+const provider = new ethers.JsonRpcProvider(RPC);
+const pk = process.env.PRIVATE_KEY;
+if (!pk) { console.error('Set PRIVATE_KEY env var'); process.exit(1); }
+const signer = new ethers.Wallet(pk, provider);
+const contract = new ethers.Contract(CONTRACT, ABI, signer);
+const readOnly = new ethers.Contract(CONTRACT, ABI, provider);
 
 const cmd = process.argv[2];
 const arg1 = process.argv[3];
-const arg2 = process.argv[4];
 
 (async () => {
-  if (cmd === 'join-lobby') {
-    const amount = arg2?.replace('--amount', '').trim() || '0.01';
-    await joinLobby(parseInt(arg1), amount);
-  } else if (cmd === 'join-tournament') {
-    const amount = arg2?.replace('--amount', '').trim() || '0.1';
-    await joinTournament(parseInt(arg1), amount);
-  } else if (cmd === 'list-lobbies') {
-    await listLobbies();
-  } else if (cmd === 'list-tournaments') {
-    await listTournaments();
-  } else {
-    console.error('Usage: mahjong-arena <join-lobby|join-tournament|list-lobbies|list-tournaments> [args]');
+  try {
+    if (cmd === 'join-lobby') {
+      const info = await readOnly.getLobbyInfo(parseInt(arg1));
+      const tx = await contract.joinGameLobby(parseInt(arg1), { value: info.entryFee });
+      const r = await tx.wait();
+      console.log(JSON.stringify({ tx: r.hash, lobbyId: arg1, status: 'joined', fee: ethers.formatEther(info.entryFee) }));
+
+    } else if (cmd === 'join-tournament') {
+      const t = await readOnly.tournaments(parseInt(arg1));
+      const tx = await contract.joinTournament(parseInt(arg1), { value: t.entryFee });
+      const r = await tx.wait();
+      console.log(JSON.stringify({ tx: r.hash, tournamentId: arg1, status: 'joined', fee: ethers.formatEther(t.entryFee) }));
+
+    } else if (cmd === 'info') {
+      const info = await readOnly.getLobbyInfo(parseInt(arg1));
+      const players = await readOnly.getLobbyPlayers(parseInt(arg1));
+      console.log(JSON.stringify({
+        id: Number(info.id), entryFee: ethers.formatEther(info.entryFee),
+        playerCount: Number(info.playerCount), status: ['Open','Active','Settled'][Number(info.status)],
+        prizePool: ethers.formatEther(info.prizePool), winner: info.winner,
+        players: [...players].filter(a => a !== ethers.ZeroAddress),
+      }));
+
+    } else if (cmd === 'tournament-info') {
+      const t = await readOnly.tournaments(parseInt(arg1));
+      const players = await readOnly.getPlayers(parseInt(arg1));
+      const [addrs, scores] = await readOnly.getAllScores(parseInt(arg1));
+      console.log(JSON.stringify({
+        id: Number(t.id), entryFee: ethers.formatEther(t.entryFee),
+        totalRounds: Number(t.totalRounds), completedRounds: Number(t.completedRounds),
+        prizePool: ethers.formatEther(t.prizePool),
+        status: ['Open','Active','Settled','Cancelled'][Number(t.status)],
+        winner: t.winner,
+        players: [...addrs].filter(a => a !== ethers.ZeroAddress),
+        scores: [...scores].map(Number),
+      }));
+
+    } else if (cmd === 'list-lobbies') {
+      const count = Number(await readOnly.lobbyCount());
+      for (let i = 0; i < count; i++) {
+        const info = await readOnly.getLobbyInfo(i);
+        console.log(JSON.stringify({
+          id: i, fee: ethers.formatEther(info.entryFee),
+          players: Number(info.playerCount), status: ['Open','Active','Settled'][Number(info.status)],
+        }));
+      }
+
+    } else if (cmd === 'list-tournaments') {
+      const count = Number(await readOnly.tournamentCount());
+      for (let i = 0; i < count; i++) {
+        const t = await readOnly.tournaments(i);
+        console.log(JSON.stringify({
+          id: i, fee: ethers.formatEther(t.entryFee),
+          rounds: `${Number(t.completedRounds)}/${Number(t.totalRounds)}`,
+          status: ['Open','Active','Settled','Cancelled'][Number(t.status)],
+        }));
+      }
+
+    } else {
+      console.error('Usage: mahjong-arena <join-lobby|join-tournament|info|tournament-info|list-lobbies|list-tournaments> [id]');
+      process.exit(1);
+    }
+  } catch (e) {
+    console.error(JSON.stringify({ error: e.message }));
     process.exit(1);
   }
 })();

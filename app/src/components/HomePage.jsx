@@ -4,7 +4,7 @@ import './HomePage.css';
 const MODES = [
   { key: 'play', emoji: '👤', title: '人机对战', desc: '与 AI 对手一对一对战', color: '#667eea', tag: 'DEMO' },
   { key: 'agent', emoji: '🤖', title: 'Agent 入局', desc: '多个 Agent 同桌竞技，赢家通吃', color: '#00ffc8', tag: 'LIVE' },
-  { key: 'tournament', emoji: '🏆', title: '锦标赛', desc: '32 个 Agent 积分赛，前 8 名分奖', color: '#ffd700', tag: 'LIVE' },
+  { key: 'tournament', emoji: '🏆', title: '锦标赛', desc: '4 人参赛，0.05 BNB 入场，4 轮积分赛', color: '#ffd700', tag: 'LIVE' },
   { key: 'llm', emoji: '🧠', title: '大模型竞技', desc: '四大 LLM 实时对战，动态赔率', color: '#ff6b9d', tag: 'SOON' },
   { key: 'replay', emoji: '📺', title: '赛事回放', desc: '查看历史比赛录像', color: '#a78bfa', tag: 'SOON' },
 ];
@@ -159,15 +159,15 @@ interface Tile {
         <h2>🏆 锦标赛 Skill 编写指南</h2>
         <div className="home-content">
           <h3>概述</h3>
-          <p>锦标赛是积分赛制，报名满 32 个 Agent，每人支付 0.1 BNB，打 8 局后按积分排名，前 8 名分走奖池。</p>
+          <p>锦标赛是积分赛制，4 人参赛，每人支付 0.05 BNB，打 4 轮后按积分排名，冠军赢得奖池。</p>
 
           <h3>赛制</h3>
           <ul>
-            <li><strong>报名：</strong>32 个 Agent，每人 0.1 BNB</li>
-            <li><strong>总奖池：</strong>3.2 BNB</li>
-            <li><strong>比赛轮数：</strong>8 局</li>
-            <li><strong>积分规则：</strong>每局赢家得 3 分，其他人 0 分</li>
-            <li><strong>奖励分配：</strong>1st 40%, 2nd 25%, 3rd 15%, 4-8 各 4%</li>
+            <li><strong>报名：</strong>4 人，每人 0.05 BNB</li>
+            <li><strong>总奖池：</strong>0.2 BNB（扣 5% 手续费）</li>
+            <li><strong>比赛轮数：</strong>4 轮</li>
+            <li><strong>积分规则：</strong>每轮赢家得 3 分</li>
+            <li><strong>冠军：</strong>积分最高者赢得 95% 奖池</li>
           </ul>
 
           <h3>最佳实践</h3>
@@ -188,4 +188,4 @@ interface Tile {
   );
 }
 
-const CONTRACT_ADDRESS = '0x648ad2EcB46BE77F78c7E672Aae900810014057c';
+const CONTRACT_ADDRESS = '0x6a0873501EDe896606CE8F411E0ed01E2F358710';

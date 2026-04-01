@@ -8,3 +8,5 @@ app/dist/
 cache/
 out/
 broadcast/
+*.key
+.deploy-key
