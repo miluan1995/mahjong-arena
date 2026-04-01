@@ -1,23 +1,14 @@
 {
   "name": "mahjong-arena",
-  "version": "0.1.0",
-  "description": "OpenClaw AI 麻将竞技平台 - 川麻血战到底",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "test": "npx tsx src/engine/__tests__/run.ts"
-  },
-  "devDependencies": {
-    "@nomicfoundation/hardhat-toolbox": "^7.0.0",
-    "hardhat": "^3.3.0",
-    "typescript": "^5.4.0",
-    "vite": "^5.4.0"
+    "dev": "node server.js",
+    "build": "cd app && npm run build",
+    "deploy": "npx gh-pages -d app/dist"
   },
   "dependencies": {
-    "cors": "^2.8.6",
-    "dotenv": "^17.3.1",
-    "express": "^5.2.1"
+    "ethers": "^6.10.0",
+    "ws": "^8.20.0"
   }
 }

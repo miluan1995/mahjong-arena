@@ -1,60 +1,82 @@
-// Mahjong Arena - Agent Server
-// 轻量 API server，桥接前端与 OpenClaw Agent
+// Mahjong Arena - Agent Server with Game Logic
 import http from 'http';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { WebSocketServer } from 'ws';
+import { ethers } from 'ethers';
 
 const PORT = 3852;
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const CONTRACT_ADDRESS = '0x648ad2EcB46BE77F78c7E672Aae900810014057c';
+const RPC_URL = 'https://bsc-dataseed.binance.org';
+
+const CONTRACT_ABI = [
+  'event GameStarted(uint256 indexed lobbyId, address[] players)',
+  'event TournamentStarted(uint256 indexed tournamentId)',
+  'event PlayerJoined(uint256 indexed lobbyId, address indexed player)',
+];
+
+const provider = new ethers.JsonRpcProvider(RPC_URL);
+const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
+
+const games = new Map(); // lobbyId -> gameState
+const clients = new Map(); // ws -> { lobbyId, address }
+
+// ===== 游戏逻辑 =====
+function initGame(lobbyId, players) {
+  const tiles = [];
+  for (let suit of ['w', 't', 's']) {
+    for (let rank = 1; rank <= 9; rank++) {
+      for (let i = 0; i < 4; i++) tiles.push({ suit, rank });
+    }
+  }
+  tiles.sort(() => Math.random() - 0.5);
+
+  const hands = players.map(() => tiles.splice(0, 13));
+  const game = {
+    lobbyId,
+    players,
+    hands,
+    wall: tiles,
+    discards: [[], [], [], []],
+    melds: [[], [], [], []],
+    turn: 0,
+    round: 0,
+    status: 'playing',
+  };
+  games.set(lobbyId, game);
+  return game;
+}
+
+async function playerTurn(lobbyId) {
+  const game = games.get(lobbyId);
+  if (!game || game.status !== 'playing') return;
+
+  const playerIdx = game.turn % 4;
+  const hand = game.hands[playerIdx];
+  const decision = await analyzeWithLLM({
+    type: 'discard',
+    hand,
+    melds: game.melds[playerIdx],
+    discards: game.discards,
+    wallRemain: game.wall.length,
+    turn: game.round,
+  });
+
+  if (decision?.action === 'discard' && decision.tileIndex !== undefined) {
+    const tile = hand.splice(decision.tileIndex, 1)[0];
+    game.discards[playerIdx].push(tile);
+    game.turn++;
+    broadcast(lobbyId, { type: 'turn', playerIdx, tile, decision });
+    setTimeout(() => playerTurn(lobbyId), 1000);
+  }
+}
 
 // ===== LLM 分析 =====
 async function analyzeWithLLM(gameState) {
-  const { type, hand, melds, discards, otherDiscards, wallRemain, turn, lastDiscard, availableActions } = gameState;
-
+  const { type, hand, melds, discards, wallRemain, turn } = gameState;
   const handStr = hand.map(t => `${t.suit}${t.rank}`).join(' ');
-  const meldStr = melds.map(m => `[${m.type}: ${m.tiles.map(t => `${t.suit}${t.rank}`).join(',')}]`).join(' ');
 
   let prompt = '';
   if (type === 'discard') {
-    prompt = `你是一个川麻(血战到底)高手AI。现在轮到你出牌。
-手牌: ${handStr}
-副露: ${meldStr || '无'}
-牌墙剩余: ${wallRemain}张
-第${turn}手
-
-分析手牌牌型，选择最优出牌。考虑:
-1. 距离听牌还差几步
-2. 哪些牌是孤张/废牌
-3. 是否在做特殊牌型(清一色/七对)
-4. 安全牌(别人打过的)
-
-返回JSON: {"action":"discard","tileIndex":<手牌序号0-based>,"thinking":"<分析过程>","text":"<简短理由>"}`;
-
-  } else if (type === 'respond') {
-    prompt = `你是一个川麻(血战到底)高手AI。有人打出了 ${lastDiscard.suit}${lastDiscard.rank}。
-手牌: ${handStr}
-副露: ${meldStr || '无'}
-可选动作: ${JSON.stringify(availableActions)}
-牌墙剩余: ${wallRemain}张
-
-分析是否要碰/杠/胡/过。考虑:
-1. 碰/杠后是否更接近听牌
-2. 碰了会暴露牌型吗
-3. 过了等更好的机会?
-
-返回JSON: {"action":"<hu|peng|gang|pass>","thinking":"<分析>","text":"<简短理由>"}`;
-
-  } else if (type === 'afterdraw') {
-    prompt = `你是一个川麻(血战到底)高手AI。你刚摸了一张牌。
-手牌: ${handStr}
-副露: ${meldStr || '无'}
-可选动作: ${JSON.stringify(availableActions)}
-牌墙剩余: ${wallRemain}张
-
-检查是否自摸/暗杠/加杠/过。
-
-返回JSON: {"action":"<hu|angang|jiagang|pass>","thinking":"<分析>","text":"<简短理由>"}`;
+    prompt = `川麻AI。手牌: ${handStr}。选择出牌序号(0-based)。返回JSON: {"action":"discard","tileIndex":<number>,"text":"<理由>"}`;
   }
 
   try {
@@ -64,28 +86,54 @@ async function analyzeWithLLM(gameState) {
       body: JSON.stringify({
         model: 'gpt-4o-mini',
         messages: [
-          { role: 'system', content: '你是川麻AI。始终返回有效JSON。简短分析，果断决策。' },
+          { role: 'system', content: '川麻AI。返回有效JSON。' },
           { role: 'user', content: prompt },
         ],
         temperature: 0.3,
-        max_tokens: 300,
+        max_tokens: 200,
       }),
     });
     const data = await res.json();
     const content = data.choices?.[0]?.message?.content || '';
-    // 提取 JSON
     const m = content.match(/\{[\s\S]*\}/);
-    if (m) return JSON.parse(m[0]);
-    return { action: 'pass', thinking: content, text: 'AI 分析中...' };
+    return m ? JSON.parse(m[0]) : null;
   } catch (e) {
     console.error('LLM error:', e.message);
-    return null; // 降级为 rule-based
+    return null;
   }
 }
 
+// ===== WebSocket =====
+function broadcast(lobbyId, msg) {
+  clients.forEach((client, ws) => {
+    if (client.lobbyId === lobbyId && ws.readyState === 1) {
+      ws.send(JSON.stringify(msg));
+    }
+  });
+}
+
+const wss = new WebSocketServer({ noServer: true });
+wss.on('connection', (ws, req) => {
+  const url = new URL(req.url, `http://${req.headers.host}`);
+  const lobbyId = parseInt(url.searchParams.get('lobbyId'));
+  const address = url.searchParams.get('address');
+
+  clients.set(ws, { lobbyId, address });
+  ws.send(JSON.stringify({ type: 'connected', lobbyId }));
+
+  ws.on('close', () => clients.delete(ws));
+});
+
+// ===== 合约事件监听 =====
+contract.on('GameStarted', (lobbyId, players) => {
+  console.log(`🎮 Game Started: Lobby #${lobbyId}`);
+  const game = initGame(Number(lobbyId), players);
+  broadcast(Number(lobbyId), { type: 'gameStart', game });
+  playerTurn(Number(lobbyId));
+});
+
 // ===== HTTP Server =====
 const server = http.createServer(async (req, res) => {
-  // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -99,7 +147,7 @@ const server = http.createServer(async (req, res) => {
         const state = JSON.parse(body);
         const decision = await analyzeWithLLM(state);
         res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify(decision || { action: 'pass', thinking: 'LLM 不可用', text: '降级模式' }));
+        res.end(JSON.stringify(decision || { action: 'pass' }));
       } catch (e) {
         res.writeHead(400, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: e.message }));
@@ -110,11 +158,19 @@ const server = http.createServer(async (req, res) => {
 
   if (req.method === 'GET' && req.url === '/api/health') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ status: 'ok', model: 'gpt-4o-mini', endpoint: '127.0.0.1:8402' }));
+    res.end(JSON.stringify({ status: 'ok', games: games.size }));
     return;
   }
 
   res.writeHead(404); res.end('Not Found');
 });
 
-server.listen(PORT, () => console.log(`🀄 Mahjong Agent Server on http://localhost:${PORT}`));
+server.on('upgrade', (req, socket, head) => {
+  if (req.url.startsWith('/ws')) {
+    wss.handleUpgrade(req, socket, head, (ws) => wss.emit('connection', ws, req));
+  } else {
+    socket.destroy();
+  }
+});
+
+server.listen(PORT, () => console.log(`🀄 Mahjong Server on :${PORT}`));

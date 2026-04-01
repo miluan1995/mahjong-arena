@@ -8,20 +8,23 @@ contract DeployMahjongArena is Script {
     function run() external {
         uint256 deployerKey = vm.envUint("PRIVATE_KEY");
         address deployer = vm.addr(deployerKey);
-        
+
         console.log("Deployer:", deployer);
         console.log("Balance:", deployer.balance);
-        
+
         vm.startBroadcast(deployerKey);
-        
-        // Oracle = deployer（测试阶段自己当 Oracle）
-        MahjongArena arena = new MahjongArena(deployer);
+
+        MahjongArena arena = new MahjongArena();
         console.log("MahjongArena deployed at:", address(arena));
-        
-        // 创建第一个锦标赛：0.01 BNB 报名，8 局，5% 平台费
-        uint256 id = arena.createTournament(0.01 ether, 8, 500);
-        console.log("Tournament #0 created");
-        
+
+        // 创建默认 Lobby: 0.01 BNB
+        arena.createGameLobby(0.01 ether);
+        console.log("Game Lobby #0 created (0.01 BNB)");
+
+        // 创建默认锦标赛: 0.1 BNB
+        arena.createTournament(0.1 ether);
+        console.log("Tournament #0 created (0.1 BNB)");
+
         vm.stopBroadcast();
     }
 }
