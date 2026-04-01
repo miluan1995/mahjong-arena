@@ -6,6 +6,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  margin: 0;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .home-bg {
@@ -66,7 +70,8 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 40px 24px;
+  padding: 40px 0;
+  box-sizing: border-box;
 }
 
 .modes {
@@ -74,7 +79,9 @@
   grid-template-columns: repeat(5, 1fr);
   gap: 20px;
   max-width: 1200px;
-  width: 100%;
+  width: calc(100% - 48px);
+  padding: 0 24px;
+  box-sizing: border-box;
 }
 
 .mode-card {
@@ -151,10 +158,11 @@
 
 /* AI Characters */
 .chars {
-  width: 100%;
+  width: calc(100% - 48px);
   max-width: 1200px;
   margin: 60px auto 40px;
   padding: 0 24px;
+  box-sizing: border-box;
 }
 
 .chars h2 {
@@ -221,10 +229,11 @@
 
 /* Docs */
 .home-docs {
-  width: 100%;
+  width: calc(100% - 48px);
   max-width: 1200px;
   margin: 60px auto 40px;
   padding: 0 24px;
+  box-sizing: border-box;
 }
 
 .home-docs h2 {
@@ -272,10 +281,11 @@
 
 /* Sections */
 .home-section {
-  width: 100%;
+  width: calc(100% - 48px);
   max-width: 1200px;
   margin: 60px auto 40px;
   padding: 0 24px;
+  box-sizing: border-box;
 }
 
 .home-section h2 {
