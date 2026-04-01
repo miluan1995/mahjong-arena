@@ -1,148 +1,106 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
+import { ethers } from 'ethers';
 import './AgentLobby.css';
 
 const CONTRACT = '0x80D1766492e1C98CFf56C1D1885549FF650657a5';
 const ABI = [
-  'function joinGameLobby(uint256 _lobbyId) payable',
-  'function getLobbyInfo(uint256) view returns (uint256 id, uint256 entryFee, uint8 playerCount, uint8 status, uint256 prizePool, address winner)',
-  'function getLobbyPlayers(uint256) view returns (address[4])',
   'function lobbyCount() view returns (uint256)',
+  'function getLobbyInfo(uint256) view returns (uint256 id, uint256 entryFee, uint8 playerCount, uint8 status, uint256 prizePool, address winner)',
+  'function joinGameLobby(uint256) payable',
 ];
 
-const short = (a) => a === '0x0000000000000000000000000000000000000000' ? null : `${a.slice(0, 6)}...${a.slice(-4)}`;
-const ts = () => new Date().toLocaleTimeString('zh-CN', { hour12: false });
-
 export default function AgentLobby({ onBack }) {
-  const [address, setAddress] = useState('');
-  const [tables, setTables] = useState([]);
-  const [logs, setLogs] = useState([`[${ts()}] 加载中...`]);
-  const [joiningId, setJoiningId] = useState(null);
+  const [account, setAccount] = useState(null);
+  const [lobbies, setLobbies] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const log = useCallback((msg) => setLogs((l) => [`[${ts()}] ${msg}`, ...l].slice(0, 50)), []);
+  useEffect(() => { fetchLobbies(); const iv = setInterval(fetchLobbies, 10000); return () => clearInterval(iv); }, []);
 
-  // 从合约加载牌桌
-  const loadTables = useCallback(async () => {
+  async function fetchLobbies() {
     try {
-      const { ethers } = await import('ethers');
       const p = new ethers.JsonRpcProvider('https://bsc-dataseed.binance.org');
       const c = new ethers.Contract(CONTRACT, ABI, p);
-      const count = Number(await c.lobbyCount());
-      const list = [];
-      for (let i = 0; i < count; i++) {
+      const count = await c.lobbyCount();
+      const arr = [];
+      for (let i = 0; i < Number(count); i++) {
         const info = await c.getLobbyInfo(i);
-        const players = await c.getLobbyPlayers(i);
-        list.push({
-          id: i,
-          fee: ethers.formatEther(info.entryFee),
-          playerCount: Number(info.playerCount),
-          status: Number(info.status), // 0=Open, 1=Active, 2=Settled
-          prizePool: ethers.formatEther(info.prizePool),
-          winner: info.winner,
-          players: [...players],
-        });
+        arr.push({ id: Number(info.id), fee: ethers.formatEther(info.entryFee), players: Number(info.playerCount), status: Number(info.status), prize: ethers.formatEther(info.prizePool) });
       }
-      setTables(list);
-      log(`✅ 加载 ${count} 个牌桌`);
-    } catch (e) {
-      log(`❌ 加载失败: ${e.message}`);
-    }
-    setLoading(false);
-  }, [log]);
+      setLobbies(arr);
+    } catch {} finally { setLoading(false); }
+  }
 
-  useEffect(() => { loadTables(); }, [loadTables]);
+  async function connect() {
+    if (!window.ethereum) return alert('请安装 MetaMask');
+    const p = new ethers.BrowserProvider(window.ethereum);
+    const accs = await p.send('eth_requestAccounts', []);
+    setAccount(accs[0]);
+  }
 
-  const connectWallet = async () => {
-    if (!window.ethereum) { log('❌ 请安装 MetaMask'); return; }
-    try {
-      const accs = await window.ethereum.request({ method: 'eth_requestAccounts' });
-      await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x38' }] }).catch(() => {});
-      setAddress(accs[0]);
-      log(`✅ 钱包已连接: ${short(accs[0])}`);
-    } catch { log('❌ 连接钱包失败'); }
-  };
+  async function joinLobby(id, fee) {
+    if (!account) return connect();
+    const p = new ethers.BrowserProvider(window.ethereum);
+    const s = await p.getSigner();
+    const c = new ethers.Contract(CONTRACT, ABI, s);
+    const tx = await c.joinGameLobby(id, { value: ethers.parseEther(fee) });
+    await tx.wait();
+    fetchLobbies();
+  }
 
-  const joinTable = async (tableId) => {
-    if (!address) { log('请先连接钱包'); return; }
-    setJoiningId(tableId);
-    log(`⏳ 正在加入牌桌 #${tableId}...`);
-    try {
-      const { ethers } = await import('ethers');
-      const p = new ethers.BrowserProvider(window.ethereum);
-      const s = await p.getSigner();
-      const c = new ethers.Contract(CONTRACT, ABI, s);
-      const info = await new ethers.Contract(CONTRACT, ABI, new ethers.JsonRpcProvider('https://bsc-dataseed.binance.org')).getLobbyInfo(tableId);
-      const tx = await c.joinGameLobby(tableId, { value: info.entryFee });
-      log(`📤 TX: ${tx.hash.slice(0, 14)}... 等待确认`);
-      await tx.wait();
-      log(`✅ 已加入牌桌 #${tableId}`);
-      await loadTables();
-    } catch (e) {
-      log(`❌ 加入失败: ${e.message?.slice(0, 60)}`);
-    }
-    setJoiningId(null);
-  };
-
-  const statusText = (s) => ['等待中', '游戏中', '已结算'][s] || '未知';
-  const isZero = (a) => a === '0x0000000000000000000000000000000000000000';
-  const canJoin = (t) => address && t.status === 0 && t.playerCount < 4 && !t.players.some(p => p.toLowerCase() === address.toLowerCase());
+  const statusLabel = (s) => ['等待中','进行中','已结束'][s] || '未知';
+  const statusColor = (s) => ['var(--accent-cyan)','var(--accent-gold)','var(--text-secondary)'][s] || '#888';
 
   return (
-    <div className="agent-lobby">
-      <div className="agent-header">
-        <button className="agent-back" onClick={onBack}>← 返回</button>
-        <h1>🀄 Agent 入局</h1>
-        <div className="agent-wallet">
-          {!address ? (
-            <button className="agent-connect" onClick={connectWallet}>🔗 连接钱包</button>
-          ) : (
-            <span className="agent-addr">{short(address)}</span>
-          )}
-        </div>
-      </div>
+    <div className="page lobby">
+      <header className="lobby-header">
+        <button className="back-btn" onClick={onBack}>← 返回</button>
+        <h1 className="lobby-title">🤖 Agent 入局大厅</h1>
+        {!account ? (
+          <button className="connect-btn" onClick={connect}>连接钱包</button>
+        ) : (
+          <div className="lobby-wallet mono">{account.slice(0,6)}...{account.slice(-4)}</div>
+        )}
+      </header>
 
-      <div className="agent-info">
-        <p>入场费: 0.01 BNB | 4人满自动开局 | 赢家通吃(95%) | 合约: <a href={`https://bscscan.com/address/${CONTRACT}`} target="_blank" rel="noreferrer" style={{color:'#00ffc8'}}>{CONTRACT.slice(0,10)}...</a></p>
-      </div>
-
-      <div className="agent-tables">
-        <h2>🎲 活跃牌桌 ({tables.length})</h2>
-        {loading ? <p style={{color:'#666'}}>加载中...</p> : tables.length === 0 ? (
-          <div className="agent-empty">暂无牌桌</div>
-        ) : tables.map((t) => (
-          <div className="agent-table-card" key={t.id}>
-            <div className="agent-table-header">
-              <span className="agent-table-id">牌桌 #{t.id}</span>
-              <span className="agent-table-status">{t.playerCount}/4 · {statusText(t.status)}</span>
-            </div>
-            <div className="agent-table-players">
-              {t.players.map((p, i) => !isZero(p) ? (
-                <div className="agent-player-badge" key={i}>
-                  <span className="agent-player-skill">Player {i + 1}</span>
-                  <span className="agent-player-addr">{short(p)}</span>
+      <div className="lobby-body">
+        {loading && <div className="lobby-loading">加载中...</div>}
+        {!loading && lobbies.length === 0 && <div className="lobby-empty glass">暂无可用大厅</div>}
+        <div className="lobby-grid">
+          {lobbies.map(l => (
+            <div key={l.id} className="lobby-card glass">
+              <div className="lobby-card-header">
+                <span className="lobby-id mono">#{l.id}</span>
+                <span className="lobby-status" style={{ color: statusColor(l.status) }}>{statusLabel(l.status)}</span>
+              </div>
+              <div className="lobby-card-body">
+                <div className="lobby-info">
+                  <div className="lobby-info-item">
+                    <span className="lobby-info-label">入场费</span>
+                    <span className="lobby-info-val mono">{l.fee} BNB</span>
+                  </div>
+                  <div className="lobby-info-item">
+                    <span className="lobby-info-label">玩家</span>
+                    <span className="lobby-info-val mono">{l.players}/4</span>
+                  </div>
+                  <div className="lobby-info-item">
+                    <span className="lobby-info-label">奖池</span>
+                    <span className="lobby-info-val mono">{l.prize} BNB</span>
+                  </div>
                 </div>
-              ) : (
-                <div className="agent-player-empty" key={i}>等待中...</div>
-              ))}
+                <div className="lobby-players-bar">
+                  {[0,1,2,3].map(i => (
+                    <div key={i} className={`lobby-slot ${i < l.players ? 'filled' : ''}`}>
+                      {i < l.players ? '🤖' : '?'}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {l.status === 0 && l.players < 4 && (
+                <button className="lobby-join-btn" onClick={() => joinLobby(l.id, l.fee)}>加入</button>
+              )}
             </div>
-            {canJoin(t) ? (
-              <button className="agent-join-btn" disabled={joiningId === t.id} onClick={() => joinTable(t.id)}>
-                {joiningId === t.id ? '⏳ 加入中...' : `加入牌桌 (${t.fee} BNB)`}
-              </button>
-            ) : t.status === 1 ? (
-              <div className="agent-table-full">🀄 游戏进行中</div>
-            ) : t.status === 2 ? (
-              <div className="agent-table-full">✅ 已结算 {!isZero(t.winner) && `| 赢家: ${short(t.winner)}`}</div>
-            ) : t.playerCount === 4 ? (
-              <div className="agent-table-full">已满员</div>
-            ) : null}
-          </div>
-        ))}
-      </div>
-
-      <div className="agent-log">
-        <h3>📋 操作日志</h3>
-        {logs.map((l, i) => <p key={i}>{l}</p>)}
+          ))}
+        </div>
       </div>
     </div>
   );
