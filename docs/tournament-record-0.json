@@ -1,0 +1,3532 @@
+{
+  "tournament": 0,
+  "agents": [
+    {
+      "name": "黑瞎子",
+      "emoji": "🐻",
+      "style": "aggressive"
+    },
+    {
+      "name": "铁柱",
+      "emoji": "🔨",
+      "style": "defensive"
+    },
+    {
+      "name": "算盘",
+      "emoji": "🧮",
+      "style": "calculative"
+    },
+    {
+      "name": "锦鲤",
+      "emoji": "🐟",
+      "style": "chaotic"
+    }
+  ],
+  "rounds": [
+    {
+      "round": 0,
+      "winners": [],
+      "scores": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "turns": 55,
+      "actionCount": 66,
+      "actions": [
+        {
+          "turn": 1,
+          "player": 0,
+          "action": "discard",
+          "tile": "一万"
+        },
+        {
+          "turn": 2,
+          "player": 1,
+          "action": "discard",
+          "tile": "二条"
+        },
+        {
+          "turn": 2,
+          "player": 3,
+          "action": "peng",
+          "tile": "二条"
+        },
+        {
+          "turn": 2,
+          "player": 3,
+          "action": "discard",
+          "tile": "八条"
+        },
+        {
+          "turn": 3,
+          "player": 3,
+          "action": "discard",
+          "tile": "九万"
+        },
+        {
+          "turn": 4,
+          "player": 0,
+          "action": "discard",
+          "tile": "一条"
+        },
+        {
+          "turn": 5,
+          "player": 1,
+          "action": "discard",
+          "tile": "二万"
+        },
+        {
+          "turn": 6,
+          "player": 2,
+          "action": "discard",
+          "tile": "一筒"
+        },
+        {
+          "turn": 6,
+          "player": 1,
+          "action": "peng",
+          "tile": "一筒"
+        },
+        {
+          "turn": 6,
+          "player": 1,
+          "action": "discard",
+          "tile": "四条"
+        },
+        {
+          "turn": 7,
+          "player": 1,
+          "action": "discard",
+          "tile": "六条"
+        },
+        {
+          "turn": 8,
+          "player": 2,
+          "action": "discard",
+          "tile": "七条"
+        },
+        {
+          "turn": 9,
+          "player": 3,
+          "action": "discard",
+          "tile": "九条"
+        },
+        {
+          "turn": 10,
+          "player": 0,
+          "action": "discard",
+          "tile": "六条"
+        },
+        {
+          "turn": 11,
+          "player": 1,
+          "action": "discard",
+          "tile": "八万"
+        },
+        {
+          "turn": 11,
+          "player": 2,
+          "action": "peng",
+          "tile": "八万"
+        },
+        {
+          "turn": 11,
+          "player": 2,
+          "action": "discard",
+          "tile": "一条"
+        },
+        {
+          "turn": 12,
+          "player": 2,
+          "action": "discard",
+          "tile": "五条"
+        },
+        {
+          "turn": 13,
+          "player": 3,
+          "action": "discard",
+          "tile": "九筒"
+        },
+        {
+          "turn": 14,
+          "player": 0,
+          "action": "discard",
+          "tile": "三条"
+        },
+        {
+          "turn": 15,
+          "player": 1,
+          "action": "discard",
+          "tile": "九万"
+        },
+        {
+          "turn": 16,
+          "player": 2,
+          "action": "discard",
+          "tile": "七条"
+        },
+        {
+          "turn": 17,
+          "player": 3,
+          "action": "discard",
+          "tile": "八筒"
+        },
+        {
+          "turn": 18,
+          "player": 0,
+          "action": "discard",
+          "tile": "三条"
+        },
+        {
+          "turn": 18,
+          "player": 2,
+          "action": "peng",
+          "tile": "三条"
+        },
+        {
+          "turn": 18,
+          "player": 2,
+          "action": "discard",
+          "tile": "三万"
+        },
+        {
+          "turn": 19,
+          "player": 2,
+          "action": "discard",
+          "tile": "三万"
+        },
+        {
+          "turn": 20,
+          "player": 3,
+          "action": "discard",
+          "tile": "九条"
+        },
+        {
+          "turn": 21,
+          "player": 0,
+          "action": "discard",
+          "tile": "四条"
+        },
+        {
+          "turn": 22,
+          "player": 1,
+          "action": "discard",
+          "tile": "一条"
+        },
+        {
+          "turn": 23,
+          "player": 2,
+          "action": "discard",
+          "tile": "五条"
+        },
+        {
+          "turn": 24,
+          "player": 3,
+          "action": "discard",
+          "tile": "七万"
+        },
+        {
+          "turn": 25,
+          "player": 0,
+          "action": "discard",
+          "tile": "一筒"
+        },
+        {
+          "turn": 26,
+          "player": 1,
+          "action": "discard",
+          "tile": "九万"
+        },
+        {
+          "turn": 27,
+          "player": 2,
+          "action": "discard",
+          "tile": "三筒"
+        },
+        {
+          "turn": 27,
+          "player": 1,
+          "action": "peng",
+          "tile": "三筒"
+        },
+        {
+          "turn": 27,
+          "player": 1,
+          "action": "discard",
+          "tile": "七条"
+        },
+        {
+          "turn": 28,
+          "player": 1,
+          "action": "discard",
+          "tile": "二筒"
+        },
+        {
+          "turn": 29,
+          "player": 2,
+          "action": "discard",
+          "tile": "七万"
+        },
+        {
+          "turn": 30,
+          "player": 3,
+          "action": "discard",
+          "tile": "八条"
+        },
+        {
+          "turn": 31,
+          "player": 0,
+          "action": "discard",
+          "tile": "二筒"
+        },
+        {
+          "turn": 32,
+          "player": 1,
+          "action": "discard",
+          "tile": "八万"
+        },
+        {
+          "turn": 33,
+          "player": 2,
+          "action": "discard",
+          "tile": "九筒"
+        },
+        {
+          "turn": 34,
+          "player": 3,
+          "action": "discard",
+          "tile": "八条"
+        },
+        {
+          "turn": 35,
+          "player": 0,
+          "action": "discard",
+          "tile": "二条"
+        },
+        {
+          "turn": 36,
+          "player": 1,
+          "action": "discard",
+          "tile": "五万"
+        },
+        {
+          "turn": 37,
+          "player": 2,
+          "action": "discard",
+          "tile": "九条"
+        },
+        {
+          "turn": 38,
+          "player": 3,
+          "action": "discard",
+          "tile": "七条"
+        },
+        {
+          "turn": 39,
+          "player": 0,
+          "action": "discard",
+          "tile": "一万"
+        },
+        {
+          "turn": 40,
+          "player": 1,
+          "action": "discard",
+          "tile": "五条"
+        },
+        {
+          "turn": 41,
+          "player": 2,
+          "action": "discard",
+          "tile": "五万"
+        },
+        {
+          "turn": 42,
+          "player": 3,
+          "action": "discard",
+          "tile": "九筒"
+        },
+        {
+          "turn": 43,
+          "player": 0,
+          "action": "discard",
+          "tile": "七万"
+        },
+        {
+          "turn": 44,
+          "player": 1,
+          "action": "discard",
+          "tile": "五条"
+        },
+        {
+          "turn": 45,
+          "player": 2,
+          "action": "discard",
+          "tile": "八条"
+        },
+        {
+          "turn": 46,
+          "player": 3,
+          "action": "discard",
+          "tile": "二万"
+        },
+        {
+          "turn": 47,
+          "player": 0,
+          "action": "discard",
+          "tile": "二万"
+        },
+        {
+          "turn": 48,
+          "player": 1,
+          "action": "discard",
+          "tile": "四万"
+        },
+        {
+          "turn": 48,
+          "player": 0,
+          "action": "gang",
+          "tile": "四万"
+        },
+        {
+          "turn": 49,
+          "player": 0,
+          "action": "discard",
+          "tile": "一条"
+        },
+        {
+          "turn": 50,
+          "player": 1,
+          "action": "discard",
+          "tile": "四条"
+        },
+        {
+          "turn": 51,
+          "player": 2,
+          "action": "discard",
+          "tile": "二筒"
+        },
+        {
+          "turn": 52,
+          "player": 3,
+          "action": "discard",
+          "tile": "三筒"
+        },
+        {
+          "turn": 53,
+          "player": 0,
+          "action": "discard",
+          "tile": "九万"
+        },
+        {
+          "turn": 54,
+          "player": 1,
+          "action": "discard",
+          "tile": "六条"
+        },
+        {
+          "turn": 55,
+          "player": 2,
+          "action": "discard",
+          "tile": "五万"
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "winners": [],
+      "scores": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "turns": 56,
+      "actionCount": 66,
+      "actions": [
+        {
+          "turn": 1,
+          "player": 0,
+          "action": "discard",
+          "tile": "六筒"
+        },
+        {
+          "turn": 2,
+          "player": 1,
+          "action": "discard",
+          "tile": "八万"
+        },
+        {
+          "turn": 3,
+          "player": 2,
+          "action": "discard",
+          "tile": "二万"
+        },
+        {
+          "turn": 4,
+          "player": 3,
+          "action": "discard",
+          "tile": "四万"
+        },
+        {
+          "turn": 5,
+          "player": 0,
+          "action": "discard",
+          "tile": "一筒"
+        },
+        {
+          "turn": 6,
+          "player": 1,
+          "action": "discard",
+          "tile": "一筒"
+        },
+        {
+          "turn": 7,
+          "player": 2,
+          "action": "discard",
+          "tile": "一万"
+        },
+        {
+          "turn": 8,
+          "player": 3,
+          "action": "discard",
+          "tile": "七万"
+        },
+        {
+          "turn": 9,
+          "player": 0,
+          "action": "discard",
+          "tile": "二筒"
+        },
+        {
+          "turn": 10,
+          "player": 1,
+          "action": "discard",
+          "tile": "三筒"
+        },
+        {
+          "turn": 11,
+          "player": 2,
+          "action": "discard",
+          "tile": "六万"
+        },
+        {
+          "turn": 12,
+          "player": 3,
+          "action": "discard",
+          "tile": "七万"
+        },
+        {
+          "turn": 13,
+          "player": 0,
+          "action": "discard",
+          "tile": "四筒"
+        },
+        {
+          "turn": 14,
+          "player": 1,
+          "action": "discard",
+          "tile": "四筒"
+        },
+        {
+          "turn": 15,
+          "player": 2,
+          "action": "discard",
+          "tile": "一条"
+        },
+        {
+          "turn": 16,
+          "player": 3,
+          "action": "discard",
+          "tile": "六筒"
+        },
+        {
+          "turn": 17,
+          "player": 0,
+          "action": "discard",
+          "tile": "九筒"
+        },
+        {
+          "turn": 18,
+          "player": 1,
+          "action": "discard",
+          "tile": "六万"
+        },
+        {
+          "turn": 19,
+          "player": 2,
+          "action": "discard",
+          "tile": "四条"
+        },
+        {
+          "turn": 20,
+          "player": 3,
+          "action": "discard",
+          "tile": "四万"
+        },
+        {
+          "turn": 21,
+          "player": 0,
+          "action": "discard",
+          "tile": "九万"
+        },
+        {
+          "turn": 21,
+          "player": 1,
+          "action": "peng",
+          "tile": "九万"
+        },
+        {
+          "turn": 21,
+          "player": 1,
+          "action": "discard",
+          "tile": "五万"
+        },
+        {
+          "turn": 22,
+          "player": 1,
+          "action": "discard",
+          "tile": "四万"
+        },
+        {
+          "turn": 23,
+          "player": 2,
+          "action": "discard",
+          "tile": "五万"
+        },
+        {
+          "turn": 24,
+          "player": 3,
+          "action": "discard",
+          "tile": "五筒"
+        },
+        {
+          "turn": 25,
+          "player": 0,
+          "action": "discard",
+          "tile": "七万"
+        },
+        {
+          "turn": 26,
+          "player": 1,
+          "action": "discard",
+          "tile": "一条"
+        },
+        {
+          "turn": 26,
+          "player": 0,
+          "action": "peng",
+          "tile": "一条"
+        },
+        {
+          "turn": 26,
+          "player": 0,
+          "action": "discard",
+          "tile": "五万"
+        },
+        {
+          "turn": 27,
+          "player": 0,
+          "action": "discard",
+          "tile": "八条"
+        },
+        {
+          "turn": 28,
+          "player": 1,
+          "action": "discard",
+          "tile": "三筒"
+        },
+        {
+          "turn": 29,
+          "player": 2,
+          "action": "discard",
+          "tile": "五条"
+        },
+        {
+          "turn": 30,
+          "player": 3,
+          "action": "discard",
+          "tile": "一万"
+        },
+        {
+          "turn": 31,
+          "player": 0,
+          "action": "discard",
+          "tile": "七条"
+        },
+        {
+          "turn": 32,
+          "player": 1,
+          "action": "discard",
+          "tile": "八万"
+        },
+        {
+          "turn": 33,
+          "player": 2,
+          "action": "discard",
+          "tile": "三万"
+        },
+        {
+          "turn": 34,
+          "player": 3,
+          "action": "discard",
+          "tile": "七条"
+        },
+        {
+          "turn": 35,
+          "player": 0,
+          "action": "discard",
+          "tile": "八条"
+        },
+        {
+          "turn": 36,
+          "player": 1,
+          "action": "discard",
+          "tile": "四筒"
+        },
+        {
+          "turn": 37,
+          "player": 2,
+          "action": "discard",
+          "tile": "七万"
+        },
+        {
+          "turn": 38,
+          "player": 3,
+          "action": "discard",
+          "tile": "二万"
+        },
+        {
+          "turn": 39,
+          "player": 0,
+          "action": "discard",
+          "tile": "九筒"
+        },
+        {
+          "turn": 40,
+          "player": 1,
+          "action": "discard",
+          "tile": "五万"
+        },
+        {
+          "turn": 41,
+          "player": 2,
+          "action": "discard",
+          "tile": "六万"
+        },
+        {
+          "turn": 42,
+          "player": 3,
+          "action": "discard",
+          "tile": "九筒"
+        },
+        {
+          "turn": 43,
+          "player": 0,
+          "action": "discard",
+          "tile": "九万"
+        },
+        {
+          "turn": 44,
+          "player": 1,
+          "action": "discard",
+          "tile": "二条"
+        },
+        {
+          "turn": 44,
+          "player": 0,
+          "action": "peng",
+          "tile": "二条"
+        },
+        {
+          "turn": 44,
+          "player": 0,
+          "action": "discard",
+          "tile": "六条"
+        },
+        {
+          "turn": 45,
+          "player": 0,
+          "action": "discard",
+          "tile": "三条"
+        },
+        {
+          "turn": 46,
+          "player": 1,
+          "action": "discard",
+          "tile": "三条"
+        },
+        {
+          "turn": 47,
+          "player": 2,
+          "action": "discard",
+          "tile": "五条"
+        },
+        {
+          "turn": 48,
+          "player": 3,
+          "action": "discard",
+          "tile": "七条"
+        },
+        {
+          "turn": 49,
+          "player": 0,
+          "action": "discard",
+          "tile": "六筒"
+        },
+        {
+          "turn": 50,
+          "player": 1,
+          "action": "discard",
+          "tile": "四条"
+        },
+        {
+          "turn": 50,
+          "player": 0,
+          "action": "peng",
+          "tile": "四条"
+        },
+        {
+          "turn": 50,
+          "player": 0,
+          "action": "discard",
+          "tile": "一万"
+        },
+        {
+          "turn": 51,
+          "player": 0,
+          "action": "discard",
+          "tile": "五筒"
+        },
+        {
+          "turn": 52,
+          "player": 1,
+          "action": "discard",
+          "tile": "五条"
+        },
+        {
+          "turn": 53,
+          "player": 2,
+          "action": "discard",
+          "tile": "六条"
+        },
+        {
+          "turn": 54,
+          "player": 3,
+          "action": "discard",
+          "tile": "一筒"
+        },
+        {
+          "turn": 55,
+          "player": 0,
+          "action": "discard",
+          "tile": "二筒"
+        },
+        {
+          "turn": 55,
+          "player": 2,
+          "action": "peng",
+          "tile": "二筒"
+        },
+        {
+          "turn": 55,
+          "player": 2,
+          "action": "discard",
+          "tile": "五筒"
+        },
+        {
+          "turn": 56,
+          "player": 2,
+          "action": "discard",
+          "tile": "六条"
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "winners": [
+        {
+          "player": 0,
+          "fan": 1,
+          "types": [
+            "根×1"
+          ],
+          "score": 2,
+          "winType": "点炮",
+          "from": 2
+        },
+        {
+          "player": 2,
+          "fan": 1,
+          "types": [],
+          "score": 2,
+          "winType": "点炮",
+          "from": 3
+        }
+      ],
+      "scores": [
+        2,
+        0,
+        2,
+        0
+      ],
+      "turns": 56,
+      "actionCount": 68,
+      "actions": [
+        {
+          "turn": 1,
+          "player": 0,
+          "action": "discard",
+          "tile": "二筒"
+        },
+        {
+          "turn": 2,
+          "player": 1,
+          "action": "discard",
+          "tile": "九条"
+        },
+        {
+          "turn": 3,
+          "player": 2,
+          "action": "discard",
+          "tile": "一万"
+        },
+        {
+          "turn": 4,
+          "player": 3,
+          "action": "discard",
+          "tile": "三筒"
+        },
+        {
+          "turn": 5,
+          "player": 0,
+          "action": "discard",
+          "tile": "八万"
+        },
+        {
+          "turn": 6,
+          "player": 1,
+          "action": "discard",
+          "tile": "三条"
+        },
+        {
+          "turn": 7,
+          "player": 2,
+          "action": "discard",
+          "tile": "八筒"
+        },
+        {
+          "turn": 8,
+          "player": 3,
+          "action": "discard",
+          "tile": "七万"
+        },
+        {
+          "turn": 9,
+          "player": 0,
+          "action": "discard",
+          "tile": "六筒"
+        },
+        {
+          "turn": 10,
+          "player": 1,
+          "action": "discard",
+          "tile": "五条"
+        },
+        {
+          "turn": 11,
+          "player": 2,
+          "action": "discard",
+          "tile": "一筒"
+        },
+        {
+          "turn": 12,
+          "player": 3,
+          "action": "discard",
+          "tile": "八万"
+        },
+        {
+          "turn": 12,
+          "player": 1,
+          "action": "peng",
+          "tile": "八万"
+        },
+        {
+          "turn": 12,
+          "player": 1,
+          "action": "discard",
+          "tile": "七万"
+        },
+        {
+          "turn": 13,
+          "player": 1,
+          "action": "discard",
+          "tile": "九万"
+        },
+        {
+          "turn": 14,
+          "player": 2,
+          "action": "discard",
+          "tile": "一万"
+        },
+        {
+          "turn": 15,
+          "player": 3,
+          "action": "discard",
+          "tile": "四万"
+        },
+        {
+          "turn": 16,
+          "player": 0,
+          "action": "discard",
+          "tile": "九万"
+        },
+        {
+          "turn": 17,
+          "player": 1,
+          "action": "discard",
+          "tile": "九条"
+        },
+        {
+          "turn": 18,
+          "player": 2,
+          "action": "discard",
+          "tile": "一筒"
+        },
+        {
+          "turn": 19,
+          "player": 3,
+          "action": "discard",
+          "tile": "三条"
+        },
+        {
+          "turn": 20,
+          "player": 0,
+          "action": "discard",
+          "tile": "一万"
+        },
+        {
+          "turn": 21,
+          "player": 1,
+          "action": "discard",
+          "tile": "七万"
+        },
+        {
+          "turn": 22,
+          "player": 2,
+          "action": "discard",
+          "tile": "一条"
+        },
+        {
+          "turn": 23,
+          "player": 3,
+          "action": "discard",
+          "tile": "六万"
+        },
+        {
+          "turn": 24,
+          "player": 0,
+          "action": "discard",
+          "tile": "三万"
+        },
+        {
+          "turn": 25,
+          "player": 1,
+          "action": "discard",
+          "tile": "一条"
+        },
+        {
+          "turn": 26,
+          "player": 2,
+          "action": "discard",
+          "tile": "二条"
+        },
+        {
+          "turn": 26,
+          "player": 0,
+          "action": "hu",
+          "tile": "二条",
+          "from": 2,
+          "fan": 1,
+          "types": "根×1",
+          "score": 2
+        },
+        {
+          "turn": 27,
+          "player": 2,
+          "action": "discard",
+          "tile": "三条"
+        },
+        {
+          "turn": 28,
+          "player": 3,
+          "action": "discard",
+          "tile": "四筒"
+        },
+        {
+          "turn": 28,
+          "player": 2,
+          "action": "peng",
+          "tile": "四筒"
+        },
+        {
+          "turn": 28,
+          "player": 2,
+          "action": "discard",
+          "tile": "四条"
+        },
+        {
+          "turn": 29,
+          "player": 2,
+          "action": "discard",
+          "tile": "九万"
+        },
+        {
+          "turn": 30,
+          "player": 3,
+          "action": "discard",
+          "tile": "五万"
+        },
+        {
+          "turn": 31,
+          "player": 1,
+          "action": "discard",
+          "tile": "三筒"
+        },
+        {
+          "turn": 31,
+          "player": 2,
+          "action": "peng",
+          "tile": "三筒"
+        },
+        {
+          "turn": 31,
+          "player": 2,
+          "action": "discard",
+          "tile": "二筒"
+        },
+        {
+          "turn": 32,
+          "player": 2,
+          "action": "discard",
+          "tile": "一万"
+        },
+        {
+          "turn": 33,
+          "player": 3,
+          "action": "discard",
+          "tile": "二万"
+        },
+        {
+          "turn": 34,
+          "player": 1,
+          "action": "discard",
+          "tile": "四筒"
+        },
+        {
+          "turn": 35,
+          "player": 2,
+          "action": "discard",
+          "tile": "八筒"
+        },
+        {
+          "turn": 35,
+          "player": 1,
+          "action": "peng",
+          "tile": "八筒"
+        },
+        {
+          "turn": 35,
+          "player": 1,
+          "action": "discard",
+          "tile": "八条"
+        },
+        {
+          "turn": 36,
+          "player": 1,
+          "action": "discard",
+          "tile": "五万"
+        },
+        {
+          "turn": 37,
+          "player": 2,
+          "action": "discard",
+          "tile": "九条"
+        },
+        {
+          "turn": 38,
+          "player": 3,
+          "action": "discard",
+          "tile": "五条"
+        },
+        {
+          "turn": 38,
+          "player": 2,
+          "action": "hu",
+          "tile": "五条",
+          "from": 3,
+          "fan": 1,
+          "types": "",
+          "score": 2
+        },
+        {
+          "turn": 39,
+          "player": 3,
+          "action": "discard",
+          "tile": "六万"
+        },
+        {
+          "turn": 40,
+          "player": 1,
+          "action": "discard",
+          "tile": "七万"
+        },
+        {
+          "turn": 41,
+          "player": 3,
+          "action": "discard",
+          "tile": "九筒"
+        },
+        {
+          "turn": 42,
+          "player": 1,
+          "action": "discard",
+          "tile": "八条"
+        },
+        {
+          "turn": 43,
+          "player": 3,
+          "action": "discard",
+          "tile": "六万"
+        },
+        {
+          "turn": 44,
+          "player": 1,
+          "action": "discard",
+          "tile": "三万"
+        },
+        {
+          "turn": 45,
+          "player": 3,
+          "action": "discard",
+          "tile": "四条"
+        },
+        {
+          "turn": 46,
+          "player": 1,
+          "action": "discard",
+          "tile": "一筒"
+        },
+        {
+          "turn": 47,
+          "player": 3,
+          "action": "discard",
+          "tile": "二筒"
+        },
+        {
+          "turn": 48,
+          "player": 1,
+          "action": "discard",
+          "tile": "七条"
+        },
+        {
+          "turn": 49,
+          "player": 3,
+          "action": "discard",
+          "tile": "七筒"
+        },
+        {
+          "turn": 49,
+          "player": 1,
+          "action": "peng",
+          "tile": "七筒"
+        },
+        {
+          "turn": 49,
+          "player": 1,
+          "action": "discard",
+          "tile": "七条"
+        },
+        {
+          "turn": 50,
+          "player": 1,
+          "action": "discard",
+          "tile": "二筒"
+        },
+        {
+          "turn": 51,
+          "player": 3,
+          "action": "discard",
+          "tile": "三万"
+        },
+        {
+          "turn": 52,
+          "player": 1,
+          "action": "discard",
+          "tile": "五万"
+        },
+        {
+          "turn": 53,
+          "player": 3,
+          "action": "discard",
+          "tile": "一筒"
+        },
+        {
+          "turn": 54,
+          "player": 1,
+          "action": "discard",
+          "tile": "三万"
+        },
+        {
+          "turn": 55,
+          "player": 3,
+          "action": "discard",
+          "tile": "六筒"
+        },
+        {
+          "turn": 56,
+          "player": 1,
+          "action": "discard",
+          "tile": "五筒"
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "winners": [],
+      "scores": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "turns": 56,
+      "actionCount": 76,
+      "actions": [
+        {
+          "turn": 1,
+          "player": 0,
+          "action": "discard",
+          "tile": "一条"
+        },
+        {
+          "turn": 2,
+          "player": 1,
+          "action": "discard",
+          "tile": "五条"
+        },
+        {
+          "turn": 3,
+          "player": 2,
+          "action": "discard",
+          "tile": "三条"
+        },
+        {
+          "turn": 4,
+          "player": 3,
+          "action": "discard",
+          "tile": "九万"
+        },
+        {
+          "turn": 5,
+          "player": 0,
+          "action": "discard",
+          "tile": "二筒"
+        },
+        {
+          "turn": 6,
+          "player": 1,
+          "action": "discard",
+          "tile": "八筒"
+        },
+        {
+          "turn": 7,
+          "player": 2,
+          "action": "discard",
+          "tile": "七条"
+        },
+        {
+          "turn": 8,
+          "player": 3,
+          "action": "discard",
+          "tile": "三万"
+        },
+        {
+          "turn": 8,
+          "player": 2,
+          "action": "peng",
+          "tile": "三万"
+        },
+        {
+          "turn": 8,
+          "player": 2,
+          "action": "discard",
+          "tile": "八条"
+        },
+        {
+          "turn": 9,
+          "player": 2,
+          "action": "discard",
+          "tile": "一条"
+        },
+        {
+          "turn": 10,
+          "player": 3,
+          "action": "discard",
+          "tile": "三筒"
+        },
+        {
+          "turn": 10,
+          "player": 1,
+          "action": "peng",
+          "tile": "三筒"
+        },
+        {
+          "turn": 10,
+          "player": 1,
+          "action": "discard",
+          "tile": "五筒"
+        },
+        {
+          "turn": 11,
+          "player": 1,
+          "action": "discard",
+          "tile": "七条"
+        },
+        {
+          "turn": 12,
+          "player": 2,
+          "action": "discard",
+          "tile": "二条"
+        },
+        {
+          "turn": 13,
+          "player": 3,
+          "action": "discard",
+          "tile": "九条"
+        },
+        {
+          "turn": 13,
+          "player": 1,
+          "action": "peng",
+          "tile": "九条"
+        },
+        {
+          "turn": 13,
+          "player": 1,
+          "action": "discard",
+          "tile": "一万"
+        },
+        {
+          "turn": 14,
+          "player": 1,
+          "action": "discard",
+          "tile": "四筒"
+        },
+        {
+          "turn": 15,
+          "player": 2,
+          "action": "discard",
+          "tile": "四万"
+        },
+        {
+          "turn": 16,
+          "player": 3,
+          "action": "discard",
+          "tile": "八条"
+        },
+        {
+          "turn": 17,
+          "player": 0,
+          "action": "discard",
+          "tile": "七万"
+        },
+        {
+          "turn": 18,
+          "player": 1,
+          "action": "discard",
+          "tile": "九条"
+        },
+        {
+          "turn": 19,
+          "player": 2,
+          "action": "discard",
+          "tile": "七条"
+        },
+        {
+          "turn": 20,
+          "player": 3,
+          "action": "discard",
+          "tile": "四条"
+        },
+        {
+          "turn": 20,
+          "player": 0,
+          "action": "peng",
+          "tile": "四条"
+        },
+        {
+          "turn": 20,
+          "player": 0,
+          "action": "discard",
+          "tile": "九万"
+        },
+        {
+          "turn": 21,
+          "player": 0,
+          "action": "discard",
+          "tile": "三条"
+        },
+        {
+          "turn": 22,
+          "player": 1,
+          "action": "discard",
+          "tile": "九万"
+        },
+        {
+          "turn": 23,
+          "player": 2,
+          "action": "discard",
+          "tile": "九筒"
+        },
+        {
+          "turn": 23,
+          "player": 3,
+          "action": "peng",
+          "tile": "九筒"
+        },
+        {
+          "turn": 23,
+          "player": 3,
+          "action": "discard",
+          "tile": "二万"
+        },
+        {
+          "turn": 24,
+          "player": 3,
+          "action": "discard",
+          "tile": "八万"
+        },
+        {
+          "turn": 24,
+          "player": 2,
+          "action": "peng",
+          "tile": "八万"
+        },
+        {
+          "turn": 24,
+          "player": 2,
+          "action": "discard",
+          "tile": "九万"
+        },
+        {
+          "turn": 25,
+          "player": 2,
+          "action": "discard",
+          "tile": "二筒"
+        },
+        {
+          "turn": 25,
+          "player": 3,
+          "action": "peng",
+          "tile": "二筒"
+        },
+        {
+          "turn": 25,
+          "player": 3,
+          "action": "discard",
+          "tile": "六万"
+        },
+        {
+          "turn": 26,
+          "player": 3,
+          "action": "discard",
+          "tile": "一筒"
+        },
+        {
+          "turn": 27,
+          "player": 0,
+          "action": "discard",
+          "tile": "一筒"
+        },
+        {
+          "turn": 28,
+          "player": 1,
+          "action": "discard",
+          "tile": "二条"
+        },
+        {
+          "turn": 29,
+          "player": 2,
+          "action": "discard",
+          "tile": "一筒"
+        },
+        {
+          "turn": 30,
+          "player": 3,
+          "action": "discard",
+          "tile": "三条"
+        },
+        {
+          "turn": 31,
+          "player": 0,
+          "action": "discard",
+          "tile": "一条"
+        },
+        {
+          "turn": 32,
+          "player": 1,
+          "action": "discard",
+          "tile": "二条"
+        },
+        {
+          "turn": 33,
+          "player": 2,
+          "action": "discard",
+          "tile": "八万"
+        },
+        {
+          "turn": 34,
+          "player": 3,
+          "action": "discard",
+          "tile": "五筒"
+        },
+        {
+          "turn": 35,
+          "player": 0,
+          "action": "discard",
+          "tile": "九筒"
+        },
+        {
+          "turn": 36,
+          "player": 1,
+          "action": "discard",
+          "tile": "一筒"
+        },
+        {
+          "turn": 37,
+          "player": 2,
+          "action": "discard",
+          "tile": "八筒"
+        },
+        {
+          "turn": 38,
+          "player": 3,
+          "action": "discard",
+          "tile": "六条"
+        },
+        {
+          "turn": 39,
+          "player": 0,
+          "action": "discard",
+          "tile": "八条"
+        },
+        {
+          "turn": 40,
+          "player": 1,
+          "action": "discard",
+          "tile": "三筒"
+        },
+        {
+          "turn": 41,
+          "player": 2,
+          "action": "discard",
+          "tile": "七筒"
+        },
+        {
+          "turn": 41,
+          "player": 0,
+          "action": "peng",
+          "tile": "七筒"
+        },
+        {
+          "turn": 41,
+          "player": 0,
+          "action": "discard",
+          "tile": "七条"
+        },
+        {
+          "turn": 42,
+          "player": 0,
+          "action": "discard",
+          "tile": "五万"
+        },
+        {
+          "turn": 42,
+          "player": 2,
+          "action": "peng",
+          "tile": "五万"
+        },
+        {
+          "turn": 42,
+          "player": 2,
+          "action": "discard",
+          "tile": "七万"
+        },
+        {
+          "turn": 43,
+          "player": 2,
+          "action": "discard",
+          "tile": "二万"
+        },
+        {
+          "turn": 43,
+          "player": 1,
+          "action": "peng",
+          "tile": "二万"
+        },
+        {
+          "turn": 43,
+          "player": 1,
+          "action": "discard",
+          "tile": "四万"
+        },
+        {
+          "turn": 44,
+          "player": 1,
+          "action": "discard",
+          "tile": "五筒"
+        },
+        {
+          "turn": 45,
+          "player": 2,
+          "action": "discard",
+          "tile": "四条"
+        },
+        {
+          "turn": 46,
+          "player": 3,
+          "action": "discard",
+          "tile": "四万"
+        },
+        {
+          "turn": 47,
+          "player": 0,
+          "action": "discard",
+          "tile": "一条"
+        },
+        {
+          "turn": 48,
+          "player": 1,
+          "action": "discard",
+          "tile": "六条"
+        },
+        {
+          "turn": 49,
+          "player": 2,
+          "action": "discard",
+          "tile": "六万"
+        },
+        {
+          "turn": 50,
+          "player": 3,
+          "action": "discard",
+          "tile": "四万"
+        },
+        {
+          "turn": 51,
+          "player": 0,
+          "action": "discard",
+          "tile": "四筒"
+        },
+        {
+          "turn": 52,
+          "player": 1,
+          "action": "discard",
+          "tile": "七筒"
+        },
+        {
+          "turn": 53,
+          "player": 2,
+          "action": "discard",
+          "tile": "三万"
+        },
+        {
+          "turn": 54,
+          "player": 3,
+          "action": "discard",
+          "tile": "三条"
+        },
+        {
+          "turn": 55,
+          "player": 0,
+          "action": "discard",
+          "tile": "一万"
+        },
+        {
+          "turn": 56,
+          "player": 1,
+          "action": "discard",
+          "tile": "四筒"
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "winners": [],
+      "scores": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "turns": 53,
+      "actionCount": 68,
+      "actions": [
+        {
+          "turn": 1,
+          "player": 0,
+          "action": "discard",
+          "tile": "六万"
+        },
+        {
+          "turn": 2,
+          "player": 1,
+          "action": "discard",
+          "tile": "三条"
+        },
+        {
+          "turn": 3,
+          "player": 2,
+          "action": "discard",
+          "tile": "二万"
+        },
+        {
+          "turn": 4,
+          "player": 3,
+          "action": "discard",
+          "tile": "八筒"
+        },
+        {
+          "turn": 5,
+          "player": 0,
+          "action": "discard",
+          "tile": "一筒"
+        },
+        {
+          "turn": 6,
+          "player": 1,
+          "action": "discard",
+          "tile": "二条"
+        },
+        {
+          "turn": 7,
+          "player": 2,
+          "action": "discard",
+          "tile": "四万"
+        },
+        {
+          "turn": 8,
+          "player": 3,
+          "action": "discard",
+          "tile": "一万"
+        },
+        {
+          "turn": 8,
+          "player": 0,
+          "action": "gang",
+          "tile": "一万"
+        },
+        {
+          "turn": 9,
+          "player": 0,
+          "action": "discard",
+          "tile": "七万"
+        },
+        {
+          "turn": 10,
+          "player": 1,
+          "action": "discard",
+          "tile": "四筒"
+        },
+        {
+          "turn": 11,
+          "player": 2,
+          "action": "discard",
+          "tile": "五万"
+        },
+        {
+          "turn": 11,
+          "player": 3,
+          "action": "peng",
+          "tile": "五万"
+        },
+        {
+          "turn": 11,
+          "player": 3,
+          "action": "discard",
+          "tile": "五条"
+        },
+        {
+          "turn": 12,
+          "player": 3,
+          "action": "discard",
+          "tile": "六万"
+        },
+        {
+          "turn": 13,
+          "player": 0,
+          "action": "discard",
+          "tile": "六万"
+        },
+        {
+          "turn": 14,
+          "player": 1,
+          "action": "discard",
+          "tile": "一筒"
+        },
+        {
+          "turn": 15,
+          "player": 2,
+          "action": "discard",
+          "tile": "七万"
+        },
+        {
+          "turn": 16,
+          "player": 3,
+          "action": "discard",
+          "tile": "八筒"
+        },
+        {
+          "turn": 17,
+          "player": 0,
+          "action": "discard",
+          "tile": "三筒"
+        },
+        {
+          "turn": 18,
+          "player": 1,
+          "action": "discard",
+          "tile": "六万"
+        },
+        {
+          "turn": 19,
+          "player": 2,
+          "action": "discard",
+          "tile": "八万"
+        },
+        {
+          "turn": 20,
+          "player": 3,
+          "action": "discard",
+          "tile": "一条"
+        },
+        {
+          "turn": 20,
+          "player": 0,
+          "action": "gang",
+          "tile": "一条"
+        },
+        {
+          "turn": 21,
+          "player": 0,
+          "action": "discard",
+          "tile": "二条"
+        },
+        {
+          "turn": 22,
+          "player": 1,
+          "action": "discard",
+          "tile": "九筒"
+        },
+        {
+          "turn": 23,
+          "player": 2,
+          "action": "discard",
+          "tile": "二万"
+        },
+        {
+          "turn": 24,
+          "player": 3,
+          "action": "discard",
+          "tile": "七筒"
+        },
+        {
+          "turn": 24,
+          "player": 1,
+          "action": "peng",
+          "tile": "七筒"
+        },
+        {
+          "turn": 24,
+          "player": 1,
+          "action": "discard",
+          "tile": "八筒"
+        },
+        {
+          "turn": 25,
+          "player": 1,
+          "action": "discard",
+          "tile": "三条"
+        },
+        {
+          "turn": 26,
+          "player": 2,
+          "action": "discard",
+          "tile": "九万"
+        },
+        {
+          "turn": 26,
+          "player": 1,
+          "action": "peng",
+          "tile": "九万"
+        },
+        {
+          "turn": 26,
+          "player": 1,
+          "action": "discard",
+          "tile": "八万"
+        },
+        {
+          "turn": 27,
+          "player": 1,
+          "action": "discard",
+          "tile": "二条"
+        },
+        {
+          "turn": 28,
+          "player": 2,
+          "action": "discard",
+          "tile": "九筒"
+        },
+        {
+          "turn": 29,
+          "player": 3,
+          "action": "discard",
+          "tile": "五筒"
+        },
+        {
+          "turn": 29,
+          "player": 2,
+          "action": "peng",
+          "tile": "五筒"
+        },
+        {
+          "turn": 29,
+          "player": 2,
+          "action": "discard",
+          "tile": "六筒"
+        },
+        {
+          "turn": 30,
+          "player": 2,
+          "action": "discard",
+          "tile": "七万"
+        },
+        {
+          "turn": 31,
+          "player": 3,
+          "action": "discard",
+          "tile": "四万"
+        },
+        {
+          "turn": 32,
+          "player": 0,
+          "action": "discard",
+          "tile": "七万"
+        },
+        {
+          "turn": 33,
+          "player": 1,
+          "action": "discard",
+          "tile": "五条"
+        },
+        {
+          "turn": 33,
+          "player": 0,
+          "action": "peng",
+          "tile": "五条"
+        },
+        {
+          "turn": 33,
+          "player": 0,
+          "action": "discard",
+          "tile": "三条"
+        },
+        {
+          "turn": 34,
+          "player": 0,
+          "action": "discard",
+          "tile": "四条"
+        },
+        {
+          "turn": 35,
+          "player": 1,
+          "action": "discard",
+          "tile": "六条"
+        },
+        {
+          "turn": 36,
+          "player": 2,
+          "action": "discard",
+          "tile": "六条"
+        },
+        {
+          "turn": 37,
+          "player": 3,
+          "action": "discard",
+          "tile": "五万"
+        },
+        {
+          "turn": 38,
+          "player": 0,
+          "action": "discard",
+          "tile": "四万"
+        },
+        {
+          "turn": 39,
+          "player": 1,
+          "action": "discard",
+          "tile": "九万"
+        },
+        {
+          "turn": 40,
+          "player": 2,
+          "action": "discard",
+          "tile": "七条"
+        },
+        {
+          "turn": 41,
+          "player": 3,
+          "action": "discard",
+          "tile": "四条"
+        },
+        {
+          "turn": 42,
+          "player": 0,
+          "action": "discard",
+          "tile": "五筒"
+        },
+        {
+          "turn": 43,
+          "player": 1,
+          "action": "discard",
+          "tile": "二条"
+        },
+        {
+          "turn": 44,
+          "player": 2,
+          "action": "discard",
+          "tile": "四条"
+        },
+        {
+          "turn": 45,
+          "player": 3,
+          "action": "discard",
+          "tile": "九筒"
+        },
+        {
+          "turn": 46,
+          "player": 0,
+          "action": "discard",
+          "tile": "八万"
+        },
+        {
+          "turn": 47,
+          "player": 1,
+          "action": "discard",
+          "tile": "三筒"
+        },
+        {
+          "turn": 48,
+          "player": 2,
+          "action": "discard",
+          "tile": "三条"
+        },
+        {
+          "turn": 49,
+          "player": 3,
+          "action": "discard",
+          "tile": "二筒"
+        },
+        {
+          "turn": 49,
+          "player": 2,
+          "action": "gang",
+          "tile": "二筒"
+        },
+        {
+          "turn": 50,
+          "player": 2,
+          "action": "discard",
+          "tile": "三万"
+        },
+        {
+          "turn": 50,
+          "player": 1,
+          "action": "peng",
+          "tile": "三万"
+        },
+        {
+          "turn": 50,
+          "player": 1,
+          "action": "discard",
+          "tile": "二万"
+        },
+        {
+          "turn": 51,
+          "player": 1,
+          "action": "discard",
+          "tile": "八万"
+        },
+        {
+          "turn": 52,
+          "player": 2,
+          "action": "discard",
+          "tile": "一筒"
+        },
+        {
+          "turn": 53,
+          "player": 3,
+          "action": "discard",
+          "tile": "四条"
+        }
+      ]
+    },
+    {
+      "round": 5,
+      "winners": [
+        {
+          "player": 2,
+          "fan": 1,
+          "types": [],
+          "score": 2,
+          "winType": "点炮",
+          "from": 1
+        }
+      ],
+      "scores": [
+        0,
+        0,
+        2,
+        0
+      ],
+      "turns": 56,
+      "actionCount": 67,
+      "actions": [
+        {
+          "turn": 1,
+          "player": 0,
+          "action": "discard",
+          "tile": "七万"
+        },
+        {
+          "turn": 2,
+          "player": 1,
+          "action": "discard",
+          "tile": "九万"
+        },
+        {
+          "turn": 3,
+          "player": 2,
+          "action": "discard",
+          "tile": "四条"
+        },
+        {
+          "turn": 4,
+          "player": 3,
+          "action": "discard",
+          "tile": "五筒"
+        },
+        {
+          "turn": 5,
+          "player": 0,
+          "action": "discard",
+          "tile": "五万"
+        },
+        {
+          "turn": 6,
+          "player": 1,
+          "action": "discard",
+          "tile": "六万"
+        },
+        {
+          "turn": 7,
+          "player": 2,
+          "action": "discard",
+          "tile": "一万"
+        },
+        {
+          "turn": 7,
+          "player": 1,
+          "action": "peng",
+          "tile": "一万"
+        },
+        {
+          "turn": 7,
+          "player": 1,
+          "action": "discard",
+          "tile": "一条"
+        },
+        {
+          "turn": 8,
+          "player": 1,
+          "action": "discard",
+          "tile": "八万"
+        },
+        {
+          "turn": 9,
+          "player": 2,
+          "action": "discard",
+          "tile": "三万"
+        },
+        {
+          "turn": 10,
+          "player": 3,
+          "action": "discard",
+          "tile": "八条"
+        },
+        {
+          "turn": 11,
+          "player": 0,
+          "action": "discard",
+          "tile": "七万"
+        },
+        {
+          "turn": 11,
+          "player": 2,
+          "action": "peng",
+          "tile": "七万"
+        },
+        {
+          "turn": 11,
+          "player": 2,
+          "action": "discard",
+          "tile": "四万"
+        },
+        {
+          "turn": 12,
+          "player": 2,
+          "action": "discard",
+          "tile": "八万"
+        },
+        {
+          "turn": 13,
+          "player": 3,
+          "action": "discard",
+          "tile": "八筒"
+        },
+        {
+          "turn": 14,
+          "player": 0,
+          "action": "discard",
+          "tile": "九条"
+        },
+        {
+          "turn": 15,
+          "player": 1,
+          "action": "discard",
+          "tile": "六万"
+        },
+        {
+          "turn": 16,
+          "player": 2,
+          "action": "discard",
+          "tile": "三万"
+        },
+        {
+          "turn": 17,
+          "player": 3,
+          "action": "discard",
+          "tile": "二条"
+        },
+        {
+          "turn": 18,
+          "player": 0,
+          "action": "discard",
+          "tile": "一筒"
+        },
+        {
+          "turn": 19,
+          "player": 1,
+          "action": "discard",
+          "tile": "一筒"
+        },
+        {
+          "turn": 20,
+          "player": 2,
+          "action": "discard",
+          "tile": "四条"
+        },
+        {
+          "turn": 21,
+          "player": 3,
+          "action": "discard",
+          "tile": "六条"
+        },
+        {
+          "turn": 22,
+          "player": 0,
+          "action": "discard",
+          "tile": "九条"
+        },
+        {
+          "turn": 23,
+          "player": 1,
+          "action": "discard",
+          "tile": "二筒"
+        },
+        {
+          "turn": 24,
+          "player": 2,
+          "action": "discard",
+          "tile": "六筒"
+        },
+        {
+          "turn": 25,
+          "player": 3,
+          "action": "discard",
+          "tile": "六条"
+        },
+        {
+          "turn": 26,
+          "player": 0,
+          "action": "discard",
+          "tile": "六万"
+        },
+        {
+          "turn": 27,
+          "player": 1,
+          "action": "discard",
+          "tile": "五筒"
+        },
+        {
+          "turn": 27,
+          "player": 3,
+          "action": "peng",
+          "tile": "五筒"
+        },
+        {
+          "turn": 27,
+          "player": 3,
+          "action": "discard",
+          "tile": "九万"
+        },
+        {
+          "turn": 28,
+          "player": 3,
+          "action": "discard",
+          "tile": "九筒"
+        },
+        {
+          "turn": 28,
+          "player": 2,
+          "action": "peng",
+          "tile": "九筒"
+        },
+        {
+          "turn": 28,
+          "player": 2,
+          "action": "discard",
+          "tile": "八筒"
+        },
+        {
+          "turn": 29,
+          "player": 2,
+          "action": "discard",
+          "tile": "一筒"
+        },
+        {
+          "turn": 30,
+          "player": 3,
+          "action": "discard",
+          "tile": "五万"
+        },
+        {
+          "turn": 31,
+          "player": 0,
+          "action": "discard",
+          "tile": "三筒"
+        },
+        {
+          "turn": 32,
+          "player": 1,
+          "action": "discard",
+          "tile": "九条"
+        },
+        {
+          "turn": 32,
+          "player": 2,
+          "action": "hu",
+          "tile": "九条",
+          "from": 1,
+          "fan": 1,
+          "types": "",
+          "score": 2
+        },
+        {
+          "turn": 33,
+          "player": 1,
+          "action": "discard",
+          "tile": "八筒"
+        },
+        {
+          "turn": 34,
+          "player": 3,
+          "action": "discard",
+          "tile": "二万"
+        },
+        {
+          "turn": 35,
+          "player": 0,
+          "action": "discard",
+          "tile": "二筒"
+        },
+        {
+          "turn": 36,
+          "player": 1,
+          "action": "discard",
+          "tile": "四万"
+        },
+        {
+          "turn": 37,
+          "player": 3,
+          "action": "discard",
+          "tile": "三条"
+        },
+        {
+          "turn": 38,
+          "player": 0,
+          "action": "discard",
+          "tile": "八万"
+        },
+        {
+          "turn": 39,
+          "player": 1,
+          "action": "discard",
+          "tile": "四万"
+        },
+        {
+          "turn": 40,
+          "player": 3,
+          "action": "discard",
+          "tile": "三条"
+        },
+        {
+          "turn": 41,
+          "player": 0,
+          "action": "discard",
+          "tile": "四筒"
+        },
+        {
+          "turn": 42,
+          "player": 1,
+          "action": "discard",
+          "tile": "三万"
+        },
+        {
+          "turn": 43,
+          "player": 3,
+          "action": "discard",
+          "tile": "九条"
+        },
+        {
+          "turn": 44,
+          "player": 0,
+          "action": "discard",
+          "tile": "四筒"
+        },
+        {
+          "turn": 45,
+          "player": 1,
+          "action": "discard",
+          "tile": "四万"
+        },
+        {
+          "turn": 46,
+          "player": 3,
+          "action": "discard",
+          "tile": "三条"
+        },
+        {
+          "turn": 47,
+          "player": 0,
+          "action": "discard",
+          "tile": "四筒"
+        },
+        {
+          "turn": 48,
+          "player": 1,
+          "action": "discard",
+          "tile": "九万"
+        },
+        {
+          "turn": 49,
+          "player": 3,
+          "action": "discard",
+          "tile": "三万"
+        },
+        {
+          "turn": 50,
+          "player": 0,
+          "action": "discard",
+          "tile": "六条"
+        },
+        {
+          "turn": 51,
+          "player": 1,
+          "action": "discard",
+          "tile": "一条"
+        },
+        {
+          "turn": 51,
+          "player": 0,
+          "action": "peng",
+          "tile": "一条"
+        },
+        {
+          "turn": 51,
+          "player": 0,
+          "action": "discard",
+          "tile": "二条"
+        },
+        {
+          "turn": 52,
+          "player": 0,
+          "action": "discard",
+          "tile": "二条"
+        },
+        {
+          "turn": 53,
+          "player": 1,
+          "action": "discard",
+          "tile": "三筒"
+        },
+        {
+          "turn": 54,
+          "player": 3,
+          "action": "discard",
+          "tile": "三筒"
+        },
+        {
+          "turn": 55,
+          "player": 0,
+          "action": "discard",
+          "tile": "五万"
+        },
+        {
+          "turn": 56,
+          "player": 1,
+          "action": "discard",
+          "tile": "四条"
+        }
+      ]
+    },
+    {
+      "round": 6,
+      "winners": [
+        {
+          "player": 0,
+          "fan": 1,
+          "types": [],
+          "score": 2,
+          "winType": "点炮",
+          "from": 1
+        }
+      ],
+      "scores": [
+        2,
+        0,
+        0,
+        0
+      ],
+      "turns": 55,
+      "actionCount": 69,
+      "actions": [
+        {
+          "turn": 1,
+          "player": 0,
+          "action": "discard",
+          "tile": "四条"
+        },
+        {
+          "turn": 2,
+          "player": 1,
+          "action": "discard",
+          "tile": "五万"
+        },
+        {
+          "turn": 2,
+          "player": 3,
+          "action": "peng",
+          "tile": "五万"
+        },
+        {
+          "turn": 2,
+          "player": 3,
+          "action": "discard",
+          "tile": "三万"
+        },
+        {
+          "turn": 3,
+          "player": 3,
+          "action": "discard",
+          "tile": "九条"
+        },
+        {
+          "turn": 4,
+          "player": 0,
+          "action": "discard",
+          "tile": "九万"
+        },
+        {
+          "turn": 5,
+          "player": 1,
+          "action": "discard",
+          "tile": "八条"
+        },
+        {
+          "turn": 6,
+          "player": 2,
+          "action": "discard",
+          "tile": "二万"
+        },
+        {
+          "turn": 7,
+          "player": 3,
+          "action": "discard",
+          "tile": "六万"
+        },
+        {
+          "turn": 8,
+          "player": 0,
+          "action": "discard",
+          "tile": "三筒"
+        },
+        {
+          "turn": 9,
+          "player": 1,
+          "action": "discard",
+          "tile": "四万"
+        },
+        {
+          "turn": 9,
+          "player": 3,
+          "action": "peng",
+          "tile": "四万"
+        },
+        {
+          "turn": 9,
+          "player": 3,
+          "action": "discard",
+          "tile": "八筒"
+        },
+        {
+          "turn": 10,
+          "player": 3,
+          "action": "discard",
+          "tile": "八筒"
+        },
+        {
+          "turn": 11,
+          "player": 0,
+          "action": "discard",
+          "tile": "六万"
+        },
+        {
+          "turn": 12,
+          "player": 1,
+          "action": "discard",
+          "tile": "六万"
+        },
+        {
+          "turn": 13,
+          "player": 2,
+          "action": "discard",
+          "tile": "六万"
+        },
+        {
+          "turn": 14,
+          "player": 3,
+          "action": "discard",
+          "tile": "五条"
+        },
+        {
+          "turn": 14,
+          "player": 2,
+          "action": "peng",
+          "tile": "五条"
+        },
+        {
+          "turn": 14,
+          "player": 2,
+          "action": "discard",
+          "tile": "一条"
+        },
+        {
+          "turn": 15,
+          "player": 2,
+          "action": "discard",
+          "tile": "四筒"
+        },
+        {
+          "turn": 16,
+          "player": 3,
+          "action": "discard",
+          "tile": "九万"
+        },
+        {
+          "turn": 17,
+          "player": 0,
+          "action": "discard",
+          "tile": "四条"
+        },
+        {
+          "turn": 18,
+          "player": 1,
+          "action": "discard",
+          "tile": "五条"
+        },
+        {
+          "turn": 19,
+          "player": 2,
+          "action": "discard",
+          "tile": "九条"
+        },
+        {
+          "turn": 20,
+          "player": 3,
+          "action": "discard",
+          "tile": "四筒"
+        },
+        {
+          "turn": 21,
+          "player": 0,
+          "action": "discard",
+          "tile": "四万"
+        },
+        {
+          "turn": 22,
+          "player": 1,
+          "action": "discard",
+          "tile": "八万"
+        },
+        {
+          "turn": 23,
+          "player": 2,
+          "action": "discard",
+          "tile": "一筒"
+        },
+        {
+          "turn": 23,
+          "player": 1,
+          "action": "peng",
+          "tile": "一筒"
+        },
+        {
+          "turn": 23,
+          "player": 1,
+          "action": "discard",
+          "tile": "七万"
+        },
+        {
+          "turn": 24,
+          "player": 1,
+          "action": "discard",
+          "tile": "七万"
+        },
+        {
+          "turn": 25,
+          "player": 2,
+          "action": "discard",
+          "tile": "一万"
+        },
+        {
+          "turn": 25,
+          "player": 0,
+          "action": "peng",
+          "tile": "一万"
+        },
+        {
+          "turn": 25,
+          "player": 0,
+          "action": "discard",
+          "tile": "三万"
+        },
+        {
+          "turn": 26,
+          "player": 0,
+          "action": "discard",
+          "tile": "八条"
+        },
+        {
+          "turn": 27,
+          "player": 1,
+          "action": "discard",
+          "tile": "六筒"
+        },
+        {
+          "turn": 27,
+          "player": 0,
+          "action": "hu",
+          "tile": "六筒",
+          "from": 1,
+          "fan": 1,
+          "types": "",
+          "score": 2
+        },
+        {
+          "turn": 28,
+          "player": 1,
+          "action": "discard",
+          "tile": "六条"
+        },
+        {
+          "turn": 29,
+          "player": 2,
+          "action": "discard",
+          "tile": "二筒"
+        },
+        {
+          "turn": 30,
+          "player": 3,
+          "action": "discard",
+          "tile": "三万"
+        },
+        {
+          "turn": 31,
+          "player": 1,
+          "action": "discard",
+          "tile": "八筒"
+        },
+        {
+          "turn": 32,
+          "player": 2,
+          "action": "discard",
+          "tile": "四筒"
+        },
+        {
+          "turn": 33,
+          "player": 3,
+          "action": "discard",
+          "tile": "三筒"
+        },
+        {
+          "turn": 34,
+          "player": 1,
+          "action": "discard",
+          "tile": "一筒"
+        },
+        {
+          "turn": 35,
+          "player": 2,
+          "action": "discard",
+          "tile": "六筒"
+        },
+        {
+          "turn": 36,
+          "player": 3,
+          "action": "discard",
+          "tile": "七条"
+        },
+        {
+          "turn": 37,
+          "player": 1,
+          "action": "discard",
+          "tile": "三条"
+        },
+        {
+          "turn": 37,
+          "player": 2,
+          "action": "gang",
+          "tile": "三条"
+        },
+        {
+          "turn": 38,
+          "player": 2,
+          "action": "discard",
+          "tile": "二万"
+        },
+        {
+          "turn": 39,
+          "player": 3,
+          "action": "discard",
+          "tile": "九万"
+        },
+        {
+          "turn": 40,
+          "player": 1,
+          "action": "discard",
+          "tile": "八万"
+        },
+        {
+          "turn": 41,
+          "player": 2,
+          "action": "discard",
+          "tile": "二万"
+        },
+        {
+          "turn": 42,
+          "player": 3,
+          "action": "discard",
+          "tile": "九条"
+        },
+        {
+          "turn": 43,
+          "player": 1,
+          "action": "discard",
+          "tile": "五筒"
+        },
+        {
+          "turn": 44,
+          "player": 2,
+          "action": "discard",
+          "tile": "八万"
+        },
+        {
+          "turn": 45,
+          "player": 3,
+          "action": "discard",
+          "tile": "五筒"
+        },
+        {
+          "turn": 46,
+          "player": 1,
+          "action": "discard",
+          "tile": "九筒"
+        },
+        {
+          "turn": 47,
+          "player": 2,
+          "action": "discard",
+          "tile": "二条"
+        },
+        {
+          "turn": 47,
+          "player": 1,
+          "action": "peng",
+          "tile": "二条"
+        },
+        {
+          "turn": 47,
+          "player": 1,
+          "action": "discard",
+          "tile": "一条"
+        },
+        {
+          "turn": 48,
+          "player": 1,
+          "action": "discard",
+          "tile": "一条"
+        },
+        {
+          "turn": 49,
+          "player": 2,
+          "action": "discard",
+          "tile": "七筒"
+        },
+        {
+          "turn": 50,
+          "player": 3,
+          "action": "discard",
+          "tile": "八万"
+        },
+        {
+          "turn": 51,
+          "player": 1,
+          "action": "discard",
+          "tile": "一条"
+        },
+        {
+          "turn": 52,
+          "player": 2,
+          "action": "discard",
+          "tile": "九筒"
+        },
+        {
+          "turn": 53,
+          "player": 3,
+          "action": "discard",
+          "tile": "八条"
+        },
+        {
+          "turn": 54,
+          "player": 1,
+          "action": "discard",
+          "tile": "二条"
+        },
+        {
+          "turn": 55,
+          "player": 2,
+          "action": "discard",
+          "tile": "九筒"
+        }
+      ]
+    },
+    {
+      "round": 7,
+      "winners": [
+        {
+          "player": 2,
+          "fan": 1,
+          "types": [
+            "根×1"
+          ],
+          "score": 2,
+          "winType": "点炮",
+          "from": 3
+        }
+      ],
+      "scores": [
+        0,
+        0,
+        2,
+        0
+      ],
+      "turns": 55,
+      "actionCount": 71,
+      "actions": [
+        {
+          "turn": 1,
+          "player": 0,
+          "action": "discard",
+          "tile": "四万"
+        },
+        {
+          "turn": 2,
+          "player": 1,
+          "action": "discard",
+          "tile": "三条"
+        },
+        {
+          "turn": 3,
+          "player": 2,
+          "action": "discard",
+          "tile": "三条"
+        },
+        {
+          "turn": 4,
+          "player": 3,
+          "action": "discard",
+          "tile": "二万"
+        },
+        {
+          "turn": 5,
+          "player": 0,
+          "action": "discard",
+          "tile": "二万"
+        },
+        {
+          "turn": 5,
+          "player": 3,
+          "action": "peng",
+          "tile": "二万"
+        },
+        {
+          "turn": 5,
+          "player": 3,
+          "action": "discard",
+          "tile": "五条"
+        },
+        {
+          "turn": 6,
+          "player": 3,
+          "action": "discard",
+          "tile": "九条"
+        },
+        {
+          "turn": 7,
+          "player": 0,
+          "action": "discard",
+          "tile": "三万"
+        },
+        {
+          "turn": 8,
+          "player": 1,
+          "action": "discard",
+          "tile": "三万"
+        },
+        {
+          "turn": 9,
+          "player": 2,
+          "action": "discard",
+          "tile": "六条"
+        },
+        {
+          "turn": 9,
+          "player": 0,
+          "action": "peng",
+          "tile": "六条"
+        },
+        {
+          "turn": 9,
+          "player": 0,
+          "action": "discard",
+          "tile": "七条"
+        },
+        {
+          "turn": 10,
+          "player": 0,
+          "action": "discard",
+          "tile": "七条"
+        },
+        {
+          "turn": 11,
+          "player": 1,
+          "action": "discard",
+          "tile": "一条"
+        },
+        {
+          "turn": 12,
+          "player": 2,
+          "action": "discard",
+          "tile": "一万"
+        },
+        {
+          "turn": 13,
+          "player": 3,
+          "action": "discard",
+          "tile": "一万"
+        },
+        {
+          "turn": 14,
+          "player": 0,
+          "action": "discard",
+          "tile": "九万"
+        },
+        {
+          "turn": 15,
+          "player": 1,
+          "action": "discard",
+          "tile": "八筒"
+        },
+        {
+          "turn": 16,
+          "player": 2,
+          "action": "discard",
+          "tile": "三万"
+        },
+        {
+          "turn": 17,
+          "player": 3,
+          "action": "discard",
+          "tile": "四条"
+        },
+        {
+          "turn": 18,
+          "player": 0,
+          "action": "discard",
+          "tile": "五筒"
+        },
+        {
+          "turn": 19,
+          "player": 1,
+          "action": "discard",
+          "tile": "五万"
+        },
+        {
+          "turn": 19,
+          "player": 2,
+          "action": "peng",
+          "tile": "五万"
+        },
+        {
+          "turn": 19,
+          "player": 2,
+          "action": "discard",
+          "tile": "七万"
+        },
+        {
+          "turn": 20,
+          "player": 2,
+          "action": "discard",
+          "tile": "四万"
+        },
+        {
+          "turn": 21,
+          "player": 3,
+          "action": "discard",
+          "tile": "三条"
+        },
+        {
+          "turn": 22,
+          "player": 0,
+          "action": "discard",
+          "tile": "三筒"
+        },
+        {
+          "turn": 22,
+          "player": 1,
+          "action": "peng",
+          "tile": "三筒"
+        },
+        {
+          "turn": 22,
+          "player": 1,
+          "action": "discard",
+          "tile": "七万"
+        },
+        {
+          "turn": 23,
+          "player": 1,
+          "action": "discard",
+          "tile": "八万"
+        },
+        {
+          "turn": 24,
+          "player": 2,
+          "action": "discard",
+          "tile": "六条"
+        },
+        {
+          "turn": 25,
+          "player": 3,
+          "action": "discard",
+          "tile": "一条"
+        },
+        {
+          "turn": 26,
+          "player": 0,
+          "action": "discard",
+          "tile": "一万"
+        },
+        {
+          "turn": 27,
+          "player": 1,
+          "action": "discard",
+          "tile": "九万"
+        },
+        {
+          "turn": 28,
+          "player": 2,
+          "action": "discard",
+          "tile": "六万"
+        },
+        {
+          "turn": 29,
+          "player": 3,
+          "action": "discard",
+          "tile": "四条"
+        },
+        {
+          "turn": 30,
+          "player": 0,
+          "action": "discard",
+          "tile": "六万"
+        },
+        {
+          "turn": 31,
+          "player": 1,
+          "action": "discard",
+          "tile": "二条"
+        },
+        {
+          "turn": 32,
+          "player": 2,
+          "action": "discard",
+          "tile": "九条"
+        },
+        {
+          "turn": 33,
+          "player": 3,
+          "action": "discard",
+          "tile": "七筒"
+        },
+        {
+          "turn": 34,
+          "player": 0,
+          "action": "discard",
+          "tile": "五条"
+        },
+        {
+          "turn": 35,
+          "player": 1,
+          "action": "discard",
+          "tile": "三条"
+        },
+        {
+          "turn": 36,
+          "player": 2,
+          "action": "discard",
+          "tile": "一筒"
+        },
+        {
+          "turn": 36,
+          "player": 0,
+          "action": "peng",
+          "tile": "一筒"
+        },
+        {
+          "turn": 36,
+          "player": 0,
+          "action": "discard",
+          "tile": "七万"
+        },
+        {
+          "turn": 37,
+          "player": 0,
+          "action": "discard",
+          "tile": "三万"
+        },
+        {
+          "turn": 38,
+          "player": 1,
+          "action": "discard",
+          "tile": "一条"
+        },
+        {
+          "turn": 39,
+          "player": 2,
+          "action": "discard",
+          "tile": "六万"
+        },
+        {
+          "turn": 40,
+          "player": 3,
+          "action": "discard",
+          "tile": "八万"
+        },
+        {
+          "turn": 41,
+          "player": 0,
+          "action": "discard",
+          "tile": "八万"
+        },
+        {
+          "turn": 42,
+          "player": 1,
+          "action": "discard",
+          "tile": "四条"
+        },
+        {
+          "turn": 43,
+          "player": 2,
+          "action": "discard",
+          "tile": "五条"
+        },
+        {
+          "turn": 44,
+          "player": 3,
+          "action": "discard",
+          "tile": "九万"
+        },
+        {
+          "turn": 45,
+          "player": 0,
+          "action": "discard",
+          "tile": "四筒"
+        },
+        {
+          "turn": 45,
+          "player": 1,
+          "action": "peng",
+          "tile": "四筒"
+        },
+        {
+          "turn": 45,
+          "player": 1,
+          "action": "discard",
+          "tile": "五筒"
+        },
+        {
+          "turn": 46,
+          "player": 1,
+          "action": "discard",
+          "tile": "一条"
+        },
+        {
+          "turn": 47,
+          "player": 2,
+          "action": "discard",
+          "tile": "九条"
+        },
+        {
+          "turn": 48,
+          "player": 3,
+          "action": "discard",
+          "tile": "九筒"
+        },
+        {
+          "turn": 48,
+          "player": 1,
+          "action": "peng",
+          "tile": "九筒"
+        },
+        {
+          "turn": 48,
+          "player": 1,
+          "action": "discard",
+          "tile": "七条"
+        },
+        {
+          "turn": 49,
+          "player": 1,
+          "action": "discard",
+          "tile": "四万"
+        },
+        {
+          "turn": 50,
+          "player": 2,
+          "action": "discard",
+          "tile": "四万"
+        },
+        {
+          "turn": 51,
+          "player": 3,
+          "action": "discard",
+          "tile": "七筒"
+        },
+        {
+          "turn": 52,
+          "player": 0,
+          "action": "discard",
+          "tile": "八条"
+        },
+        {
+          "turn": 52,
+          "player": 1,
+          "action": "gang",
+          "tile": "八条"
+        },
+        {
+          "turn": 53,
+          "player": 1,
+          "action": "discard",
+          "tile": "五条"
+        },
+        {
+          "turn": 54,
+          "player": 2,
+          "action": "discard",
+          "tile": "九条"
+        },
+        {
+          "turn": 55,
+          "player": 3,
+          "action": "discard",
+          "tile": "六筒"
+        },
+        {
+          "turn": 55,
+          "player": 2,
+          "action": "hu",
+          "tile": "六筒",
+          "from": 3,
+          "fan": 1,
+          "types": "根×1",
+          "score": 2
+        }
+      ]
+    }
+  ],
+  "hashes": [
+    "0xa3ea6342bab66c17967060c9e41b2daaa021544080a08922374a33132d8f9e33",
+    "0x93ba74e007ce73cf53939ba3e6df934ede6bacb2e0775657ff1b963911a0fcc0",
+    "0x3f65ef9999f024fff1b0c20e42ba462905f5bf5c59042dc0b878d90a7cc54605",
+    "0x02f888ca8b25e15ed3b7454390a0927885a86c833371d841272d41c5147a3b6b",
+    "0x0553d65d95bcc0fe37dd40ae1fa85e3975db39b9dec4911f28a08d85d9a0249c",
+    "0x5d50cca2e3ac5a25ca9c40feceb2a1c43473f6d86e434329342c4fe65d8f1d46",
+    "0x363c194664795f2f8341969d79f5a527b0b7bb26ad7a77e416c0280b737dc1d7",
+    "0xc77ccf4544e9e211f0a324fe5c547599cafeaa9e77f6f87534f5b760a7d97e21"
+  ],
+  "finalScores": [
+    4,
+    0,
+    6,
+    0
+  ],
+  "champion": "算盘",
+  "prize": 0.038,
+  "ts": "2026-04-01T12:08:10.759Z"
+}
