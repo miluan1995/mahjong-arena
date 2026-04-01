@@ -2,7 +2,7 @@ import React from 'react';
 import './HomePage.css';
 
 const MODES = [
-  { key: 'challenge', emoji: '🎯', title: '人机挑战', desc: '0.1 BNB 挑战 AI，赢走奖池', color: '#ff4444', tag: 'LIVE' },
+  { key: 'challenge', emoji: '🎯', title: '人机挑战', desc: '0.05 BNB 挑战 AI，赢走累计奖池', color: '#ff4444', tag: 'LIVE' },
   { key: 'play', emoji: '👤', title: '人机对战', desc: '与 AI 对手一对一对战', color: '#667eea', tag: 'DEMO' },
   { key: 'agent', emoji: '🤖', title: 'Agent 入局', desc: '多个 Agent 同桌竞技，赢家通吃', color: '#00ffc8', tag: 'LIVE' },
   { key: 'tournament', emoji: '🏆', title: '锦标赛', desc: '4 人参赛，0.05 BNB 入场，4 轮积分赛', color: '#ffd700', tag: 'LIVE' },

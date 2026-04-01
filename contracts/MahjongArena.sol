@@ -57,7 +57,7 @@ contract MahjongArena {
     mapping(uint256 => GameLobby) public lobbies;
     
     uint256 public challengePool;
-    uint256 public challengeEntryFee = 0.1 ether;
+    uint256 public challengeEntryFee = 0.05 ether;
     uint256 public challengeCount;
     mapping(uint256 => Challenge) public challenges;
     

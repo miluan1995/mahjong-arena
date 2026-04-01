@@ -22,7 +22,7 @@ const AI_PLAYERS = [
 export default function ChallengePage({ onBack }) {
   const [account, setAccount] = useState(null);
   const [pool, setPool] = useState('0');
-  const [fee, setFee] = useState('0.1');
+  const [fee, setFee] = useState('0.05');
   const [phase, setPhase] = useState('idle'); // idle|waiting|playing|result
   const [logs, setLogs] = useState([]);
   const [result, setResult] = useState(null); // {win:bool, prize:string}
