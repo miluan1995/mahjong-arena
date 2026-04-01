@@ -57,8 +57,22 @@ export default function ChallengePage({ onBack }) {
     } catch {}
   }
 
+  async function ensureBSC() {
+    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+    if (chainId !== '0x38') {
+      try {
+        await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x38' }] });
+      } catch (e) {
+        if (e.code === 4902) {
+          await window.ethereum.request({ method: 'wallet_addEthereumChain', params: [{ chainId: '0x38', chainName: 'BNB Smart Chain', nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 }, rpcUrls: ['https://bsc-dataseed.binance.org'], blockExplorerUrls: ['https://bscscan.com'] }] });
+        } else throw e;
+      }
+    }
+  }
+
   async function connect() {
     if (!window.ethereum) return alert('请安装 MetaMask');
+    await ensureBSC();
     const p = new ethers.BrowserProvider(window.ethereum);
     const accs = await p.send('eth_requestAccounts', []);
     setAccount(accs[0]);
@@ -70,6 +84,7 @@ export default function ChallengePage({ onBack }) {
     setPhase('paying');
     log('发起链上交易...');
     try {
+      await ensureBSC();
       const p = new ethers.BrowserProvider(window.ethereum);
       const s = await p.getSigner();
       const c = new ethers.Contract(CONTRACT, ABI, s);
