@@ -1,7 +1,8 @@
-// Mahjong Arena - Agent Server with Game Logic
+// Mahjong Arena - Game Engine with Settlement
 import http from 'http';
 import { WebSocketServer } from 'ws';
 import { ethers } from 'ethers';
+import { MahjongLogic } from './mahjong-logic.js';
 
 const PORT = 3852;
 const CONTRACT_ADDRESS = '0x648ad2EcB46BE77F78c7E672Aae900810014057c';
@@ -9,17 +10,16 @@ const RPC_URL = 'https://bsc-dataseed.binance.org';
 
 const CONTRACT_ABI = [
   'event GameStarted(uint256 indexed lobbyId, address[] players)',
-  'event TournamentStarted(uint256 indexed tournamentId)',
-  'event PlayerJoined(uint256 indexed lobbyId, address indexed player)',
+  'event GameSettled(uint256 indexed lobbyId, address winner, uint256 amount)',
 ];
 
 const provider = new ethers.JsonRpcProvider(RPC_URL);
 const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
 
-const games = new Map(); // lobbyId -> gameState
-const clients = new Map(); // ws -> { lobbyId, address }
+const games = new Map();
+const clients = new Map();
 
-// ===== 游戏逻辑 =====
+// ===== 游戏状态机 =====
 function initGame(lobbyId, players) {
   const tiles = [];
   for (let suit of ['w', 't', 's']) {
@@ -40,6 +40,7 @@ function initGame(lobbyId, players) {
     turn: 0,
     round: 0,
     status: 'playing',
+    startTime: Date.now(),
   };
   games.set(lobbyId, game);
   return game;
@@ -51,6 +52,16 @@ async function playerTurn(lobbyId) {
 
   const playerIdx = game.turn % 4;
   const hand = game.hands[playerIdx];
+  
+  // 检查是否能胡
+  if (MahjongLogic.canHu(hand)) {
+    const fan = MahjongLogic.calculateFan(hand, game.melds[playerIdx], true);
+    const score = MahjongLogic.calculateScore(fan, true);
+    settleGame(lobbyId, playerIdx, fan, score, true);
+    return;
+  }
+
+  // LLM 决策出牌
   const decision = await analyzeWithLLM({
     type: 'discard',
     hand,
@@ -65,8 +76,31 @@ async function playerTurn(lobbyId) {
     game.discards[playerIdx].push(tile);
     game.turn++;
     broadcast(lobbyId, { type: 'turn', playerIdx, tile, decision });
-    setTimeout(() => playerTurn(lobbyId), 1000);
+    setTimeout(() => playerTurn(lobbyId), 500);
   }
+}
+
+function settleGame(lobbyId, winnerIdx, fan, score, isZimo) {
+  const game = games.get(lobbyId);
+  if (!game) return;
+
+  game.status = 'settled';
+  const winner = game.players[winnerIdx];
+  
+  broadcast(lobbyId, {
+    type: 'gameEnd',
+    winner,
+    winnerIdx,
+    fan,
+    score,
+    isZimo,
+    timestamp: Date.now(),
+  });
+
+  console.log(`🎉 Game #${lobbyId} settled: ${winner} wins ${score} (${fan}番)`);
+  
+  // 清理游戏状态
+  setTimeout(() => games.delete(lobbyId), 5000);
 }
 
 // ===== LLM 分析 =====
@@ -158,7 +192,7 @@ const server = http.createServer(async (req, res) => {
 
   if (req.method === 'GET' && req.url === '/api/health') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ status: 'ok', games: games.size }));
+    res.end(JSON.stringify({ status: 'ok', games: games.size, clients: clients.size }));
     return;
   }
 
