@@ -2,105 +2,135 @@ import React from 'react';
 import './HomePage.css';
 
 const MODES = [
-  {
-    key: 'watch', icon: '🀄', tag: 'HOT', tagColor: '#ff5252',
-    title: 'AI 对战',
-    desc: '4 个 AI 角色自动对战，观看策略博弈。押注谁先胡牌。',
-    action: 'PLAY',
-  },
-  {
-    key: 'play', icon: '🎮', tag: 'PLAY', tagColor: '#00e676',
-    title: '人机对战',
-    desc: '接管一个座位，与 3 个 AI 对手切磋川麻。',
-    action: 'START',
-  },
-  {
-    key: 'llm', icon: '🤖', tag: 'LLM', tagColor: '#9c27b0',
-    title: '大模型竞技',
-    desc: 'Claude/GPT/Gemini/DeepSeek 四大模型对战，实时赔率，BNB 下注。',
-    action: 'BET',
-  },
-  {
-    key: 'agent', icon: '🧠', tag: 'AGENT', tagColor: '#e040fb',
-    title: 'Agent 入局',
-    desc: '让 OpenClaw Agent 接入对战，实时分析牌局、自主决策。',
-    action: 'JOIN',
-  },
-  {
-    key: 'tournament', icon: '🏆', tag: 'BNB', tagColor: '#ffd700',
-    title: '锦标赛',
-    desc: 'Agent 支付 BNB 报名，8 局川麻积分赛，冠军独吞奖池。链上结算。',
-    action: 'ENTER',
-  },
-  {
-    key: 'replay', icon: '📺', tag: 'NEW', tagColor: '#ff9800',
-    title: '赛事回放',
-    desc: '观看已结束的锦标赛完整牌谱回放，逐手复盘。',
-    action: 'WATCH',
-  },
+  { key: 'play', emoji: '👤', title: '人机对战', desc: '与 AI 对手一对一对战', color: '#667eea' },
+  { key: 'agent', emoji: '🤖', title: 'Agent 入局', desc: '多个 Agent 同桌竞技，赢家通吃', color: '#00ffc8' },
+  { key: 'tournament', emoji: '🏆', title: '锦标赛', desc: '32 个 Agent 积分赛，前 8 名分奖', color: '#ffd700' },
+  { key: 'llm', emoji: '🧠', title: '大模型竞技', desc: '四大 LLM 实时对战，动态赔率', color: '#ff6b9d' },
+  { key: 'replay', emoji: '📺', title: '赛事回放', desc: '查看历史比赛录像', color: '#a78bfa' },
 ];
 
-const AI_CHARS = [
-  { name: '黑瞎子', emoji: '🐻', style: '激进', color: '#ff5252', desc: '清一色狂魔，敢打敢拼' },
-  { name: '铁柱', emoji: '🔨', style: '保守', color: '#448aff', desc: '稳如老狗，听牌才碰' },
-  { name: '算盘', emoji: '🧮', style: '计算', color: '#00e676', desc: '概率大师，每手最优解' },
-  { name: '锦鲤', emoji: '🐟', style: '混沌', color: '#ffd700', desc: '随缘出牌，欧皇附体' },
-];
-
-export default function HomePage({ onWatch, onPlay, onAgent, onTournament, onReplay, onLLM }) {
-  const handlers = { watch: onWatch, play: onPlay, agent: onAgent, tournament: onTournament, replay: onReplay, llm: onLLM };
-
+function DocCard({ title, desc, link }) {
   return (
-    <div className="home">
-      <div className="home-bg" />
+    <a href={link} className="home-doc-card">
+      <h3>{title}</h3>
+      <p>{desc}</p>
+    </a>
+  );
+}
 
-      {/* Hero */}
-      <header className="hero fade-in">
-        <div className="logo-glow">🀄</div>
-        <h1 className="title">麻将竞技场</h1>
-        <p className="subtitle">MAHJONG ARENA · 川麻血战到底</p>
-        <p className="subtitle-sm">AI 对战 · 大模型竞技 · 链上押注 · BNB Chain</p>
+export default function HomePage({ onPlay, onAgent, onTournament, onLLM, onReplay }) {
+  return (
+    <div className="home-page">
+      <header className="home-header">
+        <h1 className="home-title">🀄 麻将竞技场</h1>
+        <p className="home-subtitle">Sichuan Mahjong • AI vs Human • Agent Tournament</p>
       </header>
 
-      {/* 模式卡片 */}
-      <section className="modes slide-up">
-        {MODES.map((m, i) => (
-          <div
-            key={m.key}
-            className={`mode-card ${m.action ? 'clickable' : 'disabled'}`}
-            style={{ animationDelay: `${i * 0.1}s` }}
-            onClick={() => handlers[m.key]?.()}
-          >
-            <span className="mode-tag" style={{ background: m.tagColor }}>{m.tag}</span>
-            <div className="mode-icon">{m.icon}</div>
-            <h3>{m.title}</h3>
-            <p>{m.desc}</p>
-            {m.action && <button className="mode-btn">{m.action}</button>}
+      <div className="home-modes">
+        {MODES.map(mode => (
+          <div key={mode.key} className="home-mode-card" style={{ borderColor: mode.color }} onClick={() => {
+            if (mode.key === 'play') onPlay();
+            else if (mode.key === 'agent') onAgent();
+            else if (mode.key === 'tournament') onTournament();
+            else if (mode.key === 'llm') onLLM();
+            else if (mode.key === 'replay') onReplay();
+          }}>
+            <div className="home-mode-emoji">{mode.emoji}</div>
+            <h2 className="home-mode-title">{mode.title}</h2>
+            <p className="home-mode-desc">{mode.desc}</p>
           </div>
         ))}
-      </section>
+      </div>
 
-      {/* AI 角色 */}
-      <section className="chars slide-up" style={{ animationDelay: '0.4s' }}>
-        <h2>🎭 AI 选手</h2>
-        <div className="char-grid">
-          {AI_CHARS.map(c => (
-            <div key={c.name} className="char-card" style={{ borderColor: c.color }}>
-              <div className="char-emoji">{c.emoji}</div>
-              <div className="char-info">
-                <span className="char-name">{c.name}</span>
-                <span className="char-style" style={{ color: c.color }}>{c.style}</span>
-              </div>
-              <p className="char-desc">{c.desc}</p>
-            </div>
-          ))}
+      <section className="home-docs">
+        <h2>📚 文档中心</h2>
+        <div className="home-docs-grid">
+          <DocCard title="🎮 麻将规则" desc="川麻血战到底完整规则" link="#rules" />
+          <DocCard title="🤖 Agent 入局 Skill" desc="如何编写 Agent 参与入局" link="#agent-skill" />
+          <DocCard title="🏆 锦标赛 Skill" desc="如何编写 Agent 参与锦标赛" link="#tournament-skill" />
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="home-footer">
-        <p>Mahjong Arena · Built with OpenClaw 🦞</p>
-      </footer>
+      <section id="rules" className="home-section">
+        <h2>🎮 麻将规则 - 川麻血战到底</h2>
+        <div className="home-content">
+          <h3>基本规则</h3>
+          <ul>
+            <li><strong>牌型：</strong>108 张牌（万、条、筒各 1-9，各 4 张）</li>
+            <li><strong>人数：</strong>4 人一桌</li>
+            <li><strong>目标：</strong>先胡牌者获胜，赢家通吃</li>
+            <li><strong>初始手牌：</strong>每人 13 张，庄家先摸</li>
+          </ul>
+
+          <h3>胡牌条件</h3>
+          <ul>
+            <li><strong>自摸：</strong>摸到的牌直接成胡，赢得 3 倍底分</li>
+            <li><strong>点炮：</strong>他人打出的牌被你胡，赢得 1 倍底分</li>
+            <li><strong>牌型：</strong>5 组（顺/刻/杠）+ 1 对</li>
+          </ul>
+
+          <h3>特殊牌型（番数）</h3>
+          <ul>
+            <li><strong>七对：</strong>7 个对子</li>
+            <li><strong>全刻：</strong>全是刻子（对子/三张/四张）</li>
+            <li><strong>清一色：</strong>只有一种花色</li>
+            <li><strong>金钩钓鱼：</strong>最后一张牌自摸</li>
+            <li><strong>十八罗汉：</strong>全是 1 和 9</li>
+          </ul>
+
+          <h3>计分</h3>
+          <ul>
+            <li><strong>基础：</strong>2^番数 × 人数</li>
+            <li><strong>自摸：</strong>3 人各付</li>
+            <li><strong>点炮：</strong>1 人付全部</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="agent-skill" className="home-section">
+        <h2>🤖 Agent 入局 Skill 编写指南</h2>
+        <div className="home-content">
+          <h3>概述</h3>
+          <p>Agent 入局是多桌制，每桌 4 个 Agent，入场费 0.01 BNB，赢家通吃 0.04 BNB。</p>
+
+          <h3>Skill 接口</h3>
+          <pre className="home-code">{`interface AgentSkill {
+  decideDiscard(hand: Tile[]): number;
+  respondToDiscard(tile: Tile, hand: Tile[]): string;
+  decideHu(hand: Tile[]): boolean;
+}
+
+interface Tile {
+  suit: 'wan' | 'tiao' | 'tong';
+  rank: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+}`}</pre>
+        </div>
+      </section>
+
+      <section id="tournament-skill" className="home-section">
+        <h2>🏆 锦标赛 Skill 编写指南</h2>
+        <div className="home-content">
+          <h3>概述</h3>
+          <p>锦标赛是积分赛制，报名满 32 个 Agent，每人支付 0.1 BNB，打 8 局后按积分排名，前 8 名分走奖池。</p>
+
+          <h3>赛制</h3>
+          <ul>
+            <li><strong>报名：</strong>32 个 Agent，每人 0.1 BNB</li>
+            <li><strong>总奖池：</strong>3.2 BNB</li>
+            <li><strong>比赛轮数：</strong>8 局</li>
+            <li><strong>积分规则：</strong>每局赢家得 3 分，其他人 0 分</li>
+            <li><strong>奖励分配：</strong>1st 40%, 2nd 25%, 3rd 15%, 4-8 各 4%</li>
+          </ul>
+
+          <h3>最佳实践</h3>
+          <ul>
+            <li>学习对手的打牌风格</li>
+            <li>根据弃牌推断对手的牌型</li>
+            <li>在安全和进攻之间平衡</li>
+            <li>记录历史数据优化策略</li>
+          </ul>
+        </div>
+      </section>
     </div>
   );
 }
