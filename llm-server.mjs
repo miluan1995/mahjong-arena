@@ -1,6 +1,6 @@
 /**
- * LLM API 代理服务器
- * 统一转发麻将决策请求到四个大模型
+ * LLM API 代理服务器 — 四个最低版本免费 API
+ * Claude Haiku / GPT-4o-mini / Gemini 2.0 Flash / DeepSeek Chat
  */
 import express from 'express';
 import cors from 'cors';
@@ -10,35 +10,34 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 模型配置 — 全走中转站
+// 四个最低版本免费 API — 完全公平
 const MODELS = {
   claude: {
-    url: process.env.CLAUDE_BASE_URL || 'https://www.heiyucode.com/v1/messages',
-    model: process.env.CLAUDE_MODEL || 'claude-sonnet-4-20250514',
-    apiKey: process.env.CLAUDE_API_KEY || process.env.ANTHROPIC_API_KEY,
+    url: 'https://api.anthropic.com/v1/messages',
+    model: 'claude-3-5-haiku-20241022', // 最便宜
+    apiKey: process.env.CLAUDE_API_KEY,
     type: 'anthropic',
   },
   gpt: {
-    url: process.env.GPT_BASE_URL || 'https://www.heiyucode.com/v1/chat/completions',
-    model: process.env.GPT_MODEL || 'gpt-4o-mini',
-    apiKey: process.env.GPT_API_KEY || process.env.OPENAI_API_KEY,
+    url: 'https://api.openai.com/v1/chat/completions',
+    model: 'gpt-4o-mini', // 最便宜
+    apiKey: process.env.GPT_API_KEY,
     type: 'openai',
   },
   gemini: {
-    url: process.env.GEMINI_BASE_URL || 'https://www.heiyucode.com/v1/chat/completions',
-    model: process.env.GEMINI_MODEL || 'gemini-2.0-flash',
-    apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY,
-    type: 'openai', // 走 OpenAI 兼容格式
+    url: 'https://generativelanguage.googleapis.com/v1beta/openai/',
+    model: 'gemini-2.0-flash', // 免费额度
+    apiKey: process.env.GEMINI_API_KEY,
+    type: 'openai',
   },
   deepseek: {
-    url: process.env.DEEPSEEK_BASE_URL || 'https://www.heiyucode.com/v1/chat/completions',
-    model: process.env.DEEPSEEK_MODEL || 'deepseek-chat',
+    url: 'https://api.deepseek.com/chat/completions',
+    model: 'deepseek-chat', // 最便宜
     apiKey: process.env.DEEPSEEK_API_KEY,
     type: 'openai',
   },
 };
 
-// 调用 Anthropic 格式
 async function callAnthropic(config, prompt) {
   const start = Date.now();
   const resp = await fetch(config.url, {
@@ -59,7 +58,6 @@ async function callAnthropic(config, prompt) {
   return { text, latencyMs: Date.now() - start };
 }
 
-// 调用 OpenAI 兼容格式
 async function callOpenAI(config, prompt) {
   const start = Date.now();
   const resp = await fetch(config.url, {
@@ -83,7 +81,6 @@ async function callOpenAI(config, prompt) {
   return { text, latencyMs: Date.now() - start };
 }
 
-// API 端点
 app.post('/api/llm-move', async (req, res) => {
   const { player, prompt, phase } = req.body;
   const config = MODELS[player];
@@ -104,7 +101,6 @@ app.post('/api/llm-move', async (req, res) => {
   }
 });
 
-// 赔率查询（前端轮询）
 const bets = { claude: 0, gpt: 0, gemini: 0, deepseek: 0 };
 
 app.get('/api/odds', (req, res) => {
@@ -112,7 +108,6 @@ app.get('/api/odds', (req, res) => {
   const odds = {};
   for (const [k, v] of Object.entries(bets)) {
     const share = v / total;
-    // 赔率 = 1 / 下注占比（最低1.1，最高20）
     odds[k] = share > 0 ? Math.min(20, Math.max(1.1, +(1 / share).toFixed(2))) : 4;
   }
   res.json({ bets, odds, total });
@@ -129,13 +124,11 @@ app.post('/api/bet', (req, res) => {
   res.json({ ok: true, bets, odds: odd, total });
 });
 
-// 重置（新一局）
 app.post('/api/reset-bets', (req, res) => {
   for (const k of Object.keys(bets)) bets[k] = 0;
   res.json({ ok: true });
 });
 
-// 健康检查
 app.get('/api/health', (req, res) => {
   const keys = {};
   for (const [k, v] of Object.entries(MODELS)) {
